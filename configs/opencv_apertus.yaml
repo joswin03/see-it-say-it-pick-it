@@ -48,7 +48,16 @@ naming:
 
 decision:
   max_tokens: 900
+  max_analysis_chars: 1200
   image_max_side_px: 1024
-  aside_location: free space on the table  # where an object on top is put before the one below
+  max_attempts: 2  # one retry with the reason when a plan is not executable
+  enforce_clear_top: true  # code inserts pick+place-aside for objects lying on a picked object
 
 gripper_max_opening_mm: 85
+
+scene_graph:
+  merge_gap_mm: 4  # touching regions with the same name closer than this are one object
+  stack_min_overlap_fraction: 0.3  # share of the upper object inside the lower one's hull
+  nearest_count: 3
+
+team: see-it-say-it-pick-it-joswin
