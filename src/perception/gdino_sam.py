@@ -121,7 +121,7 @@ def proposal_regions(
                 "id": len(regions) + 1,
                 "mask": mask,
                 "colour": class_names[int(np.argmax(majority))],
-                "part": ("gdino", len(regions) + 1),
+                "part": ("gdino",),  # one part for all: SAM2 masks are single objects, never merged
                 "pixel": [round(u / work_scale), round(v / work_scale)],
                 "tray": max(trays, key=lambda name: (trays[name] & mask).sum()),
             }
