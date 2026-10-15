@@ -51,6 +51,7 @@ decision:
   max_tokens: 1200
   max_analysis_chars: 600
   image_max_side_px: 1024
+  max_moves: 8
   max_attempts: 2  # one retry with the reason when a plan is not executable
   enforce_clear_top: true  # code inserts pick+place-aside for objects lying on a picked object
 
@@ -60,5 +61,9 @@ scene_graph:
   merge_gap_mm: 4  # touching regions with the same name closer than this are one object
   stack_min_overlap_fraction: 0.3  # share of the upper object inside the lower one's hull
   nearest_count: 3
+  # Measured widths include gear teeth and the top-down perspective of tall objects, so a
+  # graspable 85 mm-class object measures up to ~90 mm. Only clearly wider objects (plates,
+  # saucers) are flagged; the gripper limit itself is gripper_max_opening_mm.
+  too_wide_mm: 120
 
 team: see-it-say-it-pick-it-joswin

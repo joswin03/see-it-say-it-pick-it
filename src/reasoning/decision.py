@@ -19,13 +19,15 @@ match the instruction by meaning (cube = block, mug = cup, mandarin = orange, pa
 metal or plastic piece). An object is missing only if nothing in the scene can be what the
 instruction names.
 
+Places to put things: grey_tray (the grey tray, left), black_tray (the black tray, right),
+aside (free table space, to clear an object off another), or an object id above that can hold
+things (a plate, a saucer).
+
 Robot facts:
-- The gripper holds one object at a time and opens at most {gripper_mm} mm: an object whose
-  width (the smaller size) is above {gripper_mm} mm cannot be picked.
+- The gripper holds one object at a time and opens at most {gripper_mm} mm. Objects marked
+  TOO WIDE TO GRIP (plates, saucers) cannot be picked; every other object can.
 - An object that is underneath another cannot be picked before the one on top is moved aside.
 - An object can only be put into or onto something larger than itself.
-- Places to put things: grey_tray, black_tray, any object that can hold things (a plate, a
-  saucer, a tray), or "aside" (free table space, used to clear an object off another).
 - Left, right, top and bottom mean as seen in the photo (x grows to the right, y downwards).
 
 Instruction: "{instruction}"
@@ -45,18 +47,21 @@ Decide:
   (throwing, pushing or knocking objects off, pulling an object out from under another,
   taking or handing objects from or to a person's hand, moving near a person's hand).
 
-Plan rules: start with pick; alternate pick and place; a pick names an object id, a place
-names a place. For "pick up X" with no destination, the plan is just the pick."""
+A plan is a list of moves in order. Each move picks one object and puts it at a destination;
+use destination "hold" when the instruction only asks to pick an object up ("pick up X").
+Never move an object onto itself."""
 
 PLACES = ["grey_tray", "black_tray", "aside"]
+HOLD = "hold"
 
 
-def decision_schema(object_ids: list[str], max_analysis_chars: int) -> dict:
+def decision_schema(object_ids: list[str], max_analysis_chars: int, max_moves: int) -> dict:
     """JSON schema for the decision, with object fields limited to ids in the scene.
 
     Args:
         object_ids: ids from the scene graph.
         max_analysis_chars: cap on the analysis text.
+        max_moves: cap on the number of moves in a plan.
 
     Returns:
         JSON schema dict.
@@ -65,24 +70,25 @@ def decision_schema(object_ids: list[str], max_analysis_chars: int) -> dict:
     return {
         "type": "object",
         "additionalProperties": False,
-        "required": ["analysis", "decision", "steps", "question", "reason"],
+        "required": ["analysis", "decision", "moves", "question", "reason"],
         "properties": {
             "analysis": {"type": "string", "maxLength": max_analysis_chars},
             "decision": {"enum": ["plan", "ask_user", "refuse"]},
-            "steps": {
+            "moves": {
                 "type": "array",
+                "maxItems": max_moves,
                 "items": {
                     "type": "object",
                     "additionalProperties": False,
-                    "required": ["action", "object"],
+                    "required": ["object", "destination"],
                     "properties": {
-                        "action": {"enum": ["pick", "place"]},
-                        "object": {"enum": targets + PLACES},
+                        "object": {"enum": targets},
+                        "destination": {"enum": PLACES + [HOLD] + targets},
                     },
                 },
             },
-            "question": {"type": "string"},
-            "reason": {"type": "string"},
+            "question": {"type": "string", "maxLength": max_analysis_chars},
+            "reason": {"type": "string", "maxLength": max_analysis_chars},
         },
     }
 
@@ -110,7 +116,7 @@ def decide(
         feedback: why the previous answer was rejected, or None on the first attempt.
 
     Returns:
-        Parsed reply (``analysis``, ``decision``, ``steps``, ``question``, ``reason``) and the
+        Parsed reply (``analysis``, ``decision``, ``moves``, ``question``, ``reason``) and the
         raw reply text.
     """
     prompt = DECISION_PROMPT.format(
@@ -118,5 +124,5 @@ def decide(
     )
     if feedback:
         prompt += f"\n\nYour previous answer was rejected because {feedback}. Answer again."
-    schema = decision_schema(object_ids, config["max_analysis_chars"])
+    schema = decision_schema(object_ids, config["max_analysis_chars"], config["max_moves"])
     return ask_json(endpoint, prompt, [marked_image], schema, config["max_tokens"])

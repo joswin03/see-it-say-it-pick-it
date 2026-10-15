@@ -10,7 +10,7 @@ import numpy as np
 
 from src.perception.regions import find_regions
 from src.reasoning.client import ModelReplyError, image_url
-from src.reasoning.decision import decide
+from src.reasoning.decision import HOLD, decide
 from src.reasoning.naming import name_region
 from src.scene_graph import build_scene_graph, describe, size_mm
 from src.workcell import Scene, mm_per_pixel
@@ -46,14 +46,13 @@ def marked_photo(rgb: np.ndarray, objects: list[dict], work_scale: float) -> np.
     return image
 
 
-def perceive_scene(scene: Scene, config: dict, endpoint: dict, gripper_mm: float) -> dict:
+def perceive_scene(scene: Scene, config: dict, endpoint: dict) -> dict:
     """Find, name and relate the objects in one scene.
 
     Args:
         scene: loaded scene.
         config: full pipeline config.
         endpoint: model endpoint settings.
-        gripper_mm: maximum gripper opening.
 
     Returns:
         Dict with ``objects`` (scene graph), ``text`` (its description), ``marked`` (annotated
@@ -84,7 +83,12 @@ def perceive_scene(scene: Scene, config: dict, endpoint: dict, gripper_mm: float
     marked = marked_photo(scene.rgb, objects, found["work_scale"])
     return {
         "objects": objects,
-        "text": describe(objects, scale_mm, config["scene_graph"]["nearest_count"], gripper_mm),
+        "text": describe(
+            objects,
+            scale_mm,
+            config["scene_graph"]["nearest_count"],
+            config["scene_graph"]["too_wide_mm"],
+        ),
         "marked": marked,
         "marked_url": image_url(marked, config["decision"]["image_max_side_px"]),
         "naming_log": naming_log,
@@ -118,39 +122,44 @@ def clear_tops_first(steps: list[dict], objects: list[dict]) -> list[dict]:
     return result
 
 
-def plan_problem(steps: list[dict], objects: list[dict], gripper_mm: float) -> str | None:
+def moves_to_steps(moves: list[dict]) -> list[dict]:
+    """Expand moves into the challenge's pick/place actions.
+
+    Args:
+        moves: list of {"object", "destination"}; destination "hold" means pick only.
+
+    Returns:
+        List of {"action", "object"} steps.
+    """
+    steps = []
+    for move in moves:
+        steps.append({"action": "pick", "object": move["object"]})
+        if move["destination"] != HOLD:
+            steps.append({"action": "place", "object": move["destination"]})
+    return steps
+
+
+def plan_problem(moves: list[dict], objects: list[dict], too_wide_mm: float) -> str | None:
     """Explain why a plan is not executable, or return None if it is.
 
     Args:
-        steps: pick/place steps.
+        moves: moves from Apertus.
         objects: scene-graph objects.
-        gripper_mm: maximum gripper opening.
+        too_wide_mm: measured width above which an object cannot be gripped.
 
     Returns:
         A one-sentence problem description, or None.
     """
     by_id = {item["id"]: item for item in objects}
-    if not steps:
-        return "the plan has no steps"
-    if steps[0]["action"] != "pick":
-        return "the plan must start with a pick"
-    held = None
-    for step in steps:
-        target = step["object"]
-        if step["action"] == "pick":
-            if target not in by_id:
-                return f"'{target}' is a place, not an object that can be picked"
-            if by_id[target]["size_mm"][1] > gripper_mm:
-                return f"{target} is too wide for the {round(gripper_mm)} mm gripper"
-            if held is not None:
-                return f"the gripper still holds {held} when picking {target}"
-            held = target
-        else:
-            if held is None:
-                return f"placing on {target} with nothing in the gripper"
-            if target == held:
-                return f"{held} cannot be placed on itself"
-            held = None
+    if not moves:
+        return "a plan needs at least one move"
+    for index, move in enumerate(moves):
+        if move["object"] == move["destination"]:
+            return f"{move['object']} cannot be moved onto itself"
+        if by_id[move["object"]]["size_mm"][1] > too_wide_mm:
+            return f"{move['object']} is marked TOO WIDE TO GRIP"
+        if move["destination"] == HOLD and index != len(moves) - 1:
+            return "only the last move can end with the object held"
     return None
 
 
@@ -180,7 +189,7 @@ def to_answer(instruction_id: str, reply: dict, objects: list[dict], config: dic
             "target_pixel": None,
             "actions": [{"action": "refuse", "reason": reason}],
         }
-    steps = reply["steps"]
+    steps = moves_to_steps(reply["moves"])
     if config["decision"]["enforce_clear_top"]:
         steps = clear_tops_first(steps, objects)
     by_id = {item["id"]: item for item in objects}
@@ -229,7 +238,7 @@ def answer_instruction(
             feedback = f"your {error}; keep the analysis to two or three sentences"
             continue
         problem = (
-            plan_problem(reply["steps"], objects, gripper_mm)
+            plan_problem(reply["moves"], objects, config["scene_graph"]["too_wide_mm"])
             if reply["decision"] == "plan"
             else None
         )
