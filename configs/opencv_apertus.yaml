@@ -1,0 +1,54 @@
+# OpenCV + Apertus pipeline (run.py). OpenCV finds trays and object regions; Apertus names each
+# region from a crop (Set-of-Mark style, Yang et al. 2023, arXiv 2310.11441) and then decides
+# plan / ask_user / refuse over the resulting scene graph. Pixels and geometry come from code.
+
+model_id: swiss-ai/Apertus-v1.5-8B
+base_url: http://localhost:8000/v1
+request_timeout_s: 180
+
+perception:
+  work_scale: 0.25  # segment on a 612 x 512 copy; masks are scaled back to full resolution
+  morph_kernel_px: 5  # at work scale
+  # Black tray: dark, unsaturated. Anything brighter or more saturated is an object.
+  black_tray_max_value: 130
+  black_tray_max_saturation: 50
+  black_object_min_contrast: 40  # brightness above the fitted tray-lighting plane (tray gets lighter towards the bottom)
+  black_object_min_saturation: 60
+  # Grey tray floor: blue-grey plastic, OpenCV hue in [85, 115] (0-180 scale), low saturation.
+  grey_floor_hue: [85, 115]
+  grey_floor_saturation: [10, 45]
+  grey_floor_value: [85, 200]
+  grey_object_min_saturation: 45
+  grey_object_min_value: 190  # white objects on grey plastic
+  grey_object_max_value: 70  # dark objects on grey plastic
+  grey_object_min_tint_saturation: 12  # off-white parts: faintly warm, where the floor is blue
+  min_region_area_mm2: 250  # smallest object (small gear, small part) is well above this
+  min_thickness_mm: 10  # drops tray-wall slivers and rail edges; every graspable object is thicker
+  tray_edge_margin_mm: 20  # tray walls show reflections and rail edges; no object centre sits on a wall
+  core_fraction: 0.5  # split same-colour touching objects at necks thinner than half their depth
+  # Colour classes used to split a foreground blob into sub-regions (OpenCV HSV, hue 0-180).
+  colour_min_saturation: 70
+  colour_hue_ranges:
+    red: [[0, 8], [165, 180]]
+    orange: [9, 20]
+    yellow: [21, 40]
+    green: [41, 85]
+    blue: [86, 130]
+    purple: [131, 164]
+  white_min_value: 170
+
+naming:
+  crop_padding_fraction: 0.6
+  crop_max_side_px: 512
+  max_tokens: 120
+  # Generic workcell vocabulary offered as examples, not as a closed list: the organisers may
+  # test new objects. Not derived from the dataset labels.
+  example_names: [gear, cube, block, mug, cup, plate, saucer, bowl, fruit, banana, orange,
+                  metal part, plastic part, bracket, tool, human hand, tray]
+
+decision:
+  max_tokens: 900
+  image_max_side_px: 1024
+  aside_location: free space on the table  # where an object on top is put before the one below
+
+gripper_max_opening_mm: 85
