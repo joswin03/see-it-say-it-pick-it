@@ -19,6 +19,9 @@ committed. Thresholds were tuned on the dev set, so the held-out score is the ho
 | v8 | `8d2fda2` | 39.9 | 23.6 (27/40) | 16.3 | 7/10 | 9/40 | rerun of v7a logic: about 2 points of run-to-run noise |
 | v9 | `593762f` | 44.1 | 26.2 (30/40) | 17.8 | 7/10 | 6/40 | OpenCV rules: Lab warmth (grey on grey), texture split (same-colour stacks) |
 | v9-70B | `fbbc29e`, `--set model_id=swiss-ai/Apertus-v1.5-70B` (FP8) | **46.0** | 26.2 (30/40) | 19.8 | 8/10 | 7/40 | same code as v9, 70B instead of 8B; 26 min vs 5 min |
+| v10 | `cdc43d2` | 43.0 | 26.2 (30/40) | 16.8 | 7/10 | 8/40 | merge split objects, drop shadow slivers, table-plane sizes |
+| **v11** (run 1) | `d96830e` | **48.4** | 28.0 (32/40) | 20.4 | 8/10 | 6/40 | new scene-text format, name aliases + colour guard, primer wording check, no `contradicts_itself` |
+| v11 (run 2) | same | 46.9 | 27.1 (31/40) | 19.8 | 8/10 | 7/40 | same code, second run |
 
 Same logic, two runs: 42.0 and 39.9. vLLM at temperature 0 is not bit-exact between runs,
 so differences of about 2 points are noise, not evidence.
@@ -130,7 +133,7 @@ run.py --data <folder> --out <results.json> [--set section.key=value]
   07 mug shadow, 08 cube side face, 10 tray wall x2, mug shadow, rim fragment).
 - Run the held-out scenes.
 
-## v10 (not yet scored): calibration and safety-screen fixes
+## v10 (43.0): calibration and safety-screen fixes
 
 - Sizes and distances are measured on the table plane: each outline point is undistorted and
   projected with K and `base_T_camera` (`table_xy` in `src/workcell.py`). Before, one scale
@@ -154,6 +157,31 @@ run.py --data <folder> --out <results.json> [--set section.key=value]
   mug shadows in 01, 07 and 10 join their objects. Gear stacks (03, 06, 08) and the mug on the
   red gear (07) stay separate. Still split: the saucer in 06 (its two orange pieces were cut apart
   by `split_touching`) and the hand in 10 (named "grey hand" and "orange plate").
+
+## v11 (48.4 / 46.9, two runs): scene-text format, naming, safety wording
+
+Run records: `runs/scratch/20261015-202009-opencv-dataset` (48.4) and
+`runs/scratch/20261015-202348-opencv-dataset` (46.9), both 8B, without marked photos.
+
+- Scene text (`describe`): objects grouped by tray with name, other names and size; flags (TOO
+  WIDE TO GRIP, can hold things, A PERSON'S HAND); explicit "lies on" edges; LEFT TO RIGHT,
+  TOP TO BOTTOM and a full NEAR TO FAR list per object. Pixel positions and mm distances are
+  gone; scene_09's text went from 3,846 to 2,530 characters. On its own (with the old safety
+  screen) it scored 39.3 in one run; it is not measured separately from the changes below.
+- Naming returns up to two `other_names`, kept as aliases through merges and shown as "(also
+  seen as ...)": the mandarin in 05 and 09 and the saucer in 05 are now found by name. A name
+  without a colour word gets the measured colour ("gear" -> "red gear"): without this guard
+  two of scene 03's three red gears were named "gear" and three instructions failed.
+- Safety: the screen's `contradicts_itself` field flagged 6 to 7 ordinary dev instructions per
+  run; it is removed and the planner prompt carries the two contradiction examples instead.
+  The 8B screen also labels "throw" or "push off" as pick and place in about half the runs, so
+  the unsafe motions named in `docs/safety_primer.md` (throw, drop from height, push or knock
+  off, pull out from under, out of or onto a person's hand) are matched on the wording first
+  (`unsafe_wording`). It catches all 4 unsafe dev and both unsafe held-out instructions and
+  stops none of the other 90.
+- Still failing in both runs: scene 09 (saucer never named as one, red cube placed on a red gear
+  instead of the grey part), 09_i5 (planner misses "put it on the plate and leave it where it
+  is"), and two scene 08 instructions where the plan is rejected for a hold before the last move.
 
 ## Code review fixes (after v7)
 
