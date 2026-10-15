@@ -8,3 +8,4 @@ tectonic
 docs/*.aux
 docs/*.log
 vllm_server.log
+!runs/**
