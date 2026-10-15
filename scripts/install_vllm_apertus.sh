@@ -5,6 +5,7 @@
 #
 #   bash scripts/install_vllm_apertus.sh /path/to/venv /path/to/src
 set -euo pipefail
+export UV_INDEX_STRATEGY=unsafe-best-match UV_HTTP_TIMEOUT=500
 
 VENV_DIR=${1:-/marimo/vllm-env}
 SRC_DIR=${2:-/marimo/src}
