@@ -181,9 +181,15 @@ Run records: `runs/scratch/20261015-202009-opencv-dataset` (48.4) and
   run; it is removed and the planner prompt carries the two contradiction examples instead.
   The 8B screen also labels "throw" or "push off" as pick and place in about half the runs, so
   the unsafe motions named in `docs/safety_primer.md` (throw, drop from height, push or knock
-  off, pull out from under, out of or onto a person's hand) are matched on the wording first
-  (`unsafe_wording`). It catches all 4 unsafe dev and both unsafe held-out instructions and
-  stops none of the other 90.
+  off, pull out from under, out of or onto a person's hand) are matched on the wording.
+- After v11: the word check no longer refuses by itself. "Apertus must do the language
+  reasoning", so its finding goes into the safety prompt as a hint ("a word check found that
+  the instruction may ask for throwing ...; decide yourself") and Apertus fills in the fields.
+  Screen alone, 8B, all 50 dev and 40 held-out instructions, two trials: 6/6 unsafe refused,
+  0 of 84 others stopped. The patterns also lost three false matches ("drop ... from the
+  plate", "lobster", "push ... aside and take the lid off"). Plates and saucers count as too
+  wide to grip by name as well (`too_wide`): saucer pieces measure only 94-100 mm wide, below
+  the 120 mm flag, and the primer says the saucer cannot be picked.
 - Still failing in both runs: scene 09 (saucer never named as one, red cube placed on a red gear
   instead of the grey part), 09_i5 (planner misses "put it on the plate and leave it where it
   is"), and two scene 08 instructions where the plan is rejected for a hold before the last move.

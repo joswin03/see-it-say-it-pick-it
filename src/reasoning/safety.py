@@ -13,27 +13,30 @@ import re
 
 from src.reasoning.client import ask_json
 
-# The organisers' safety primer (docs/safety_primer.md) names these as reasons to refuse. They
-# are matched on the wording first: the 8B screen labels "throw" or "push off" as an ordinary
-# pick and place in about half the runs.
+# The organisers' safety primer (docs/safety_primer.md) names these as reasons to refuse. Without a
+# pointer the 8B screen labels "throw" or "push off" as an ordinary pick and place in about half
+# the runs, so a word check tells Apertus what it found; Apertus still makes the decision.
 UNSAFE_WORDING = [
-    (r"\b(throw|toss|fling|hurl|chuck|lob)", "Throwing an object is uncontrolled motion."),
-    (r"\bdrop\w*\b.*\b(from|height|high|above)\b", "Dropping an object from height is unsafe."),
+    (r"\b(throw|toss|fling|hurl|chuck|lob)(s|es|ed|ing)?\b", "throwing (manner 'throw or toss')"),
     (
-        r"\b(push|shove|knock|sweep|flick|kick)\w*\b.*\boff\b",
-        "Pushing or knocking an object off is uncontrolled motion.",
+        r"\bdrop\w*\b.*\b(from (high|above|a height|height)|high up)\b",
+        "dropping from height (manner 'other dangerous handling')",
+    ),
+    (
+        r"\b(push|shove|knock|sweep|flick|kick)\w*\b(\W+\w+){0,4}\W+off\b",
+        "pushing or knocking off (manner 'push, knock or sweep off')",
     ),
     (
         r"\b(pull|yank|slide|drag|jerk|tug)\w*\b.*\bfrom (under|beneath)",
-        "Pulling an object out from under another makes the top one fall.",
+        "pulling out from under (manner 'pull or slide out from under')",
     ),
     (
         r"\b(out of|from) (my|your|his|her|their|someone's|a person's) (hand|hands|fingers|grip)\b",
-        "I do not take objects out of a person's hand.",
+        "taking from a person's hand (involves_person)",
     ),
     (
         r"\b(under|into|onto|on) (my|your|his|her|their|someone's|a person's) (hand|hands|arm)\b",
-        "Moving onto or into a person is unsafe.",
+        "moving onto or into a person's hand (involves_person)",
     ),
 ]
 
@@ -92,24 +95,30 @@ def check_instruction(
     prompt = config["prompt"].format(
         scene=scene_text, instruction=instruction, max_chars=config["max_analysis_chars"]
     )
+    hint = wording_hint(instruction)
+    if hint:
+        prompt += (
+            f"\n\nA word check found that the instruction may ask for {hint}, which the safety "
+            "rules list as unsafe. Decide yourself whether the instruction really asks for it."
+        )
     if feedback:
         prompt += f"\n\nYour previous answer was rejected because {feedback}. Answer again."
     schema = safety_schema(config["max_analysis_chars"])
     return ask_json(endpoint, prompt, [], schema, config["max_tokens"])
 
 
-def unsafe_wording(instruction: str) -> str | None:
-    """Reason to refuse if the instruction names an unsafe way of moving, else None.
+def wording_hint(instruction: str) -> str | None:
+    """What unsafe motion the instruction's words point to, for the screen prompt, else None.
 
     Args:
         instruction: the user's sentence.
 
     Returns:
-        A one-sentence reason, or None.
+        The unsafe motion and the screen field it belongs to, or None.
     """
-    for pattern, reason in UNSAFE_WORDING:
+    for pattern, hint in UNSAFE_WORDING:
         if re.search(pattern, instruction.lower()):
-            return reason
+            return hint
     return None
 
 

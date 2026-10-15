@@ -12,9 +12,9 @@ from src.pipeline import (
 )
 from src.reasoning.client import ModelReplyError, close_stalled_reply
 
-GEAR = {"id": "red_gear_1", "size_mm": (88, 86), "under": ["yellow_gear_1"]}
-SMALL = {"id": "yellow_gear_1", "size_mm": (48, 47), "under": []}
-PLATE = {"id": "white_plate_1", "size_mm": (189, 188), "under": []}
+GEAR = {"id": "red_gear_1", "name": "red gear", "size_mm": (88, 86), "under": ["yellow_gear_1"]}
+SMALL = {"id": "yellow_gear_1", "name": "yellow gear", "size_mm": (48, 47), "under": []}
+PLATE = {"id": "white_plate_1", "name": "white plate", "size_mm": (189, 188), "under": []}
 OBJECTS = [GEAR, SMALL, PLATE]
 
 
@@ -74,12 +74,30 @@ def test_cut_off_safety_reply_is_retried_with_feedback(monkeypatch) -> None:
     assert len(log["safety"]) == 2
 
 
-def test_unsafe_wording_from_the_primer_is_refused_without_a_model_call(monkeypatch) -> None:
-    monkeypatch.setattr(pipeline, "check_instruction", lambda *args: 1 / 0)
-    config = {"safety": {"enabled": True}, "decision": {"max_attempts": 2}}
-    perceived = {"objects": OBJECTS, "text": ""}
+def test_unsafe_wording_becomes_a_hint_and_apertus_decides(monkeypatch) -> None:
+    from src.reasoning import safety
+
+    prompts = []
+    reply = {"analysis": "", "manner": "pick and place", "involves_person": False, "message": ""}
+    monkeypatch.setattr(safety, "ask_json", lambda endpoint, prompt, *a: prompts.append(prompt) or (reply, "raw"))
+    config = {"prompt": "{scene} {instruction} {max_chars}", "max_analysis_chars": 300, "max_tokens": 10}
     for text in ("throw the gear in the tray", "push the cube off the gears",
                  "pull the red gear out from under the yellow gear", "take the mug out of my hand",
                  "drop the mandarin into the mug from high up"):
-        answer, _ = pipeline.answer_instruction("i1", text, perceived, config, {}, 85)
-        assert answer["actions"][0]["action"] == "refuse", text
+        screen, _ = safety.check_instruction(text, "", {}, config)
+        assert "word check found" in prompts[-1], text
+        assert safety.screen_result(screen) is None  # Apertus said ordinary, so code does not refuse
+
+
+def test_ordinary_wording_gives_no_hint() -> None:
+    from src.reasoning.safety import wording_hint
+
+    for text in ("drop the gear from the plate into the grey tray", "pick up the lobster",
+                 "push the plate aside and take the lid off", "take it off the gear"):
+        assert wording_hint(text) is None, text
+
+
+def test_saucer_cannot_be_picked_even_when_it_measures_narrow() -> None:
+    saucer = {"id": "orange_saucer_1", "name": "orange saucer", "size_mm": (127, 94), "under": []}
+    problem = plan_problem([{"object": "orange_saucer_1", "destination": "aside"}], [saucer], 120)
+    assert problem is not None

@@ -12,8 +12,8 @@ from src.perception.regions import find_regions
 from src.reasoning.client import ModelReplyError, image_url
 from src.reasoning.decision import HOLD, decide
 from src.reasoning.naming import name_region
-from src.reasoning.safety import check_instruction, screen_result, unsafe_wording
-from src.scene_graph import build_scene_graph, describe, size_mm
+from src.reasoning.safety import check_instruction, screen_result
+from src.scene_graph import build_scene_graph, describe, size_mm, too_wide
 from src.workcell import Scene, mm_per_pixel
 
 LABEL_RGB = (255, 255, 0)
@@ -226,7 +226,7 @@ def plan_problem(moves: list[dict], objects: list[dict], too_wide_mm: float) -> 
             return f"'{move['object']}' is not an object in the scene"
         if move["object"] == move["destination"]:
             return f"{move['object']} cannot be moved onto itself"
-        if by_id[move["object"]]["size_mm"][1] > too_wide_mm:
+        if too_wide(by_id[move["object"]], too_wide_mm):
             return f"{move['object']} is marked TOO WIDE TO GRIP"
         if move["destination"] == HOLD and index != len(moves) - 1:
             return "only the last move can end with the object held"
@@ -276,9 +276,8 @@ def answer_instruction(
 ) -> tuple[dict, dict]:
     """Answer one instruction: safety check, then plan with one retry on a bad plan.
 
-    The safety screen runs first when ``safety.enabled`` is set: a wording check for the unsafe
-    motions the primer names (``unsafe_wording``), then Apertus (see ``screen_result``), with
-    one retry on a cut-off reply. If every reply is unusable, the log says so ("unchecked") and
+    The safety screen runs first when ``safety.enabled`` is set (see ``screen_result``; its
+    prompt carries a word-check hint for the unsafe motions the primer names), with one retry on a cut-off reply. If every reply is unusable, the log says so ("unchecked") and
     the planner, which also knows the safety rules, decides alone.
 
     Args:
@@ -297,10 +296,7 @@ def answer_instruction(
     log = {"instruction_id": instruction_id}
     if config["safety"]["enabled"]:
         feedback, raws, stop = None, [], None
-        reason = unsafe_wording(text)
-        if reason:
-            raws, stop = [f"wording: {reason}"], ("refuse", reason)
-        for _ in range(0 if reason else config["decision"]["max_attempts"]):
+        for _ in range(config["decision"]["max_attempts"]):
             try:
                 screen, raw = check_instruction(
                     text, perceived["text"], endpoint, config["safety"], feedback
@@ -311,7 +307,7 @@ def answer_instruction(
             except ModelReplyError as error:
                 # a stalled reply is almost always an analysis that ran into its length cap
                 raws.append(f"unchecked, {error}: {error.raw}")
-                feedback, stop = f"your {error}; keep the analysis to one or two sentences", None
+                feedback = f"your {error}; keep the analysis to one or two sentences"
         log["safety"] = raws[0] if len(raws) == 1 else raws
         if stop is not None:
             action, message = stop

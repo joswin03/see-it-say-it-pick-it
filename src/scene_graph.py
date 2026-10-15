@@ -13,6 +13,23 @@ from src.perception.regions import interior_point
 from src.workcell import Scene, table_xy
 
 HAND_WORDS = ("hand", "arm", "finger", "person", "human")
+# The safety primer: "the plate and the saucer cannot be picked". A saucer's pieces measure only
+# 94-100 mm wide, below too_wide_mm, so the name decides as well.
+# shortcut: a flat part named "metal plate" would count too; drop this if that happens.
+WIDE_NOUNS = ("plate", "saucer")
+
+
+def too_wide(item: dict, too_wide_mm: float) -> bool:
+    """Whether the gripper cannot pick this object: measured too wide, or a plate or saucer.
+
+    Args:
+        item: scene-graph object with ``name`` and ``size_mm``.
+        too_wide_mm: measured width above which an object is not graspable.
+
+    Returns:
+        True if the object cannot be picked.
+    """
+    return item["size_mm"][1] > too_wide_mm or item["name"].split()[-1] in WIDE_NOUNS
 
 
 def size_mm(mask: np.ndarray, work_scale: float, scene: Scene) -> tuple[int, int]:
@@ -271,7 +288,7 @@ def describe(objects: list[dict], too_wide_mm: float) -> str:
             length, width = item["size_mm"]
             name = item["name"] + (f" (also seen as {', '.join(item['aliases'])})" if item.get("aliases") else "")
             flags = [f"{length} x {width} mm"]
-            if width > too_wide_mm:
+            if too_wide(item, too_wide_mm):
                 flags.append("TOO WIDE TO GRIP, can hold things")
             if item["is_hand"]:
                 flags.append("A PERSON'S HAND")
