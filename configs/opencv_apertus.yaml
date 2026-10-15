@@ -43,9 +43,52 @@ naming:
   max_tokens: 120
   # Generic workcell vocabulary offered as examples, not as a closed list: the organisers may
   # test new objects. Not derived from the dataset labels.
-  example_names: [gear, cube, block, mug, cup, plate, saucer, bowl, fruit, banana, orange,
+  example_names: [gear, cube, block, mug, cup, plate, saucer, bowl, fruit, banana, mandarin,
                   metal part, plastic part, bracket, tool, human hand]
+  crop_min_side_mm: 250  # small fragments are shown with their surroundings, or they cannot be named
+  prompt: |-
+    This is a close-up from a camera looking straight down at a robot workcell table.
+    The area outlined in cyan was found by colour segmentation. Its colour is mostly {colour}; it is
+    about {length_mm} x {width_mm} mm and lies in the {tray}.
+
+    What is the outlined thing? Answer with its colour followed by the object type, 2 to 3 words,
+    for example "red cube", "yellow gear", "white mug", "orange mandarin". Object types seen in
+    workcells include: {examples}.
+    Set is_object to false if the outline is not a separate physical object: a reflection, a shadow,
+    part of the tray wall or the table, or a highlight. A human hand or arm is an object.
+    If the outline covers only part of an object, name the whole object.
   fixture_words: [tray, table, wall, floor, background, shadow, reflection, surface]  # places, not objects
+
+safety:
+  enabled: true  # Apertus screens for unsafe / self-contradictory instructions before planning
+  max_tokens: 500
+  max_analysis_chars: 400
+  prompt: |-
+    You check one instruction for a robot arm before any plan is made. The robot picks one
+    object at a time with a two-finger gripper and puts it somewhere. A camera looks down at a table
+    with a grey tray and a black tray.
+
+    Objects in the scene (from the vision system):
+    {scene}
+
+    Instruction: "{instruction}"
+
+    Answer "ok" for every ordinary pick-and-place request, also with several objects, stacks, or
+    objects named by position. Moving the object that lies on top first, and then the one below, is
+    a normal plan and "ok". Answer "ok" also when you are unsure whether an object exists or which
+    one is meant; that is decided later.
+
+    Answer "unsafe" only if the instruction asks for a dangerous way of moving things: throwing or
+    tossing, pushing, knocking or sweeping objects off something, pulling or sliding an object out
+    from under another one, or anything that takes from, hands to, or moves near a person's hand.
+
+    Answer "impossible" only if the instruction contradicts itself or forbids the only way to do it:
+    for example "pick up X without moving Y" when Y lies on X, or "put X there and leave it where it
+    is".
+
+    Examples: "put the cube under the gear in the tray" -> ok (move the gear aside, then the cube).
+    "toss the gear into the tray" -> unsafe. "slide the plate out from under the cup" -> unsafe.
+    "take the cup the person is holding" -> unsafe. "lift the gear without touching it" -> impossible.
 
 decision:
   max_tokens: 1200
@@ -54,11 +97,56 @@ decision:
   max_moves: 8
   max_attempts: 2  # one retry with the reason when a plan is not executable
   enforce_clear_top: true  # code inserts pick+place-aside for objects lying on a picked object
+  prompt: |-
+    You plan actions for a robot arm with a two-finger gripper above a table.
+    The camera looks straight down. The table holds a grey tray (left in the photo) and a black
+    tray (right in the photo). The photo shows the objects with their ids drawn on them.
+
+    Scene graph, measured by the vision system (trust it for positions, sizes and stacking):
+    {scene}
+
+    Object names come from a vision model and may use synonyms or a slightly different colour:
+    match the instruction by meaning (cube = block, mug = cup, mandarin = orange, part = plate-like
+    metal or plastic piece). An object is missing only if nothing in the scene can be what the
+    instruction names.
+
+    Places to put things: grey_tray (the grey tray, left), black_tray (the black tray, right),
+    aside (free table space, to clear an object off another), or an object id above that can hold
+    things (a plate, a saucer).
+
+    Robot facts:
+    - The gripper holds one object at a time and opens at most {gripper_mm} mm. Objects marked
+      TOO WIDE TO GRIP (plates, saucers) cannot be picked; every other object can.
+    - An object that is underneath another cannot be picked before the one on top is moved aside.
+    - An object can only be put into or onto something larger than itself.
+    - Left, right, top and bottom mean as seen in the photo (x grows to the right, y downwards).
+
+    Instruction: "{instruction}"
+
+    Decide:
+    - plan: the instruction names objects that exist and can be handled. This is the normal case:
+      most instructions are fine. If the instruction says "all", "both" or "everything", or picks
+      one object by position or relation ("on the left", "closest to the mug", "second from the
+      right", "the one on the other gear"), it is NOT ambiguous: resolve it from the scene graph.
+      To reach an object that is underneath another, first pick the one on top and place it aside.
+    - ask_user: only if the words fit several objects equally and nothing in the instruction tells
+      them apart (e.g. "the red gear" when there are three red gears), or the instruction points
+      at something without naming it ("that one", "this").
+    - refuse: only for a concrete reason: the named object is not in the scene; the action is
+      physically impossible (too wide for the gripper, does not fit into the container, the
+      instruction contradicts itself or forbids the only way to do it); or the action is unsafe
+      (throwing, pushing or knocking objects off, pulling an object out from under another,
+      taking or handing objects from or to a person's hand, moving near a person's hand).
+
+    A plan is a list of moves in order. Each move picks one object and puts it at a destination;
+    use destination "hold" only for the last object when the instruction asks to pick it up
+    without putting it anywhere ("pick up X"). Never move an object onto itself.
+    Write "message": the question for ask_user, the reason for refuse, empty for plan.
 
 gripper_max_opening_mm: 85
 
 scene_graph:
-  merge_gap_mm: 4  # touching regions with the same name closer than this are one object
+  merge_gap_mm: 12  # same-named regions this close are one object (fragments of a saucer rim)
   stack_min_overlap_fraction: 0.3  # share of the upper object inside the lower one's hull
   nearest_count: 3
   # Measured widths include gear teeth and the top-down perspective of tall objects, so a

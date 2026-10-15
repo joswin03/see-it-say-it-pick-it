@@ -12,6 +12,7 @@ from src.perception.regions import find_regions
 from src.reasoning.client import ModelReplyError, image_url
 from src.reasoning.decision import HOLD, decide
 from src.reasoning.naming import name_region
+from src.reasoning.safety import check_instruction
 from src.scene_graph import build_scene_graph, describe, size_mm
 from src.workcell import Scene, mm_per_pixel
 
@@ -65,7 +66,9 @@ def perceive_scene(scene: Scene, config: dict, endpoint: dict) -> dict:
     naming_log = []
     for region in found["regions"]:
         region["size_mm"] = size_mm(region["mask"], mm_per_work_pixel)
-        named = name_region(scene.rgb, region, found["work_scale"], endpoint, config["naming"])
+        named = name_region(
+            scene.rgb, region, found["work_scale"], scale_mm, endpoint, config["naming"]
+        )
         region["name"], region["is_object"] = named["name"], named["is_object"]
         naming_log.append(
             {
@@ -122,6 +125,27 @@ def clear_tops_first(steps: list[dict], objects: list[dict]) -> list[dict]:
     return result
 
 
+def drop_redundant_holds(moves: list[dict]) -> list[dict]:
+    """Remove a "hold" move that the next move continues with the same object.
+
+    Apertus sometimes writes "pick X and hold it" followed by "move X to the tray"; that is one
+    move, not two.
+
+    Args:
+        moves: list of {"object", "destination"}.
+
+    Returns:
+        Moves without holds that are immediately continued.
+    """
+    kept = []
+    for index, move in enumerate(moves):
+        continued = index + 1 < len(moves) and moves[index + 1]["object"] == move["object"]
+        if move["destination"] == HOLD and continued:
+            continue
+        kept.append(move)
+    return kept
+
+
 def moves_to_steps(moves: list[dict]) -> list[dict]:
     """Expand moves into the challenge's pick/place actions.
 
@@ -176,20 +200,20 @@ def to_answer(instruction_id: str, reply: dict, objects: list[dict], config: dic
         Answer dict matching ``schema/result.schema.json``.
     """
     if reply["decision"] == "ask_user":
-        question = reply["question"].strip() or "Which object do you mean?"
+        question = reply["message"].strip() or "Which object do you mean?"
         return {
             "instruction_id": instruction_id,
             "target_pixel": None,
             "actions": [{"action": "ask_user", "question": question}],
         }
     if reply["decision"] == "refuse":
-        reason = reply["reason"].strip() or reply["analysis"].strip()
+        reason = reply["message"].strip() or reply["analysis"].strip()
         return {
             "instruction_id": instruction_id,
             "target_pixel": None,
             "actions": [{"action": "refuse", "reason": reason}],
         }
-    steps = moves_to_steps(reply["moves"])
+    steps = moves_to_steps(drop_redundant_holds(reply["moves"]))
     if config["decision"]["enforce_clear_top"]:
         steps = clear_tops_first(steps, objects)
     by_id = {item["id"]: item for item in objects}
@@ -204,7 +228,10 @@ def to_answer(instruction_id: str, reply: dict, objects: list[dict], config: dic
 def answer_instruction(
     instruction_id: str, text: str, perceived: dict, config: dict, endpoint: dict, gripper_mm: float
 ) -> tuple[dict, dict]:
-    """Answer one instruction; retry once with feedback if the plan is not executable.
+    """Answer one instruction: safety check, then plan with one retry on a bad plan.
+
+    The safety check runs first when ``safety.enabled`` is set; a verdict other than "ok"
+    becomes a refusal with Apertus's reason.
 
     Args:
         instruction_id: id of the instruction.
@@ -219,7 +246,20 @@ def answer_instruction(
     """
     objects = perceived["objects"]
     object_ids = [item["id"] for item in objects]
+    log = {"instruction_id": instruction_id}
+    if config["safety"]["enabled"]:
+        verdict, raw = check_instruction(text, perceived["text"], endpoint, config["safety"])
+        log["safety"] = raw
+        if verdict["verdict"] != "ok":
+            reason = verdict["reason"].strip() or verdict["analysis"].strip()
+            answer = {
+                "instruction_id": instruction_id,
+                "target_pixel": None,
+                "actions": [{"action": "refuse", "reason": reason}],
+            }
+            return answer, log
     attempts = []
+    log["attempts"] = attempts
     feedback = None
     for _ in range(config["decision"]["max_attempts"]):
         try:
@@ -238,14 +278,18 @@ def answer_instruction(
             feedback = f"your {error}; keep the analysis to two or three sentences"
             continue
         problem = (
-            plan_problem(reply["moves"], objects, config["scene_graph"]["too_wide_mm"])
+            plan_problem(
+                drop_redundant_holds(reply["moves"]),
+                objects,
+                config["scene_graph"]["too_wide_mm"],
+            )
             if reply["decision"] == "plan"
             else None
         )
         attempts.append({"raw": raw, "problem": problem})
         if problem is None:
             answer = to_answer(instruction_id, reply, objects, config)
-            return answer, {"instruction_id": instruction_id, "attempts": attempts}
+            return answer, log
         feedback = problem
     final_problem = attempts[-1]["problem"]
     answer = {
@@ -259,4 +303,4 @@ def answer_instruction(
             }
         ],
     }
-    return answer, {"instruction_id": instruction_id, "attempts": attempts, "gave_up": True}
+    return answer, {**log, "gave_up": True}
