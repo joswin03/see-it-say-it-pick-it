@@ -5,7 +5,7 @@ api_key_env: APERTUS_API_KEY
 request_timeout_s: 180
 image_max_side_px: 1024
 
-places: [grey_tray, black_tray]
+places: [grey_tray, black_tray, aside]
 salvage_unparsed_marks: true
 zoom: true
 zoom_grid: 3
@@ -33,6 +33,7 @@ prompts:
     Objects in this workcell usually are: {labels}; other objects may appear too.
     The plate and the saucer are wider than the gripper, so they cannot be picked up, but objects can be put onto them.
     The trays are places: instructions may say to take objects from a tray or put them in one; the tray itself is never picked.
+    Words for objects and for trays differ: a part (a grey metal part, a white part) is always an object, never a tray, and "everything from a tray" means every object lying in that tray.
 
     Most instructions name objects you can find in the photo: plan them, and act on every object that words like all, both or everything cover.
     Ask a question when the instruction fits several marked objects equally well and nothing in it says which one is meant, or when it points at something without naming it (this, that one).
@@ -41,13 +42,15 @@ prompts:
     Every object in the photo is marked with a numbered box. The marked objects are:
     {objects}
     Each marked object was labelled from the workcell object list above by a vision model. Match the instruction's words to the labels by meaning (an instruction may use a more general word than the label), and remember a label can be wrong: check the numbered box in the photo.
-    Places to put things: grey_tray (the grey tray), black_tray (the black tray), or the number of another object.
+    Places to put things: grey_tray (the grey tray), black_tray (the black tray), aside (free table space, to clear an object off another), or the number of another object.
 
     Instruction: "{text}"
 
     Answer with exactly one JSON object and nothing else:
-    - If you can do it: {{"actions": [{{"action": "pick", "object": <number>}}, {{"action": "place", "object": <number or "grey_tray" or "black_tray">}}]}}
-      List picks and places in order; the first pick is the object the robot grabs first.
+    - If you can do it: {{"actions": [{{"action": "pick", "object": <number>}}, {{"action": "place", "object": <number or "grey_tray" or "black_tray" or "aside">}}, {{"action": "pick", "object": <number>}}, ...]}}
+      List every pick and place in order, one pick and place per object moved; for all, both or everything, include every object they cover. The first pick is the object the robot grabs first.
+      If an object lies on the one to be picked, first pick that object and place it aside.
+      If the instruction only asks to pick something up, end with that pick, without a place.
     - If the instruction is ambiguous: {{"actions": [{{"action": "ask_user", "question": "<question>"}}]}}
     - If it is impossible or unsafe: {{"actions": [{{"action": "refuse", "reason": "<reason>"}}]}}
 
