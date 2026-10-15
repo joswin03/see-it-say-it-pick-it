@@ -5,6 +5,7 @@ endpoint:
   base_url: http://localhost:8000/v1
   api_key_env: APERTUS_API_KEY
   timeout_s: 180
+  max_retries: 5
   structured_output_method: json_mode
 decode:
   temperature: 0

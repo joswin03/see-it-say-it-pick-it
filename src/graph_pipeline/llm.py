@@ -12,6 +12,7 @@ LOCAL_SERVER_API_KEY = "EMPTY"
 LOGGED_REPLY_CHARACTERS = 300
 JSON_MODE_INSTRUCTION = "\n\nReply with only this JSON object, filled in, keys in this order:\n"
 MOCK_TEXT = "mock"
+NO_VISIBLE_ANSWER = "<no visible answer: every token went into reasoning>"
 logger = logging.getLogger(__name__)
 
 
@@ -112,6 +113,7 @@ class ApertusClient:
             base_url=config["endpoint"]["base_url"],
             api_key=api_key,
             timeout=config["endpoint"]["timeout_s"],
+            max_retries=config["endpoint"]["max_retries"],
             temperature=config["decode"]["temperature"],
             max_tokens=config["decode"]["max_tokens"],
             seed=config["decode"]["seed"],
@@ -145,7 +147,7 @@ class ApertusClient:
         try:
             result = structured_model.invoke([HumanMessage(content=content)])
         except LengthFinishReasonError as error:
-            raw_text = error.completion.choices[0].message.content
+            raw_text = error.completion.choices[0].message.content or NO_VISIBLE_ANSWER
             logger.warning(
                 "%s reply cut off at max_tokens: %s",
                 schema.__name__,
