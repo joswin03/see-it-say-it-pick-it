@@ -11,6 +11,14 @@ import cv2
 import numpy as np
 
 
+class ModelReplyError(ValueError):
+    """The model's reply was cut off by the token limit or is not valid JSON."""
+
+    def __init__(self, message: str, raw: str):
+        super().__init__(message)
+        self.raw = raw
+
+
 def image_url(rgb: np.ndarray, max_side: int) -> str:
     """Encode a photo as a JPEG data URL, downscaled so its long side is at most ``max_side``.
 
@@ -47,6 +55,9 @@ def ask_json(
 
     Returns:
         The parsed reply and the raw reply text.
+
+    Raises:
+        ModelReplyError: the reply hit ``max_tokens`` or does not parse.
     """
     content = [{"type": "image_url", "image_url": {"url": url}} for url in images]
     content.append({"type": "text", "text": prompt})
@@ -66,5 +77,11 @@ def ask_json(
         headers={"Content-Type": "application/json", "Authorization": "Bearer none"},
     )
     with urllib.request.urlopen(request, timeout=endpoint["request_timeout_s"]) as response:
-        raw = json.loads(response.read())["choices"][0]["message"]["content"]
-    return json.loads(raw), raw
+        choice = json.loads(response.read())["choices"][0]
+    raw = choice["message"]["content"]
+    if choice["finish_reason"] == "length":
+        raise ModelReplyError(f"reply cut off at {max_tokens} tokens", raw)
+    try:
+        return json.loads(raw), raw
+    except json.JSONDecodeError as error:
+        raise ModelReplyError(f"reply is not valid JSON ({error})", raw) from error

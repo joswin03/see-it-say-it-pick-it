@@ -48,8 +48,8 @@ naming:
   fixture_words: [tray, table, wall, floor, background, shadow, reflection, surface]  # places, not objects
 
 decision:
-  max_tokens: 900
-  max_analysis_chars: 1200
+  max_tokens: 1200
+  max_analysis_chars: 600
   image_max_side_px: 1024
   max_attempts: 2  # one retry with the reason when a plan is not executable
   enforce_clear_top: true  # code inserts pick+place-aside for objects lying on a picked object

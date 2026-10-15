@@ -9,7 +9,7 @@ import cv2
 import numpy as np
 
 from src.perception.regions import find_regions
-from src.reasoning.client import image_url
+from src.reasoning.client import ModelReplyError, image_url
 from src.reasoning.decision import decide
 from src.reasoning.naming import name_region
 from src.scene_graph import build_scene_graph, describe, size_mm
@@ -213,16 +213,21 @@ def answer_instruction(
     attempts = []
     feedback = None
     for _ in range(config["decision"]["max_attempts"]):
-        reply, raw = decide(
-            text,
-            perceived["text"],
-            object_ids,
-            perceived["marked_url"],
-            endpoint,
-            config["decision"],
-            gripper_mm,
-            feedback,
-        )
+        try:
+            reply, raw = decide(
+                text,
+                perceived["text"],
+                object_ids,
+                perceived["marked_url"],
+                endpoint,
+                config["decision"],
+                gripper_mm,
+                feedback,
+            )
+        except ModelReplyError as error:
+            attempts.append({"raw": error.raw, "problem": str(error)})
+            feedback = f"your {error}; keep the analysis to two or three sentences"
+            continue
         problem = (
             plan_problem(reply["steps"], objects, gripper_mm)
             if reply["decision"] == "plan"
