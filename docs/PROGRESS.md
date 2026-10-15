@@ -120,18 +120,23 @@ run.py --data <folder> --out <results.json> [--set section.key=value]
 
 ## Open issues
 
-- The grey part in the grey tray is found only where it is not covered; "the object lying on
-  the grey part" still picks the wrong object.
-- Relative instructions (second from the right, farthest from) still fail about half the time.
-- One object split into differently named pieces (merge needs identical names), counted on
-  the v9 run against the ground-truth masks and marked photos: the mug in 5 of 5 scenes that
-  have one (01, 04, 05, 07, 10: inside "yellow/green cup", rim or handle "white mug", "white
-  handle", "grey cube"), the mandarin in 2 of 3 (02, 05), the saucer's orange rim and grey
-  centre in at least 3 (05, 06, 10), the hand in 10 ("grey hand" + two "orange plate"s).
-  7 of 10 scenes in all (01, 02, 04, 05, 06, 07, 10).
-- False objects from shading or tray walls: 8 in 4 scenes (01 cube side face and mug shadow,
-  07 mug shadow, 08 cube side face, 10 tray wall x2, mug shadow, rim fragment).
-- Run the held-out scenes.
+As of v11 (two dev runs, 8B):
+
+- Scene 09: the red cube is placed on a red gear instead of the grey part, so "the object lying
+  on the grey part" fails; the grey part is found only where it is not covered.
+- Saucer names: in scene 09 neither saucer piece is named or aliased "saucer", so "the red gear
+  farthest from the saucer" fails. The saucer in 06 stays in two pieces (cut apart by
+  `split_touching`), the hand in 10 in three ("grey hand" + two "orange plate"s).
+- Scene 08: the small white part is named "grey block" (it follows the "mostly grey" colour
+  hint), and the cube's side face lies inside the red regions where the colour rules cannot
+  drop it.
+- Planner: plans that hold an object before the last move are rejected twice and end as a
+  "please rephrase" question (scene 08 in both runs); the self-contradiction in 09_i5 ("put it
+  on the plate and leave it where it is") is planned instead of refused.
+- Relative instructions: 64% in both v11 runs (86% in v10's single run).
+- Dev-tuned thresholds with narrow margins: fragments < 1100 mm2 (smallest real object ~1250),
+  attached slivers < 18 mm thick (real pieces >= 20), grey-tray darkness, Lab warmth +3.
+- Run the held-out scenes (`heldout/`, own `calibration.json`).
 
 ## v10 (43.0): calibration and safety-screen fixes
 
