@@ -18,6 +18,7 @@ committed. Thresholds were tuned on the dev set, so the held-out score is the ho
 | v7b | `287e178`, `--set naming.blob_first=true` | 32.7 | 20.1 (23/40) | 12.6 | 6/10 | 12/40 | blob-first naming: worse everywhere, code deleted |
 | v8 | `8d2fda2` | 39.9 | 23.6 (27/40) | 16.3 | 7/10 | 9/40 | rerun of v7a logic: about 2 points of run-to-run noise |
 | v9 | `593762f` | 44.1 | 26.2 (30/40) | 17.8 | 7/10 | 6/40 | OpenCV rules: Lab warmth (grey on grey), texture split (same-colour stacks) |
+| v9-70B | `fbbc29e`, `--set model_id=swiss-ai/Apertus-v1.5-70B` (FP8) | **46.0** | 26.2 (30/40) | 19.8 | 8/10 | 7/40 | same code as v9, 70B instead of 8B; 26 min vs 5 min |
 
 Same logic, two runs: 42.0 and 39.9. vLLM at temperature 0 is not bit-exact between runs,
 so differences of about 2 points are noise, not evidence.
