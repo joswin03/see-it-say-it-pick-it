@@ -38,7 +38,6 @@ perception:
   white_min_value: 170
 
 naming:
-  blob_first: true  # name a whole blob first and split it by colour only if Apertus sees several objects
   crop_padding_fraction: 0.6
   crop_max_side_px: 512
   max_tokens: 120
@@ -58,19 +57,6 @@ naming:
     Set is_object to false if the outline is not a separate physical object: a reflection, a shadow,
     part of the tray wall or the table, or a highlight. A human hand or arm is an object.
     If the outline covers only part of an object, name the whole object.
-  blob_prompt: |-
-    This is a close-up from a camera looking straight down at a robot workcell table.
-    The area outlined in cyan is one connected patch found by colour segmentation; it is about
-    {length_mm} x {width_mm} mm, mostly {colour}, and lies in the {tray}.
-
-    Does the outline hold one object, or several objects touching or lying on top of each other?
-    One object can have several colours (a cup with a differently coloured inside, a plate with a
-    coloured rim, a fruit with a highlight): that is still "one".
-    Then name it with its colour followed by the object type, 2 to 3 words ("blue box", "white
-    cup"); if there are several, name the largest. Object types seen in workcells include:
-    {examples}.
-    Set is_object to false if the outline is not a physical object: a reflection, a shadow, part
-    of the tray wall or the table. A human hand or arm is an object.
   fixture_words: [tray, table, wall, floor, background, shadow, reflection, surface]  # places, not objects
 
 safety:

@@ -15,9 +15,10 @@ committed. Thresholds were tuned on the dev set, so the held-out score is the ho
 | v5 | `3b16519` | 34.1 | 23.6 (27/40) | 10.5 | 4/10 | 5/40 | safety check, reply recovery |
 | v6 | `460bbe3` | 16.3 | 12.2 (14/40) | 4.0 | 3/10 | 22/40 | regression: `names_an_object` asked on nearly everything (problem 10), blob-first merged objects (problem 9) |
 | **v7a** | `287e178`, `--set naming.blob_first=false` | **42.0** | 22.8 (26/40) | 19.2 | 8/10 | 8/40 | structured safety screen |
+| v7b | `287e178`, `--set naming.blob_first=true` | 32.7 | 20.1 (23/40) | 12.6 | 6/10 | 12/40 | blob-first naming: worse everywhere, code deleted |
 
 v7a by category: simple 75%, relative 50%, multistep 70%, ambiguous 100%, impossible 75%,
-unsafe 75%. A run of v7 with `naming.blob_first=true` (v7b) has not been done yet.
+unsafe 75%.
 
 ## What was implemented
 
@@ -81,7 +82,7 @@ run.py --data <folder> --out <results.json> [--set section.key=value]
    brackets gives JSON with every required field.
 9. **Blob-first naming regressed (v6).** Naming a whole blob first kept two-coloured objects
    (a mug's rim and inside) together, but also merged a mug with the red gear under it. Behind
-   the flag `naming.blob_first`; v7a ran with it off.
+   the flag `naming.blob_first`; it lost to region naming (v7b 32.7 vs v7a 42.0) and was deleted.
 10. **Unsafe instructions planned anyway.** The planner knew the rules but refused none of the
     unsafe instructions, and an open "is this safe?" check was not reliable. Solved by a
     separate screen with structured fields. A `names_an_object` field was removed after it came
@@ -98,4 +99,15 @@ run.py --data <folder> --out <results.json> [--set section.key=value]
 - A grey part lying in the grey tray is not found.
 - Relative instructions (second from the right, farthest from) still fail about half the time.
 - Mug interiors are sometimes named as a separate object.
-- Run v7b (`naming.blob_first=true`) to settle the flag, then run the held-out scenes.
+- Run the held-out scenes.
+
+## Code review fixes (after v7)
+
+- A scene with no named objects crashed the whole run (`plan_problem` looked up `"none"`); an
+  unknown id is now a rejected plan.
+- A cut-off naming reply aborted the run; the region is now kept as "unknown object" and the
+  error is logged.
+- Redundant holds are dropped once, not in two places.
+- `tests/test_plan.py`: CPU checks for stack clearing, hold merging, plan rejection and stalled
+  reply recovery (`python -m pytest tests -q`).
+- Blob-first naming deleted (about 100 lines).

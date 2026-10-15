@@ -8,7 +8,7 @@ target pixel from the scene graph.
 import cv2
 import numpy as np
 
-from src.perception.regions import fill_holes, find_regions, interior_point
+from src.perception.regions import find_regions
 from src.reasoning.client import ModelReplyError, image_url
 from src.reasoning.decision import HOLD, decide
 from src.reasoning.naming import name_region
@@ -47,36 +47,46 @@ def marked_photo(rgb: np.ndarray, objects: list[dict], work_scale: float) -> np.
     return image
 
 
-def blob_region(blob_id: int, members: list[dict], work_scale: float) -> dict:
-    """Combine the colour regions of one foreground blob into a single candidate object.
+def name_or_mark_unknown(
+    scene: Scene, region: dict, config: dict, endpoint: dict, scale_mm: float
+) -> dict:
+    """Name a region; a cut-off or unparsable reply keeps it as "unknown object".
+
+    The region is kept rather than dropped because it was found in the photo; the planner can
+    still ask about it. The error goes into the naming log.
 
     Args:
-        blob_id: id of the connected foreground blob.
-        members: its colour regions from ``find_regions``.
-        work_scale: work-scale factor of the masks.
+        scene: loaded scene.
+        region: region or blob to name.
+        config: full pipeline config.
+        endpoint: model endpoint settings.
+        scale_mm: table millimetres per full-resolution pixel.
 
     Returns:
-        Region-like dict (``id``, ``mask``, ``colour``, ``part``, ``pixel``, ``tray``) whose mask
-        is the hole-filled union of the members, with the largest member's colour and tray.
+        Output of ``name_region``, or the same fields for an unknown object.
     """
-    largest = max(members, key=lambda region: region["mask"].sum())
-    mask = fill_holes(np.logical_or.reduce([region["mask"] for region in members]))
-    u, v = interior_point(mask)
-    return {
-        "id": f"blob{blob_id}",
-        "mask": mask,
-        "colour": largest["colour"],
-        "part": ("blob", blob_id),
-        "pixel": [round(u / work_scale), round(v / work_scale)],
-        "tray": largest["tray"],
-    }
+    try:
+        return name_region(
+            scene.rgb,
+            region,
+            config["perception"]["work_scale"],
+            scale_mm,
+            endpoint,
+            config["naming"],
+        )
+    except ModelReplyError as error:
+        return {
+            "name": "unknown object",
+            "is_object": True,
+            "raw": f"{error}: {error.raw}",
+        }
 
 
 def naming_entry(region: dict, named: dict) -> dict:
     """Log record for one naming call.
 
     Args:
-        region: the region or blob that was named.
+        region: the region that was named.
         named: output of ``name_region``.
 
     Returns:
@@ -103,41 +113,19 @@ def perceive_scene(scene: Scene, config: dict, endpoint: dict) -> dict:
     Returns:
         Dict with ``objects`` (scene graph), ``text`` (its description), ``marked`` (annotated
         photo, (H, W, 3) uint8), ``marked_url`` and ``naming_log`` (one entry per naming call).
-
-    A blob with several colour regions is first named as a whole; it is split into its colour
-    regions only if Apertus says it holds several objects (a gear lying on another gear), so a
-    two-coloured single object (a mug's rim and inside) stays one object.
     """
     perception = config["perception"]
     scale_mm = mm_per_pixel(scene)
     mm_per_work_pixel = scale_mm / perception["work_scale"]
     found = find_regions(scene.rgb, perception, mm_per_work_pixel**2)
     naming_log = []
-    candidates = []
-    regions_by_id = {region["id"]: region for region in found["regions"]}
-    for blob_id, blob in found["blobs"].items():
-        members = [regions_by_id[region_id] for region_id in blob["region_ids"]]
-        if len(members) > 1 and config["naming"]["blob_first"]:
-            whole = blob_region(blob_id, members, found["work_scale"])
-            whole["size_mm"] = size_mm(whole["mask"], mm_per_work_pixel)
-            named = name_region(
-                scene.rgb, whole, found["work_scale"], scale_mm, endpoint, config["naming"], True
-            )
-            naming_log.append(naming_entry(whole, named))
-            if not named["several"]:
-                whole["name"], whole["is_object"] = named["name"], named["is_object"]
-                candidates.append(whole)
-                continue
-        for region in members:
-            region["size_mm"] = size_mm(region["mask"], mm_per_work_pixel)
-            named = name_region(
-                scene.rgb, region, found["work_scale"], scale_mm, endpoint, config["naming"], False
-            )
-            region["name"], region["is_object"] = named["name"], named["is_object"]
-            naming_log.append(naming_entry(region, named))
-            candidates.append(region)
+    for region in found["regions"]:
+        region["size_mm"] = size_mm(region["mask"], mm_per_work_pixel)
+        named = name_or_mark_unknown(scene, region, config, endpoint, scale_mm)
+        region["name"], region["is_object"] = named["name"], named["is_object"]
+        naming_log.append(naming_entry(region, named))
     objects = build_scene_graph(
-        candidates, found["work_scale"], mm_per_work_pixel, config["scene_graph"]
+        found["regions"], found["work_scale"], mm_per_work_pixel, config["scene_graph"]
     )
     marked = marked_photo(scene.rgb, objects, found["work_scale"])
     return {
@@ -234,6 +222,8 @@ def plan_problem(moves: list[dict], objects: list[dict], too_wide_mm: float) -> 
     if not moves:
         return "a plan needs at least one move"
     for index, move in enumerate(moves):
+        if move["object"] not in by_id:
+            return f"'{move['object']}' is not an object in the scene"
         if move["object"] == move["destination"]:
             return f"{move['object']} cannot be moved onto itself"
         if by_id[move["object"]]["size_mm"][1] > too_wide_mm:
@@ -248,7 +238,7 @@ def to_answer(instruction_id: str, reply: dict, objects: list[dict], config: dic
 
     Args:
         instruction_id: id of the instruction.
-        reply: parsed decision reply.
+        reply: parsed decision reply, with redundant holds already dropped from its moves.
         objects: scene-graph objects.
         config: full pipeline config.
 
@@ -269,7 +259,7 @@ def to_answer(instruction_id: str, reply: dict, objects: list[dict], config: dic
             "target_pixel": None,
             "actions": [{"action": "refuse", "reason": reason}],
         }
-    steps = moves_to_steps(drop_redundant_holds(reply["moves"]))
+    steps = moves_to_steps(reply["moves"])
     if config["decision"]["enforce_clear_top"]:
         steps = clear_tops_first(steps, objects)
     by_id = {item["id"]: item for item in objects}
@@ -339,12 +329,9 @@ def answer_instruction(
             attempts.append({"raw": error.raw, "problem": str(error)})
             feedback = f"your {error}; keep the analysis to two or three sentences"
             continue
+        reply["moves"] = drop_redundant_holds(reply["moves"])
         problem = (
-            plan_problem(
-                drop_redundant_holds(reply["moves"]),
-                objects,
-                config["scene_graph"]["too_wide_mm"],
-            )
+            plan_problem(reply["moves"], objects, config["scene_graph"]["too_wide_mm"])
             if reply["decision"] == "plan"
             else None
         )

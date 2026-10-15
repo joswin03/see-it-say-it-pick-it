@@ -20,17 +20,6 @@ NAMING_SCHEMA = {
     },
 }
 
-BLOB_SCHEMA = {
-    "type": "object",
-    "additionalProperties": False,
-    "required": ["object_count", "name", "is_object"],
-    "properties": {
-        "object_count": {"enum": ["one", "several"]},
-        "name": {"type": "string", "minLength": 1, "maxLength": 40},
-        "is_object": {"type": "boolean"},
-    },
-}
-
 OUTLINE_BGR_THICKNESS = 3
 OUTLINE_RGB = (0, 255, 255)
 
@@ -79,12 +68,8 @@ def name_region(
     mm_per_pixel: float,
     endpoint: dict,
     config: dict,
-    whole_blob: bool,
 ) -> dict:
-    """Ask Apertus what one outlined area is.
-
-    For a whole foreground blob (``whole_blob``) Apertus also says whether the outline holds one
-    object or several touching or stacked ones; only then is the blob split by colour.
+    """Ask Apertus what one outlined region is.
 
     Args:
         rgb: (H, W, 3) uint8 full-resolution photo.
@@ -92,14 +77,11 @@ def name_region(
         work_scale: scale of the region mask relative to ``rgb``.
         mm_per_pixel: table millimetres per full-resolution pixel.
         endpoint: model endpoint settings for ``ask_json``.
-        config: the ``naming`` section of the pipeline config, with ``prompt`` (one region) and
-            ``blob_prompt`` (whole blob).
-        whole_blob: True to ask about a whole blob, False for one colour region.
+        config: the ``naming`` section of the pipeline config, including its ``prompt``.
 
     Returns:
         Dict with ``name`` (lower case), ``is_object`` (False also when the name is a fixture
-        such as the tray or the table, which are places rather than objects), ``several``
-        (whole blob only: True if it holds several objects) and ``raw``.
+        such as the tray or the table, which are places rather than objects) and ``raw``.
     """
     crop = outlined_crop(
         rgb,
@@ -109,8 +91,7 @@ def name_region(
         round(config["crop_min_side_mm"] / mm_per_pixel),
     )
     length_mm, width_mm = region["size_mm"]
-    template = config["blob_prompt"] if whole_blob else config["prompt"]
-    prompt = template.format(
+    prompt = config["prompt"].format(
         colour=region["colour"],
         length_mm=length_mm,
         width_mm=width_mm,
@@ -121,7 +102,7 @@ def name_region(
         endpoint,
         prompt,
         [image_url(crop, config["crop_max_side_px"])],
-        BLOB_SCHEMA if whole_blob else NAMING_SCHEMA,
+        NAMING_SCHEMA,
         config["max_tokens"],
     )
     name = reply["name"].strip().lower()
@@ -129,6 +110,5 @@ def name_region(
     return {
         "name": name,
         "is_object": reply["is_object"] and not is_fixture,
-        "several": reply.get("object_count") == "several",
         "raw": raw,
     }

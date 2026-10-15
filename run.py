@@ -27,7 +27,7 @@ def apply_override(config: dict, override: str) -> None:
 
     Args:
         config: parsed config, changed in place.
-        override: dotted path and YAML value, e.g. ``naming.blob_first=false``.
+        override: dotted path and YAML value, e.g. ``safety.enabled=false``.
     """
     path, _, value = override.partition("=")
     *sections, key = path.split(".")
