@@ -17,6 +17,7 @@ committed. Thresholds were tuned on the dev set, so the held-out score is the ho
 | **v7a** | `287e178`, `--set naming.blob_first=false` | **42.0** | 22.8 (26/40) | 19.2 | 8/10 | 8/40 | structured safety screen |
 | v7b | `287e178`, `--set naming.blob_first=true` | 32.7 | 20.1 (23/40) | 12.6 | 6/10 | 12/40 | blob-first naming: worse everywhere, code deleted |
 | v8 | `8d2fda2` | 39.9 | 23.6 (27/40) | 16.3 | 7/10 | 9/40 | rerun of v7a logic: about 2 points of run-to-run noise |
+| v9 | `593762f` | 44.1 | 26.2 (30/40) | 17.8 | 7/10 | 6/40 | OpenCV rules: Lab warmth (grey on grey), texture split (same-colour stacks) |
 
 Same logic, two runs: 42.0 and 39.9. vLLM at temperature 0 is not bit-exact between runs,
 so differences of about 2 points are noise, not evidence.
@@ -97,10 +98,26 @@ run.py --data <folder> --out <results.json> [--set section.key=value]
 12. **Prompt examples close to dev instructions.** A compliance check found the examples echoed
     dev wording; they were replaced with generic paraphrases about other objects.
 
+13. **Grey part on the grey tray not found.** The part and the floor have the same brightness
+    and almost no saturation; the old rule used HSV hue, which is noisy at low saturation. Lab b
+    (blue to yellow) separates them: floor 125-127, part 129-132. Rule: on the grey tray, a pixel
+    at least 3 Lab-b units warmer than this photo's own floor median is an object. It replaces
+    the HSV tint rule and also keeps the small off-white part. Side effect: one or two small
+    extra pieces on side faces of objects, merged later by name.
+14. **Same-colour stack merged (red cube on two red gears).** Hue and brightness cannot separate
+    them (a single gear's shading is as two-toned as cube + gears). Surface texture can: mean
+    absolute Laplacian at full resolution, averaged to work scale, is below 0.8 on the smooth
+    cube, mandarin and banana and above 1.3 on gears. Rule: a coloured part is split into its
+    smooth and grainy pieces only if both pieces are at least 3000 mm2 (above a whole mandarin,
+    below one gear), so glossy single objects stay whole. In the dev photo the cube and both
+    gears separate; the right gear keeps a small extra piece from the cube's side face.
+    Dev effect (v9): "pick up the object on top of the red gears" and "put both red gears in
+    the grey tray" now plan correctly. Tests: `tests/test_regions.py`.
+
 ## Open issues
 
-- Same-colour stacks merge into one region (red cube on two red gears).
-- A grey part lying in the grey tray is not found.
+- The grey part in the grey tray is found only where it is not covered; "the object lying on
+  the grey part" still picks the wrong object.
 - Relative instructions (second from the right, farthest from) still fail about half the time.
 - Mug interiors are sometimes named as a separate object.
 - Run the held-out scenes.
