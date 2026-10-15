@@ -130,7 +130,13 @@ def perceive_scene(scene: Scene, config: dict, endpoint: dict) -> dict:
             region["size_mm"] = size_mm(region["mask"], mm_per_work_pixel)
         found = {"regions": regions, "work_scale": perception["work_scale"]}
     else:
-        found = find_regions(scene.rgb, perception, mm_per_work_pixel**2)
+        if perception["method"] == "gdino_sam":
+            from src.perception.gdino_sam import proposal_regions  # torch only needed here
+
+            regions = proposal_regions(scene.rgb, config, scale_mm, perception["work_scale"])
+            found = {"regions": regions, "work_scale": perception["work_scale"]}
+        else:
+            found = find_regions(scene.rgb, perception, mm_per_work_pixel**2)
         naming_log = []
         for region in found["regions"]:
             region["size_mm"] = size_mm(region["mask"], mm_per_work_pixel)
