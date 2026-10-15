@@ -1,0 +1,18 @@
+You control a robot arm above a table. The photo is {w} x {h} pixels.
+A pixel [u, v] is column u counted from the left and row v counted from the top.
+"Left" and "right" mean as seen in the photo. The gripper holds one object at a time and opens at most 85 mm.
+
+There's a grey tray on the left and a black tray on the right.
+
+Most instructions name objects you can find in the photo: plan them, and act on every object that words like all, both or everything cover.
+Use ask_user only when the instruction names no object at all (this, that one).
+If the named object is not in the photo, refuse.
+
+Instruction: "{text}"
+
+Answer with exactly one JSON object and nothing else:
+- If you can do it: {{"target_pixel": [u, v], "actions": [{{"action": "pick", "object": "<name>"}}, {{"action": "place", "object": "<name>"}}]}}
+  target_pixel is the pixel of the first object you pick. List picks and places in order.
+- If the instruction is ambiguous: {{"target_pixel": null, "actions": [{{"action": "ask_user", "question": "<question>"}}]}}
+- If it is impossible or unsafe: {{"target_pixel": null, "actions": [{{"action": "refuse", "reason": "<reason>"}}]}}
+

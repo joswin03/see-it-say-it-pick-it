@@ -1,0 +1,624 @@
+{
+  "team": "organiser-baseline-ambiguity",
+  "results": [
+    {
+      "target_pixel": [
+        330,
+        1023
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red cube"
+        },
+        {
+          "action": "place",
+          "object": "red cube"
+        }
+      ],
+      "instruction_id": "scene_01_i1"
+    },
+    {
+      "target_pixel": [
+        760,
+        904
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow gear"
+        }
+      ],
+      "instruction_id": "scene_01_i2"
+    },
+    {
+      "target_pixel": [
+        808,
+        449
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mug"
+        },
+        {
+          "action": "place",
+          "object": "mug"
+        }
+      ],
+      "instruction_id": "scene_01_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which tray is the grey tray and which is the black tray?"
+        }
+      ],
+      "instruction_id": "scene_01_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the blue cube?"
+        }
+      ],
+      "instruction_id": "scene_01_i5"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the mandarin?"
+        }
+      ],
+      "instruction_id": "scene_02_i1"
+    },
+    {
+      "target_pixel": [
+        1583,
+        416
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red cube"
+        },
+        {
+          "action": "place",
+          "object": "red cube"
+        }
+      ],
+      "instruction_id": "scene_02_i2"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which mug is referred to in the instruction 'pick up the object to the left of the mug'?"
+        }
+      ],
+      "instruction_id": "scene_02_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the mandarin and which is the cube?"
+        }
+      ],
+      "instruction_id": "scene_02_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which plate and which mug are you referring to?"
+        }
+      ],
+      "instruction_id": "scene_02_i5"
+    },
+    {
+      "target_pixel": [
+        1736,
+        1143
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow gear"
+        }
+      ],
+      "instruction_id": "scene_03_i1"
+    },
+    {
+      "target_pixel": [
+        1580,
+        724
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red gear"
+        },
+        {
+          "action": "place",
+          "object": "red gear"
+        }
+      ],
+      "instruction_id": "scene_03_i2"
+    },
+    {
+      "target_pixel": [
+        1779,
+        741
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red gear"
+        },
+        {
+          "action": "place",
+          "object": "red gear"
+        }
+      ],
+      "instruction_id": "scene_03_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which objects are considered red gears in the photo?"
+        }
+      ],
+      "instruction_id": "scene_03_i4"
+    },
+    {
+      "target_pixel": [
+        1595,
+        717
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red gear"
+        },
+        {
+          "action": "place",
+          "object": "red gear"
+        }
+      ],
+      "instruction_id": "scene_03_i5"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which white part should be picked up?"
+        }
+      ],
+      "instruction_id": "scene_04_i1"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the mug?"
+        }
+      ],
+      "instruction_id": "scene_04_i2"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the grey part closest to the mug?"
+        }
+      ],
+      "instruction_id": "scene_04_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the mug?"
+        }
+      ],
+      "instruction_id": "scene_04_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which white part should be thrown into the grey tray?"
+        }
+      ],
+      "instruction_id": "scene_04_i5"
+    },
+    {
+      "target_pixel": [
+        1489,
+        992
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "banana"
+        },
+        {
+          "action": "place",
+          "object": "banana"
+        }
+      ],
+      "instruction_id": "scene_05_i1"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which plate should the banana be placed on?"
+        }
+      ],
+      "instruction_id": "scene_05_i2"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which fruit is next to the saucer?"
+        }
+      ],
+      "instruction_id": "scene_05_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which objects are on the black tray?"
+        }
+      ],
+      "instruction_id": "scene_05_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object do you mean by 'that one'?"
+        }
+      ],
+      "instruction_id": "scene_05_i5"
+    },
+    {
+      "target_pixel": [
+        1779,
+        1324
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red cube"
+        },
+        {
+          "action": "place",
+          "object": "red cube"
+        }
+      ],
+      "instruction_id": "scene_06_i1"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which gear is lying on the other gear?"
+        }
+      ],
+      "instruction_id": "scene_06_i2"
+    },
+    {
+      "target_pixel": [
+        1540,
+        853
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red gear"
+        },
+        {
+          "action": "place",
+          "object": "red gear"
+        }
+      ],
+      "instruction_id": "scene_06_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which gear is the yellow gear and which is the red gear?"
+        }
+      ],
+      "instruction_id": "scene_06_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which gear is under the other?"
+        }
+      ],
+      "instruction_id": "scene_06_i5"
+    },
+    {
+      "target_pixel": [
+        442,
+        1262
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red cube"
+        },
+        {
+          "action": "place",
+          "object": "red cube"
+        }
+      ],
+      "instruction_id": "scene_07_i1"
+    },
+    {
+      "target_pixel": [
+        832,
+        1406
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow gear"
+        }
+      ],
+      "instruction_id": "scene_07_i2"
+    },
+    {
+      "target_pixel": [
+        593,
+        1322
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red square"
+        },
+        {
+          "action": "place",
+          "object": "red square"
+        }
+      ],
+      "instruction_id": "scene_07_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which tray contains the mug?"
+        }
+      ],
+      "instruction_id": "scene_07_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the red gear?"
+        }
+      ],
+      "instruction_id": "scene_07_i5"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is considered the gear in the grey tray?"
+        }
+      ],
+      "instruction_id": "scene_08_i1"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the small white part and which is the plate?"
+        }
+      ],
+      "instruction_id": "scene_08_i2"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is on top of the red gears?"
+        }
+      ],
+      "instruction_id": "scene_08_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which objects are the red gears?"
+        }
+      ],
+      "instruction_id": "scene_08_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which cube and which gears are being referred to?"
+        }
+      ],
+      "instruction_id": "scene_08_i5"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the mandarin?"
+        }
+      ],
+      "instruction_id": "scene_09_i1"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which red gear is farthest from the saucer?"
+        }
+      ],
+      "instruction_id": "scene_09_i2"
+    },
+    {
+      "target_pixel": [
+        497,
+        736
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange"
+        },
+        {
+          "action": "place",
+          "object": "orange"
+        }
+      ],
+      "instruction_id": "scene_09_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the grey part and which is the red cube on the plate?"
+        }
+      ],
+      "instruction_id": "scene_09_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the mandarin and which is the plate?"
+        }
+      ],
+      "instruction_id": "scene_09_i5"
+    },
+    {
+      "target_pixel": [
+        830,
+        1549
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow gear"
+        }
+      ],
+      "instruction_id": "scene_10_i1"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the mandarin and which is the plate?"
+        }
+      ],
+      "instruction_id": "scene_10_i2"
+    },
+    {
+      "target_pixel": [
+        631,
+        1071
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red gear"
+        },
+        {
+          "action": "place",
+          "object": "red gear"
+        }
+      ],
+      "instruction_id": "scene_10_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the yellow gear?"
+        }
+      ],
+      "instruction_id": "scene_10_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which mug is being held?"
+        }
+      ],
+      "instruction_id": "scene_10_i5"
+    }
+  ]
+}

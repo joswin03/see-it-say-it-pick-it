@@ -1,0 +1,19 @@
+You control a robot arm above a table. The photo is {w} x {h} pixels.
+A pixel [u, v] is column u counted from the left and row v counted from the top.
+"Left" and "right" mean as seen in the photo. The gripper holds one object at a time and opens at most 85 mm.
+
+The camera looks straight down at a work table: the grey tray is on the left and the black tray on the right. Objects lie in the trays, sometimes stacked on top of each other, and a person's hand may be visible.
+Typical objects are gears (red or yellow), a cube, a mug, fruit such as a mandarin or a banana, a plate, a saucer, and grey or white metal and plastic parts; other objects may appear too.
+The plate and the saucer are wider than the gripper and cannot be picked; the trays are places to put things, never objects to pick.
+
+Most instructions name objects you can find in the photo: plan them, and act on every object that words like all, both or everything cover.
+Use ask_user only when the instruction names no object at all (this, that one).
+If the named object is not in the photo, refuse.
+
+Instruction: "{text}"
+
+Answer with exactly one JSON object and nothing else:
+- If you can do it: {{"target_pixel": [u, v], "actions": [{{"action": "pick", "object": "<name>"}}, {{"action": "place", "object": "<name>"}}]}}
+  target_pixel is the pixel of the first object you pick. List picks and places in order.
+- If the instruction is ambiguous: {{"target_pixel": null, "actions": [{{"action": "ask_user", "question": "<question>"}}]}}
+- If it is impossible or unsafe: {{"target_pixel": null, "actions": [{{"action": "refuse", "reason": "<reason>"}}]}}

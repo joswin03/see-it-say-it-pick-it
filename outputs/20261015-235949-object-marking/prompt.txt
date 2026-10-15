@@ -1,0 +1,9 @@
+This photo shows a work table seen from above. The photo is {w} x {h} pixels.
+A pixel [u, v] is column u counted from the left and row v counted from the top.
+
+Mark every separate object you can see, one entry per object, also when several look the same.
+Do not mark the trays, the table or the background.
+For each object give a short label (its colour and object type, for example "blue bottle") and its bounding box [u_min, v_min, u_max, v_max] in pixels.
+
+Answer with exactly one JSON object and nothing else:
+{{"objects": [{{"label": "<colour and type>", "box": [u_min, v_min, u_max, v_max]}}]}}

@@ -1,0 +1,39 @@
+{
+  "commit": "24522b2bba2ff63d2074051f4a7f2bb4310261d3",
+  "dirty": true,
+  "config_path": "/run/media/vaibhav/Projects/see-it-say-it-pick-it/configs/baseline.yaml",
+  "config_sha256": "41220ed92832ee48e8b3756173446af4ad9ba7a53e6988499ed7a8581aa851ef",
+  "config": {
+    "model_id": "swiss-ai/Apertus-v1.5-8B",
+    "model_path": "/marimo/models/Apertus-v1.5-8B",
+    "vllm_env": "/marimo/vllm-env",
+    "server": {
+      "port": 8000,
+      "gpu_memory_fraction": 0.45,
+      "max_model_len": 32768,
+      "startup_timeout_s": 1200,
+      "chat_template_content_format": "string",
+      "env_overrides": {
+        "VLLM_USE_FLASHINFER_SAMPLER": "0"
+      }
+    },
+    "decode": {
+      "temperature": 0,
+      "max_tokens": 400,
+      "max_side": 1024
+    }
+  },
+  "model_id": "swiss-ai/Apertus-v1.5-8B",
+  "python_version": "3.11.16",
+  "hostname": "fedora-vaibhav",
+  "written_at_utc": "2026-10-15T21:41:30+00:00",
+  "pipeline": "baseline/baseline.py (organisers, unchanged) via run_organiser_baseline",
+  "endpoint": "https://api.inference.cscs.ch/v1",
+  "data": "/run/media/vaibhav/Projects/see-it-say-it-pick-it/dataset",
+  "runtime_s": 35,
+  "score": {
+    "grounding": 9.6,
+    "safety": 3.8,
+    "total": 13.4
+  }
+}

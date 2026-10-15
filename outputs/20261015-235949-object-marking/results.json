@@ -1,0 +1,2170 @@
+{
+  "team": "object-marking",
+  "results": [
+    {
+      "objects": [
+        {
+          "label": "green mug",
+          "box": [
+            274,
+            148,
+            432,
+            283
+          ]
+        },
+        {
+          "label": "red cube",
+          "box": [
+            76,
+            343,
+            237,
+            526
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            288,
+            317,
+            375,
+            410
+          ]
+        }
+      ],
+      "instruction_id": "scene_01_i1"
+    },
+    {
+      "objects": [
+        {
+          "label": "green cup",
+          "box": [
+            274,
+            148,
+            432,
+            283
+          ]
+        },
+        {
+          "label": "red block",
+          "box": [
+            76,
+            343,
+            237,
+            526
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            288,
+            323,
+            375,
+            417
+          ]
+        }
+      ],
+      "instruction_id": "scene_01_i2"
+    },
+    {
+      "objects": [
+        {
+          "label": "green cup",
+          "box": [
+            274,
+            148,
+            432,
+            283
+          ]
+        },
+        {
+          "label": "red block",
+          "box": [
+            76,
+            343,
+            237,
+            526
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            289,
+            326,
+            375,
+            417
+          ]
+        }
+      ],
+      "instruction_id": "scene_01_i3"
+    },
+    {
+      "objects": [
+        {
+          "label": "green cup",
+          "box": [
+            274,
+            148,
+            432,
+            283
+          ]
+        },
+        {
+          "label": "red block",
+          "box": [
+            76,
+            347,
+            237,
+            533
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            289,
+            324,
+            375,
+            417
+          ]
+        }
+      ],
+      "instruction_id": "scene_01_i4"
+    },
+    {
+      "objects": [
+        {
+          "label": "green cup",
+          "box": [
+            274,
+            148,
+            431,
+            283
+          ]
+        },
+        {
+          "label": "red block",
+          "box": [
+            76,
+            343,
+            237,
+            526
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            288,
+            317,
+            375,
+            410
+          ]
+        }
+      ],
+      "instruction_id": "scene_01_i5"
+    },
+    {
+      "objects": [
+        {
+          "label": "red cube",
+          "box": [
+            634,
+            126,
+            756,
+            265
+          ]
+        },
+        {
+          "label": "green mug",
+          "box": [
+            823,
+            76,
+            996,
+            248
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            806,
+            281,
+            933,
+            417
+          ]
+        },
+        {
+          "label": "white plate",
+          "box": [
+            562,
+            362,
+            874,
+            674
+          ]
+        }
+      ],
+      "instruction_id": "scene_02_i1"
+    },
+    {
+      "objects": [
+        {
+          "label": "red cube",
+          "box": [
+            631,
+            125,
+            756,
+            267
+          ]
+        },
+        {
+          "label": "green mug",
+          "box": [
+            823,
+            76,
+            996,
+            254
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            806,
+            306,
+            933,
+            439
+          ]
+        },
+        {
+          "label": "white plate",
+          "box": [
+            562,
+            362,
+            876,
+            674
+          ]
+        }
+      ],
+      "instruction_id": "scene_02_i2"
+    },
+    {
+      "objects": [
+        {
+          "label": "red cube",
+          "box": [
+            634,
+            128,
+            756,
+            267
+          ]
+        },
+        {
+          "label": "green mug",
+          "box": [
+            824,
+            78,
+            996,
+            253
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            806,
+            308,
+            933,
+            436
+          ]
+        },
+        {
+          "label": "white plate",
+          "box": [
+            562,
+            367,
+            874,
+            684
+          ]
+        }
+      ],
+      "instruction_id": "scene_02_i3"
+    },
+    {
+      "objects": [
+        {
+          "label": "red cube",
+          "box": [
+            634,
+            128,
+            756,
+            267
+          ]
+        },
+        {
+          "label": "green mug",
+          "box": [
+            824,
+            78,
+            996,
+            253
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            806,
+            308,
+            933,
+            436
+          ]
+        },
+        {
+          "label": "white plate",
+          "box": [
+            562,
+            367,
+            874,
+            684
+          ]
+        }
+      ],
+      "instruction_id": "scene_02_i4"
+    },
+    {
+      "objects": [
+        {
+          "label": "red cube",
+          "box": [
+            634,
+            125,
+            756,
+            267
+          ]
+        },
+        {
+          "label": "green mug",
+          "box": [
+            826,
+            75,
+            996,
+            254
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            806,
+            281,
+            932,
+            417
+          ]
+        },
+        {
+          "label": "white plate",
+          "box": [
+            562,
+            362,
+            874,
+            674
+          ]
+        }
+      ],
+      "instruction_id": "scene_02_i5"
+    },
+    {
+      "objects": [
+        {
+          "label": "red gear",
+          "box": [
+            614,
+            253,
+            753,
+            393
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            774,
+            253,
+            924,
+            393
+          ]
+        },
+        {
+          "label": "yellow gear",
+          "box": [
+            684,
+            384,
+            774,
+            477
+          ]
+        }
+      ],
+      "instruction_id": "scene_03_i1"
+    },
+    {
+      "actions": [],
+      "instruction_id": "scene_03_i2"
+    },
+    {
+      "objects": [
+        {
+          "label": "red gear",
+          "box": [
+            614,
+            253,
+            756,
+            398
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            781,
+            253,
+            937,
+            398
+          ]
+        },
+        {
+          "label": "yellow gear",
+          "box": [
+            684,
+            384,
+            775,
+            474
+          ]
+        }
+      ],
+      "instruction_id": "scene_03_i3"
+    },
+    {
+      "objects": [
+        {
+          "label": "red gear",
+          "box": [
+            614,
+            253,
+            753,
+            393
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            778,
+            253,
+            926,
+            393
+          ]
+        },
+        {
+          "label": "yellow gear",
+          "box": [
+            688,
+            388,
+            778,
+            477
+          ]
+        }
+      ],
+      "instruction_id": "scene_03_i4"
+    },
+    {
+      "objects": [
+        {
+          "label": "red gear",
+          "box": [
+            614,
+            253,
+            753,
+            403
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            774,
+            253,
+            928,
+            403
+          ]
+        },
+        {
+          "label": "yellow gear",
+          "box": [
+            688,
+            388,
+            774,
+            482
+          ]
+        }
+      ],
+      "instruction_id": "scene_03_i5"
+    },
+    {
+      "objects": [
+        {
+          "label": "white rectangular plate",
+          "box": [
+            556,
+            353,
+            817,
+            606
+          ]
+        },
+        {
+          "label": "white oval plate",
+          "box": [
+            626,
+            148,
+            808,
+            245
+          ]
+        },
+        {
+          "label": "white oval plate",
+          "box": [
+            817,
+            174,
+            908,
+            353
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            788,
+            461,
+            951,
+            654
+          ]
+        }
+      ],
+      "instruction_id": "scene_04_i1"
+    },
+    {
+      "objects": [
+        {
+          "label": "white rectangular plate",
+          "box": [
+            553,
+            354,
+            806,
+            584
+          ]
+        },
+        {
+          "label": "white oval plate",
+          "box": [
+            623,
+            151,
+            806,
+            253
+          ]
+        },
+        {
+          "label": "white oval plate",
+          "box": [
+            814,
+            181,
+            906,
+            362
+          ]
+        },
+        {
+          "label": "white cup",
+          "box": [
+            783,
+            464,
+            951,
+            654
+          ]
+        }
+      ],
+      "instruction_id": "scene_04_i2"
+    },
+    {
+      "objects": [
+        {
+          "label": "white rectangular plate",
+          "box": [
+            556,
+            353,
+            817,
+            606
+          ]
+        },
+        {
+          "label": "white oval plate",
+          "box": [
+            623,
+            150,
+            807,
+            253
+          ]
+        },
+        {
+          "label": "white oval plate",
+          "box": [
+            817,
+            174,
+            906,
+            353
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            788,
+            462,
+            953,
+            654
+          ]
+        }
+      ],
+      "instruction_id": "scene_04_i3"
+    },
+    {
+      "objects": [
+        {
+          "label": "white rectangular plate",
+          "box": [
+            553,
+            353,
+            817,
+            606
+          ]
+        },
+        {
+          "label": "white oval plate",
+          "box": [
+            626,
+            150,
+            808,
+            247
+          ]
+        },
+        {
+          "label": "white oval plate",
+          "box": [
+            817,
+            181,
+            908,
+            362
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            790,
+            471,
+            953,
+            661
+          ]
+        }
+      ],
+      "instruction_id": "scene_04_i4"
+    },
+    {
+      "objects": [
+        {
+          "label": "white rectangular plate",
+          "box": [
+            556,
+            356,
+            817,
+            606
+          ]
+        },
+        {
+          "label": "white oval plate",
+          "box": [
+            623,
+            151,
+            806,
+            253
+          ]
+        },
+        {
+          "label": "white oval plate",
+          "box": [
+            817,
+            180,
+            908,
+            362
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            788,
+            471,
+            951,
+            661
+          ]
+        }
+      ],
+      "instruction_id": "scene_04_i5"
+    },
+    {
+      "objects": [
+        {
+          "label": "green cup",
+          "box": [
+            604,
+            153,
+            747,
+            323
+          ]
+        },
+        {
+          "label": "yellow plate",
+          "box": [
+            735,
+            50,
+            932,
+            246
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            806,
+            238,
+            926,
+            362
+          ]
+        },
+        {
+          "label": "banana",
+          "box": [
+            592,
+            338,
+            747,
+            728
+          ]
+        },
+        {
+          "label": "white plate with pattern",
+          "box": [
+            688,
+            362,
+            996,
+            683
+          ]
+        }
+      ],
+      "instruction_id": "scene_05_i1"
+    },
+    {
+      "objects": [
+        {
+          "label": "green cup",
+          "box": [
+            606,
+            158,
+            747,
+            323
+          ]
+        },
+        {
+          "label": "yellow plate",
+          "box": [
+            735,
+            51,
+            933,
+            246
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            806,
+            238,
+            928,
+            362
+          ]
+        },
+        {
+          "label": "banana",
+          "box": [
+            606,
+            338,
+            756,
+            715
+          ]
+        },
+        {
+          "label": "white plate with pattern",
+          "box": [
+            694,
+            362,
+            996,
+            683
+          ]
+        }
+      ],
+      "instruction_id": "scene_05_i2"
+    },
+    {
+      "objects": [
+        {
+          "label": "green cup",
+          "box": [
+            606,
+            158,
+            747,
+            323
+          ]
+        },
+        {
+          "label": "yellow plate",
+          "box": [
+            735,
+            51,
+            933,
+            246
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            806,
+            238,
+            928,
+            362
+          ]
+        },
+        {
+          "label": "banana",
+          "box": [
+            597,
+            338,
+            747,
+            726
+          ]
+        },
+        {
+          "label": "white plate with pattern",
+          "box": [
+            688,
+            362,
+            996,
+            683
+          ]
+        }
+      ],
+      "instruction_id": "scene_05_i3"
+    },
+    {
+      "objects": [
+        {
+          "label": "green cup",
+          "box": [
+            606,
+            154,
+            753,
+            323
+          ]
+        },
+        {
+          "label": "yellow plate",
+          "box": [
+            738,
+            50,
+            932,
+            246
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            806,
+            236,
+            932,
+            362
+          ]
+        },
+        {
+          "label": "banana",
+          "box": [
+            606,
+            333,
+            762,
+            723
+          ]
+        },
+        {
+          "label": "white plate with pattern",
+          "box": [
+            694,
+            362,
+            996,
+            684
+          ]
+        }
+      ],
+      "instruction_id": "scene_05_i4"
+    },
+    {
+      "objects": [
+        {
+          "label": "green cup",
+          "box": [
+            606,
+            158,
+            747,
+            323
+          ]
+        },
+        {
+          "label": "yellow plate",
+          "box": [
+            735,
+            51,
+            933,
+            248
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            806,
+            236,
+            928,
+            362
+          ]
+        },
+        {
+          "label": "banana",
+          "box": [
+            606,
+            338,
+            762,
+            723
+          ]
+        },
+        {
+          "label": "white plate with pattern",
+          "box": [
+            694,
+            362,
+            996,
+            684
+          ]
+        }
+      ],
+      "instruction_id": "scene_05_i5"
+    },
+    {
+      "actions": [],
+      "instruction_id": "scene_06_i1"
+    },
+    {
+      "objects": [
+        {
+          "label": "red gear",
+          "box": [
+            623,
+            188,
+            777,
+            353
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            548,
+            314,
+            706,
+            484
+          ]
+        },
+        {
+          "label": "yellow plate",
+          "box": [
+            777,
+            244,
+            974,
+            444
+          ]
+        },
+        {
+          "label": "red square",
+          "box": [
+            706,
+            444,
+            846,
+            584
+          ]
+        }
+      ],
+      "instruction_id": "scene_06_i2"
+    },
+    {
+      "objects": [
+        {
+          "label": "red gear",
+          "box": [
+            623,
+            188,
+            777,
+            353
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            548,
+            314,
+            706,
+            484
+          ]
+        },
+        {
+          "label": "yellow plate",
+          "box": [
+            777,
+            246,
+            974,
+            448
+          ]
+        },
+        {
+          "label": "red square",
+          "box": [
+            706,
+            451,
+            846,
+            584
+          ]
+        }
+      ],
+      "instruction_id": "scene_06_i3"
+    },
+    {
+      "objects": [
+        {
+          "label": "red gear",
+          "box": [
+            622,
+            188,
+            774,
+            353
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            548,
+            314,
+            706,
+            483
+          ]
+        },
+        {
+          "label": "yellow plate",
+          "box": [
+            779,
+            244,
+            974,
+            448
+          ]
+        },
+        {
+          "label": "red square",
+          "box": [
+            706,
+            451,
+            848,
+            584
+          ]
+        }
+      ],
+      "instruction_id": "scene_06_i4"
+    },
+    {
+      "objects": [
+        {
+          "label": "red gear",
+          "box": [
+            624,
+            188,
+            777,
+            353
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            544,
+            313,
+            694,
+            483
+          ]
+        },
+        {
+          "label": "yellow plate",
+          "box": [
+            774,
+            246,
+            969,
+            444
+          ]
+        },
+        {
+          "label": "red square",
+          "box": [
+            694,
+            444,
+            846,
+            584
+          ]
+        }
+      ],
+      "instruction_id": "scene_06_i5"
+    },
+    {
+      "objects": [
+        {
+          "label": "red cup",
+          "box": [
+            158,
+            224,
+            335,
+            352
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            182,
+            206,
+            335,
+            333
+          ]
+        },
+        {
+          "label": "red square object",
+          "box": [
+            127,
+            414,
+            298,
+            592
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            308,
+            514,
+            388,
+            612
+          ]
+        }
+      ],
+      "instruction_id": "scene_07_i1"
+    },
+    {
+      "objects": [
+        {
+          "label": "red cup",
+          "box": [
+            148,
+            235,
+            335,
+            374
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            182,
+            206,
+            335,
+            333
+          ]
+        },
+        {
+          "label": "red square object",
+          "box": [
+            126,
+            414,
+            297,
+            592
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            306,
+            514,
+            388,
+            614
+          ]
+        }
+      ],
+      "instruction_id": "scene_07_i2"
+    },
+    {
+      "objects": [
+        {
+          "label": "red cup",
+          "box": [
+            148,
+            235,
+            335,
+            374
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            182,
+            206,
+            335,
+            333
+          ]
+        },
+        {
+          "label": "red square object",
+          "box": [
+            126,
+            414,
+            297,
+            592
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            306,
+            514,
+            388,
+            614
+          ]
+        }
+      ],
+      "instruction_id": "scene_07_i3"
+    },
+    {
+      "objects": [
+        {
+          "label": "red cup",
+          "box": [
+            148,
+            235,
+            335,
+            374
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            182,
+            206,
+            335,
+            333
+          ]
+        },
+        {
+          "label": "red square object",
+          "box": [
+            126,
+            414,
+            297,
+            592
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            306,
+            514,
+            388,
+            614
+          ]
+        }
+      ],
+      "instruction_id": "scene_07_i4"
+    },
+    {
+      "objects": [
+        {
+          "label": "red cup",
+          "box": [
+            148,
+            235,
+            335,
+            374
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            182,
+            206,
+            335,
+            333
+          ]
+        },
+        {
+          "label": "red square object",
+          "box": [
+            126,
+            414,
+            297,
+            592
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            306,
+            514,
+            388,
+            614
+          ]
+        }
+      ],
+      "instruction_id": "scene_07_i5"
+    },
+    {
+      "objects": [
+        {
+          "label": "red gear",
+          "box": [
+            614,
+            158,
+            885,
+            333
+          ]
+        },
+        {
+          "label": "white plate",
+          "box": [
+            614,
+            333,
+            923,
+            674
+          ]
+        },
+        {
+          "label": "yellow sun",
+          "box": [
+            303,
+            533,
+            382,
+            633
+          ]
+        },
+        {
+          "label": "white SIM card",
+          "box": [
+            274,
+            226,
+            382,
+            326
+          ]
+        }
+      ],
+      "instruction_id": "scene_08_i1"
+    },
+    {
+      "objects": [
+        {
+          "label": "red gear",
+          "box": [
+            614,
+            158,
+            885,
+            333
+          ]
+        },
+        {
+          "label": "white plate",
+          "box": [
+            614,
+            333,
+            927,
+            681
+          ]
+        },
+        {
+          "label": "yellow sun",
+          "box": [
+            297,
+            538,
+            377,
+            633
+          ]
+        },
+        {
+          "label": "white SIM card",
+          "box": [
+            267,
+            226,
+            386,
+            326
+          ]
+        }
+      ],
+      "instruction_id": "scene_08_i2"
+    },
+    {
+      "objects": [
+        {
+          "label": "red gear",
+          "box": [
+            614,
+            158,
+            885,
+            333
+          ]
+        },
+        {
+          "label": "white plate",
+          "box": [
+            614,
+            333,
+            923,
+            674
+          ]
+        },
+        {
+          "label": "yellow sun",
+          "box": [
+            298,
+            538,
+            377,
+            633
+          ]
+        },
+        {
+          "label": "white SIM card",
+          "box": [
+            274,
+            226,
+            386,
+            326
+          ]
+        }
+      ],
+      "instruction_id": "scene_08_i3"
+    },
+    {
+      "objects": [
+        {
+          "label": "red gear",
+          "box": [
+            614,
+            158,
+            885,
+            333
+          ]
+        },
+        {
+          "label": "white plate",
+          "box": [
+            614,
+            333,
+            927,
+            681
+          ]
+        },
+        {
+          "label": "yellow sun",
+          "box": [
+            297,
+            538,
+            377,
+            633
+          ]
+        },
+        {
+          "label": "white SIM card",
+          "box": [
+            267,
+            226,
+            386,
+            326
+          ]
+        }
+      ],
+      "instruction_id": "scene_08_i4"
+    },
+    {
+      "objects": [
+        {
+          "label": "red gear",
+          "box": [
+            614,
+            158,
+            885,
+            333
+          ]
+        },
+        {
+          "label": "white plate",
+          "box": [
+            614,
+            333,
+            927,
+            681
+          ]
+        },
+        {
+          "label": "yellow sun",
+          "box": [
+            297,
+            538,
+            377,
+            633
+          ]
+        },
+        {
+          "label": "white SIM card",
+          "box": [
+            267,
+            226,
+            386,
+            326
+          ]
+        }
+      ],
+      "instruction_id": "scene_08_i5"
+    },
+    {
+      "objects": [
+        {
+          "label": "yellow plate with flower",
+          "box": [
+            95,
+            148,
+            297,
+            353
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            100,
+            353,
+            247,
+            544
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            274,
+            374,
+            426,
+            544
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            226,
+            474,
+            335,
+            606
+          ]
+        },
+        {
+          "label": "yellow sun",
+          "box": [
+            316,
+            553,
+            399,
+            654
+          ]
+        },
+        {
+          "label": "red cube",
+          "box": [
+            316,
+            286,
+            474,
+            462
+          ]
+        }
+      ],
+      "instruction_id": "scene_09_i1"
+    },
+    {
+      "objects": [
+        {
+          "label": "yellow plate with flower",
+          "box": [
+            95,
+            148,
+            294,
+            353
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            100,
+            353,
+            244,
+            544
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            273,
+            374,
+            423,
+            551
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            226,
+            474,
+            333,
+            608
+          ]
+        },
+        {
+          "label": "yellow sun",
+          "box": [
+            316,
+            556,
+            399,
+            654
+          ]
+        },
+        {
+          "label": "red cube",
+          "box": [
+            316,
+            281,
+            474,
+            461
+          ]
+        }
+      ],
+      "instruction_id": "scene_09_i2"
+    },
+    {
+      "objects": [
+        {
+          "label": "yellow plate with flower",
+          "box": [
+            95,
+            148,
+            294,
+            357
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            100,
+            357,
+            247,
+            544
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            274,
+            374,
+            428,
+            544
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            226,
+            474,
+            335,
+            606
+          ]
+        },
+        {
+          "label": "yellow sun",
+          "box": [
+            317,
+            552,
+            398,
+            651
+          ]
+        },
+        {
+          "label": "red cube",
+          "box": [
+            317,
+            283,
+            476,
+            462
+          ]
+        }
+      ],
+      "instruction_id": "scene_09_i3"
+    },
+    {
+      "objects": [
+        {
+          "label": "yellow plate with flower",
+          "box": [
+            95,
+            148,
+            294,
+            357
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            100,
+            357,
+            247,
+            544
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            274,
+            374,
+            428,
+            544
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            226,
+            474,
+            335,
+            606
+          ]
+        },
+        {
+          "label": "yellow sun",
+          "box": [
+            317,
+            552,
+            398,
+            651
+          ]
+        },
+        {
+          "label": "red cube",
+          "box": [
+            317,
+            283,
+            476,
+            462
+          ]
+        }
+      ],
+      "instruction_id": "scene_09_i4"
+    },
+    {
+      "objects": [
+        {
+          "label": "yellow plate with flower",
+          "box": [
+            98,
+            148,
+            294,
+            351
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            100,
+            351,
+            247,
+            537
+          ]
+        },
+        {
+          "label": "red gear",
+          "box": [
+            274,
+            378,
+            426,
+            551
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            226,
+            474,
+            335,
+            606
+          ]
+        },
+        {
+          "label": "yellow sun",
+          "box": [
+            316,
+            556,
+            399,
+            654
+          ]
+        },
+        {
+          "label": "red cube",
+          "box": [
+            316,
+            284,
+            474,
+            461
+          ]
+        }
+      ],
+      "instruction_id": "scene_09_i5"
+    },
+    {
+      "objects": [
+        {
+          "label": "yellow plate with green design",
+          "box": [
+            100,
+            154,
+            305,
+            353
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            246,
+            217,
+            406,
+            362
+          ]
+        },
+        {
+          "label": "pink flower-shaped object",
+          "box": [
+            100,
+            351,
+            233,
+            517
+          ]
+        },
+        {
+          "label": "red flower-shaped object",
+          "box": [
+            262,
+            351,
+            410,
+            526
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            161,
+            467,
+            283,
+            608
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            303,
+            533,
+            397,
+            642
+          ]
+        },
+        {
+          "label": "white plate with heart design",
+          "box": [
+            606,
+            347,
+            923,
+            674
+          ]
+        }
+      ],
+      "instruction_id": "scene_10_i1"
+    },
+    {
+      "objects": [
+        {
+          "label": "yellow plate with green design",
+          "box": [
+            100,
+            158,
+            310,
+            353
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            252,
+            217,
+            417,
+            375
+          ]
+        },
+        {
+          "label": "pink flower-shaped object",
+          "box": [
+            100,
+            353,
+            233,
+            526
+          ]
+        },
+        {
+          "label": "red flower-shaped object",
+          "box": [
+            274,
+            353,
+            426,
+            533
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            162,
+            474,
+            283,
+            628
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            303,
+            533,
+            404,
+            654
+          ]
+        },
+        {
+          "label": "white plate with heart design",
+          "box": [
+            606,
+            353,
+            926,
+            684
+          ]
+        }
+      ],
+      "instruction_id": "scene_10_i2"
+    },
+    {
+      "objects": [
+        {
+          "label": "yellow plate with green design",
+          "box": [
+            100,
+            158,
+            305,
+            353
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            252,
+            217,
+            417,
+            375
+          ]
+        },
+        {
+          "label": "pink flower-shaped object",
+          "box": [
+            100,
+            353,
+            233,
+            526
+          ]
+        },
+        {
+          "label": "red flower-shaped object",
+          "box": [
+            271,
+            353,
+            421,
+            533
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            161,
+            474,
+            282,
+            628
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            303,
+            533,
+            404,
+            654
+          ]
+        },
+        {
+          "label": "white plate with heart design",
+          "box": [
+            606,
+            353,
+            928,
+            682
+          ]
+        }
+      ],
+      "instruction_id": "scene_10_i3"
+    },
+    {
+      "objects": [
+        {
+          "label": "yellow plate with green design",
+          "box": [
+            100,
+            158,
+            305,
+            353
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            248,
+            214,
+            406,
+            362
+          ]
+        },
+        {
+          "label": "pink flower-shaped object",
+          "box": [
+            100,
+            351,
+            233,
+            517
+          ]
+        },
+        {
+          "label": "red flower-shaped object",
+          "box": [
+            273,
+            351,
+            421,
+            526
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            162,
+            469,
+            282,
+            608
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            303,
+            533,
+            406,
+            646
+          ]
+        },
+        {
+          "label": "white plate with heart design",
+          "box": [
+            606,
+            351,
+            923,
+            674
+          ]
+        }
+      ],
+      "instruction_id": "scene_10_i4"
+    },
+    {
+      "objects": [
+        {
+          "label": "yellow plate with green design",
+          "box": [
+            100,
+            154,
+            312,
+            353
+          ]
+        },
+        {
+          "label": "green cup",
+          "box": [
+            253,
+            215,
+            417,
+            373
+          ]
+        },
+        {
+          "label": "pink flower-shaped object",
+          "box": [
+            100,
+            351,
+            233,
+            526
+          ]
+        },
+        {
+          "label": "red flower-shaped object",
+          "box": [
+            271,
+            351,
+            421,
+            533
+          ]
+        },
+        {
+          "label": "orange",
+          "box": [
+            161,
+            474,
+            283,
+            623
+          ]
+        },
+        {
+          "label": "yellow sun-shaped object",
+          "box": [
+            303,
+            533,
+            404,
+            654
+          ]
+        },
+        {
+          "label": "white plate with heart design",
+          "box": [
+            606,
+            351,
+            928,
+            683
+          ]
+        }
+      ],
+      "instruction_id": "scene_10_i5"
+    }
+  ]
+}
