@@ -6,9 +6,13 @@ redraws the ``annotated/`` previews with those names, then writes one scene grap
 evaluating our scene graphs only; the pipeline never reads this.
 
     python -m tools.gt_scene_graph
+
+``perceive_ground_truth`` stands in for the pipeline's perception in ``run.py --gt-scene-graph``,
+to measure how Apertus plans when perception is perfect.
 """
 
 import json
+import re
 from pathlib import Path
 
 import cv2
@@ -16,7 +20,10 @@ import numpy as np
 import yaml
 
 from src.perception.regions import find_trays, interior_point, to_work_scale
-from src.workcell import load_scene
+from src.pipeline import marked_photo
+from src.reasoning.client import image_url
+from src.scene_graph import HAND_WORDS, describe, size_mm
+from src.workcell import Scene, load_scene, table_xy
 
 REPO = Path(__file__).resolve().parent.parent
 COCO = REPO / "dataset" / "coco_annotations" / "_annotations.coco.json"
@@ -177,10 +184,15 @@ def preview(rgb: np.ndarray, annotations: list[tuple[str, np.ndarray]], graph: d
     return image
 
 
-def main() -> None:
-    """Rename the annotations in place and write the scene graphs."""
-    coco = rename(json.loads(COCO.read_text()))
-    perception = yaml.safe_load((REPO / "configs" / "opencv_apertus.yaml").read_text())["perception"]
+def load_masks(coco: dict) -> dict[str, list[tuple[str, np.ndarray]]]:
+    """Decode every annotation, checking each mask against its bounding box.
+
+    Args:
+        coco: the parsed COCO file.
+
+    Returns:
+        Scene name -> (object name, (H, W) bool mask) per object.
+    """
     names = {category["id"]: category["name"] for category in coco["categories"]}
     scenes = {image["id"]: image["file_name"][:8] for image in coco["images"]}  # "scene_06_png..."
     by_scene: dict[str, list] = {}
@@ -192,6 +204,64 @@ def main() -> None:
         by_scene.setdefault(scenes[annotation["image_id"]], []).append(
             (names[annotation["category_id"]], mask)
         )
+    return by_scene
+
+
+def perceive_ground_truth(scene: Scene, config: dict, form: str) -> dict:
+    """The pipeline's ``perceive_scene`` output, built from the ground-truth scene graph.
+
+    Args:
+        scene: loaded scene.
+        config: full pipeline config.
+        form: "text" (rendered by ``describe``, as the pipeline sends it) or "json" (the scene's
+            entry of ``scene_graphs.json`` verbatim).
+
+    Returns:
+        Dict with ``objects``, ``text``, ``marked``, ``marked_url`` and ``naming_log``.
+    """
+    masks = dict(load_masks(json.loads(COCO.read_text()))[scene.name])
+    graph = json.loads(OUT.read_text())[scene.name]
+    work_scale = config["perception"]["work_scale"]
+    height, width = scene.rgb.shape[:2]
+    work_size = (round(width * work_scale), round(height * work_scale))
+    objects = []
+    for item in graph["objects"]:
+        lower = item.get("on", [])
+        mask = cv2.resize(masks[item["id"]].astype(np.uint8), work_size, interpolation=cv2.INTER_NEAREST)
+        name = re.sub(r"_\d+$", "", item["id"]).replace("_", " ")  # "red_gear_2" -> "red gear"
+        objects.append(
+            {
+                "id": item["id"],
+                "name": name,
+                "aliases": [],
+                "pixel": item["pixel"],
+                "tray": item["tray"],
+                "on_top_of": [lower] if isinstance(lower, str) else lower,
+                "is_hand": any(word in name for word in HAND_WORDS),
+                "mask": mask.astype(bool),
+                "size_mm": size_mm(mask, work_scale, scene),
+                "table_xy": table_xy(scene, [item["pixel"]])[0],
+                "source_ids": [],
+            }
+        )
+    for item in objects:
+        item["under"] = [other["id"] for other in objects if item["id"] in other["on_top_of"]]
+    marked = marked_photo(scene.rgb, objects, work_scale)
+    text = describe(objects, config["scene_graph"]["too_wide_mm"]) if form == "text" else json.dumps(graph)
+    return {
+        "objects": objects,
+        "text": text,
+        "marked": marked,
+        "marked_url": image_url(marked, config["decision"]["image_max_side_px"]),
+        "naming_log": [],
+    }
+
+
+def main() -> None:
+    """Rename the annotations in place and write the scene graphs."""
+    coco = rename(json.loads(COCO.read_text()))
+    perception = yaml.safe_load((REPO / "configs" / "opencv_apertus.yaml").read_text())["perception"]
+    by_scene = load_masks(coco)
     graphs = {name: scene_graph(name, by_scene[name], perception) for name in sorted(by_scene)}
     for image in coco["images"]:
         scene_name = image["file_name"][:8]

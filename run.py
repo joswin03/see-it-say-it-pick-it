@@ -89,6 +89,11 @@ def main() -> None:
         help="override one config field (YAML value); recorded in the manifest",
     )
     parser.add_argument("--limit-scenes", type=int, help="only the first N scenes (debugging)")
+    parser.add_argument(
+        "--gt-scene-graph",
+        choices=["text", "json"],
+        help="evaluation only: replace perception by the ground-truth scene graph in this form",
+    )
     args = parser.parse_args()
 
     config = yaml.safe_load(args.config.read_text())
@@ -97,7 +102,16 @@ def main() -> None:
     endpoint = {key: config[key] for key in ("model_id", "base_url", "request_timeout_s")}
     if args.base_url:
         endpoint["base_url"] = args.base_url
-    run_dir = args.runs_dir / f"{time.strftime('%Y%m%d-%H%M%S')}-opencv-{args.data.name}"
+    perceive = perceive_scene
+    if args.gt_scene_graph:
+        # reads the ground truth: dev evaluation only, never for held-out
+        from tools.gt_scene_graph import perceive_ground_truth
+
+        def perceive(scene, config, endpoint):
+            return perceive_ground_truth(scene, config, args.gt_scene_graph)
+
+    source = f"gt-{args.gt_scene_graph}" if args.gt_scene_graph else "opencv"
+    run_dir = args.runs_dir / f"{time.strftime('%Y%m%d-%H%M%S')}-{source}-{args.data.name}"
     run_dir.mkdir(parents=True)
 
     results, decision_log, scenes = [], [], {}
@@ -105,7 +119,7 @@ def main() -> None:
     for scene_dir in scene_dirs(args.data)[: args.limit_scenes]:
         scene = load_scene(scene_dir)
         gripper_mm = scene.gripper_max_opening_mm or config["gripper_max_opening_mm"]
-        perceived = perceive_scene(scene, config, endpoint)
+        perceived = perceive(scene, config, endpoint)
         scenes[scene.name] = scene_record(perceived)
         cv2.imwrite(
             str(run_dir / f"{scene.name}_marked.jpg"),
@@ -138,6 +152,7 @@ def main() -> None:
             "wall_clock_s": round(time.time() - started),
             "endpoint": endpoint,
             "overrides": args.set,
+            "perception": source,
         },
     )
     print(f"{len(results)} answers -> {args.out}; run record in {run_dir}")
