@@ -44,7 +44,7 @@ perception:
 
 naming:
   # An open VLM names the regions; Apertus still does the safety screen and the plan.
-  endpoint: {model_id: Qwen/Qwen3-VL-4B-Instruct, base_url: http://localhost:8001/v1}
+  endpoint: {model_id: Qwen/Qwen3-VL-8B-Instruct, base_url: http://localhost:8001/v1}
   crop_padding_fraction: 0.6
   crop_max_side_px: 512
   max_tokens: 120
@@ -67,15 +67,17 @@ naming:
   fixture_words: [tray, table, wall, floor, background, shadow, reflection, surface]  # places, not objects
 
 vlm_detection:  # used when perception.method is vlm; endpoint is naming.endpoint
-  image_max_side_px: 1024
+  image_max_side_px: 2048  # full resolution: small gears and parts get lost at 1024
   max_objects: 20
   max_tokens: 1200
   prompt: |-
     A camera looks straight down at a robot workcell table with a grey tray (left) and a black
     tray (right). Detect every separate object lying in the trays or on the table, not the trays
     themselves. Include a person's hand or arm if one is visible. List objects lying on top of
-    others separately. For each give its colour and type as the name (2 to 3 words, e.g. 'blue
-    box', 'white cup'), the tray it lies in, and its bounding box bbox_2d as [x1, y1, x2, y2].
+    others separately, and list touching objects of the same kind one by one. For each give its
+    colour and type as the name (2 to 3 words, e.g. 'blue box', 'white cup'), its bounding box
+    bbox_2d as [x1, y1, x2, y2], and point_2d as [x, y] on the middle of the object's top
+    surface. Also give the bounding box of the grey tray and of the black tray.
 
 safety:
   enabled: true  # Apertus screens for unsafe / self-contradictory instructions before planning

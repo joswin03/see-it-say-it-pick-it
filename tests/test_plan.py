@@ -47,3 +47,11 @@ def test_stalled_reply_is_closed_only_when_complete() -> None:
         "moves": [],
     }
     assert close_stalled_reply('{"decision": "plan", "mov', schema) is None
+
+
+def test_tray_is_taken_from_tray_boxes() -> None:
+    from src.perception.vlm_detect import tray_of
+
+    boxes = {"grey_tray": [0.0, 0.0, 0.5, 1.0], "black_tray": [0.5, 0.0, 1.0, 1.0]}
+    assert tray_of([0.2, 0.5], boxes) == "grey_tray"
+    assert tray_of([1.2, 0.5], boxes) == "black_tray"

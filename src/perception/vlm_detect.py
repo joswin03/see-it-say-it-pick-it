@@ -1,9 +1,10 @@
 """Find and name objects with an open VLM alone (Qwen3-VL), no OpenCV: the comparison run.
 
-Qwen3-VL returns boxes in a 0-1000 frame relative to the image. Each box becomes a filled
-rectangle mask at work scale, so the rest of the pipeline (scene graph, planning) is unchanged.
-Boxes are coarser than OpenCV outlines: sizes include background and stacking is judged from
-box overlap.
+Qwen3-VL returns boxes and points in a 0-1000 frame relative to the image. The VLM also boxes
+the two trays once; each object's tray is the tray box containing its point (geometry, not a
+label the VLM guesses per object). The pick pixel is the VLM's point on the object, which lands
+on it more reliably than a box centre. Each box becomes a filled rectangle mask at work scale,
+so the rest of the pipeline is unchanged; sizes and stacking are therefore box-coarse.
 """
 
 import numpy as np
@@ -24,22 +25,62 @@ def detection_schema(max_objects: int) -> dict:
         JSON schema dict.
     """
     box = {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "integer"}}
+    point = {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "integer"}}
     item = {
         "type": "object",
         "additionalProperties": False,
-        "required": ["name", "tray", "bbox_2d"],
+        "required": ["name", "bbox_2d", "point_2d"],
         "properties": {
             "name": {"type": "string", "minLength": 1, "maxLength": 40},
-            "tray": {"enum": TRAYS},
             "bbox_2d": box,
+            "point_2d": point,
         },
     }
     return {
         "type": "object",
         "additionalProperties": False,
-        "required": ["objects"],
-        "properties": {"objects": {"type": "array", "maxItems": max_objects, "items": item}},
+        "required": ["grey_tray_bbox_2d", "black_tray_bbox_2d", "objects"],
+        "properties": {
+            "grey_tray_bbox_2d": box,
+            "black_tray_bbox_2d": box,
+            "objects": {"type": "array", "maxItems": max_objects, "items": item},
+        },
     }
+
+
+def to_unit(values: list[int]) -> list[float]:
+    """Clip 0-1000 VLM coordinates and scale them to 0-1.
+
+    Args:
+        values: coordinates in the VLM's relative frame.
+
+    Returns:
+        The same coordinates in [0, 1].
+    """
+    return [min(max(value, 0), RELATIVE_FRAME) / RELATIVE_FRAME for value in values]
+
+
+def tray_of(point: list[float], tray_boxes: dict[str, list[float]]) -> str:
+    """The tray whose box contains a point, else the tray whose box centre is nearest.
+
+    Args:
+        point: (x, y) in [0, 1].
+        tray_boxes: tray name -> [x1, y1, x2, y2] in [0, 1].
+
+    Returns:
+        Tray name.
+    """
+    x, y = point
+    for name, (x1, y1, x2, y2) in tray_boxes.items():
+        if min(x1, x2) <= x <= max(x1, x2) and min(y1, y2) <= y <= max(y1, y2):
+            return name
+    return min(
+        tray_boxes,
+        key=lambda name: (
+            (x - (tray_boxes[name][0] + tray_boxes[name][2]) / 2) ** 2
+            + (y - (tray_boxes[name][1] + tray_boxes[name][3]) / 2) ** 2
+        ),
+    )
 
 
 def detect_regions(rgb: np.ndarray, endpoint: dict, config: dict, work_scale: float) -> tuple:
@@ -64,11 +105,11 @@ def detect_regions(rgb: np.ndarray, endpoint: dict, config: dict, work_scale: fl
         detection_schema(config["max_objects"]),
         config["max_tokens"],
     )
+    tray_boxes = {name: to_unit(reply[f"{name}_bbox_2d"]) for name in TRAYS}
     regions = []
     for index, item in enumerate(reply["objects"], start=1):
-        x1, y1, x2, y2 = (
-            min(max(value, 0), RELATIVE_FRAME) / RELATIVE_FRAME for value in item["bbox_2d"]
-        )
+        x1, y1, x2, y2 = to_unit(item["bbox_2d"])
+        point = to_unit(item["point_2d"])
         left, right = sorted((x1, x2))
         top, bottom = sorted((y1, y2))
         mask = np.zeros(work_shape, bool)
@@ -86,8 +127,11 @@ def detect_regions(rgb: np.ndarray, endpoint: dict, config: dict, work_scale: fl
                 "mask": mask,
                 "colour": "",
                 "part": ("vlm", index),
-                "pixel": [round((left + right) / 2 * width), round((top + bottom) / 2 * height)],
-                "tray": item["tray"],
+                "pixel": [
+                    min(round(point[0] * width), width - 1),
+                    min(round(point[1] * height), height - 1),
+                ],
+                "tray": tray_of(point, tray_boxes),
                 "name": item["name"].strip().lower(),
                 "is_object": True,
             }
