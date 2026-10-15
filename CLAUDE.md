@@ -40,8 +40,14 @@ ambiguity/feasibility checks), no extensive literature research, no speculative 
 
 ## Workflow
 
-- Never commit on `main`. Work on `dev/joswin`; merge to `main`
+- Never commit on `main`. Work on `dev/vaibhav`; merge to `main`
   only when the user asks.
+- Pipeline code lives in `src/`, orchestrated as a LangGraph graph (one node, one job).
+  Run outputs go to `outputs/`.
+- Secrets (`APERTUS_API_KEY`) live in `.env` (gitignored), loaded with python-dotenv; never
+  printed, logged or written to a manifest. The Apertus endpoint (`base_url`) is a config
+  field, so the same code runs against the hosted API or a local vLLM server. Results that
+  count must come from the local server (FAQ: no external API calls at runtime).
 - Code and data move between this machine and the Marimo GPU notebook **only through GitHub**:
   commit + push here, `git pull` in Marimo. Nothing is copied by hand. Results produced on
   Marimo are committed from there (or pushed back) with a manifest.
@@ -63,7 +69,7 @@ ambiguity/feasibility checks), no extensive literature research, no speculative 
    named in the report.
 3. **Every run carries a small manifest**: commit, dirty-tree flag, config hash, model ids,
    timestamp, score. A result without one is not evidence.
-4. **Nothing is overwritten in place.** Each run writes to its own `runs/<timestamp>-<name>/`.
+4. **Nothing is overwritten in place.** Each run writes to its own `outputs/<timestamp>-<name>/`.
 5. **Determinism is explicit.** Temperature 0; any seed is an argument.
 
 ## Code quality
@@ -72,8 +78,9 @@ Read by a jury checking it in under 15 minutes.
 
 - Readable names (`target_pixel`, `scene_graph`), no unexplained abbreviations.
 - Modular, not layered: one module one job; no abstraction with one caller.
-- Short Google-style docstrings with types/shapes on public functions; type hints on signatures;
-  no comments narrating code.
+- **No comments anywhere** (no `#` lines, no inline comments, also in YAML configs). Every
+  function, public or private, has a short Google-style docstring: one-line description,
+  `Args:` and `Returns:` with types/shapes. Type hints on all signatures.
 - No magic numbers: config field or named constant.
 - Fail loudly: no bare `except`, no silent fallbacks that change a score. A model reply that
   fails to parse is logged and turned into an explicit, schema-valid answer, never dropped.
@@ -91,7 +98,7 @@ compiled to PDF.** No Markdown/Word deliverables. Compile with tectonic (binary 
 
 Slides use `beamer`. Both `.tex` and `.pdf` are tracked.
 
-- Numbers come from run outputs (`runs/.../score.json`), never typed by hand.
+- Numbers come from run outputs (`outputs/.../score.json`), never typed by hand.
 - Every figure is produced by a script in `figures/`, exported as PDF (and PNG 300 dpi),
   title states the finding, each mark labelled with its value.
 - Illustrative examples are labelled as such; never a made-up result.
