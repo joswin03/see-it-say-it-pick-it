@@ -3,6 +3,7 @@
 from pathlib import Path
 from PIL import Image
 import numpy as np
+from scipy import ndimage
 from skimage.color import rgb2lab
 
 out_dir = Path("dataset/masked_cielab_filtered")
@@ -23,8 +24,16 @@ for p in sorted(Path("dataset").glob("scene_*/rgb.png")):
     #    as long as we suppress true shadows.
     is_object = (delta_e > 8) & (~is_shadow)
 
+    # 3. Connected-components area filter: drop noise blobs < 1500 px without eroding object edges
+    lbl, num = ndimage.label(is_object)
+    sizes = ndimage.sum(is_object, lbl, range(1, num + 1))
+    keep = sizes >= 1500
+    # Fast index lookup (0 is background)
+    keep_padded = np.pad(keep, (1, 0), constant_values=False)
+    is_object_clean = keep_padded[lbl]
+
     # Save as binary mask (255 = object, 0 = background/shadow)
-    mask_vis = (is_object * 255).astype(np.uint8)
+    mask_vis = (is_object_clean * 255).astype(np.uint8)
 
     out_path = out_dir / f"{p.parent.name}_filtered.png"
     Image.fromarray(mask_vis).save(out_path)
