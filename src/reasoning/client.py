@@ -41,6 +41,34 @@ def image_url(rgb: np.ndarray, max_side: int) -> str:
     return "data:image/jpeg;base64," + base64.b64encode(buffer.tobytes()).decode()
 
 
+CLOSING_SUFFIXES = ("}", "]}", "}]}")
+
+
+def close_stalled_reply(raw: str, schema: dict) -> dict | None:
+    """Recover a reply whose content is complete but whose closing brackets never came.
+
+    Under constrained decoding Apertus sometimes finishes every field and then emits only
+    whitespace until the token limit, instead of the final "}". If appending the missing
+    closing brackets yields JSON with every required field, that JSON is the reply.
+
+    Args:
+        raw: reply text cut off at the token limit.
+        schema: the schema the reply had to satisfy.
+
+    Returns:
+        The recovered reply, or None if the content itself is incomplete.
+    """
+    trimmed = raw.rstrip()
+    for suffix in CLOSING_SUFFIXES:
+        try:
+            reply = json.loads(trimmed + suffix)
+        except json.JSONDecodeError:
+            continue
+        if isinstance(reply, dict) and all(key in reply for key in schema["required"]):
+            return reply
+    return None
+
+
 def ask_json(
     endpoint: dict, prompt: str, images: list[str], schema: dict, max_tokens: int
 ) -> tuple[dict, str]:
@@ -54,10 +82,12 @@ def ask_json(
         max_tokens: generation limit.
 
     Returns:
-        The parsed reply and the raw reply text.
+        The parsed reply and the raw reply text (trailing whitespace of a stalled reply
+        removed and marked with ``[closed]``, see ``close_stalled_reply``).
 
     Raises:
-        ModelReplyError: the reply hit ``max_tokens`` or does not parse.
+        ModelReplyError: the reply hit ``max_tokens`` with incomplete content, or does not
+            parse.
     """
     content = [{"type": "image_url", "image_url": {"url": url}} for url in images]
     content.append({"type": "text", "text": prompt})
@@ -80,7 +110,10 @@ def ask_json(
         choice = json.loads(response.read())["choices"][0]
     raw = choice["message"]["content"]
     if choice["finish_reason"] == "length":
-        raise ModelReplyError(f"reply cut off at {max_tokens} tokens", raw)
+        recovered = close_stalled_reply(raw, schema)
+        if recovered is None:
+            raise ModelReplyError(f"reply cut off at {max_tokens} tokens", raw)
+        return recovered, raw.rstrip() + " [closed]"
     try:
         return json.loads(raw), raw
     except json.JSONDecodeError as error:

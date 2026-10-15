@@ -230,8 +230,9 @@ def answer_instruction(
 ) -> tuple[dict, dict]:
     """Answer one instruction: safety check, then plan with one retry on a bad plan.
 
-    The safety check runs first when ``safety.enabled`` is set; a verdict other than "ok"
-    becomes a refusal with Apertus's reason.
+    The safety check runs first when ``safety.enabled`` is set; "unsafe" or "impossible"
+    becomes a refusal with Apertus's reason. If the check's reply is unusable, the log says so
+    ("unchecked") and the planner, which also knows the safety rules, decides alone.
 
     Args:
         instruction_id: id of the instruction.
@@ -248,9 +249,12 @@ def answer_instruction(
     object_ids = [item["id"] for item in objects]
     log = {"instruction_id": instruction_id}
     if config["safety"]["enabled"]:
-        verdict, raw = check_instruction(text, perceived["text"], endpoint, config["safety"])
+        try:
+            verdict, raw = check_instruction(text, perceived["text"], endpoint, config["safety"])
+        except ModelReplyError as error:
+            verdict, raw = {"verdict": "unchecked"}, f"{error}: {error.raw}"
         log["safety"] = raw
-        if verdict["verdict"] != "ok":
+        if verdict["verdict"] not in ("ok", "unchecked"):
             reason = verdict["reason"].strip() or verdict["analysis"].strip()
             answer = {
                 "instruction_id": instruction_id,
