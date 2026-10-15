@@ -1,0 +1,24 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	describe_scene(describe_scene)
+	check_safety(check_safety)
+	actor(actor)
+	judge(judge)
+	finalize(finalize)
+	__end__([<p>__end__</p>]):::last
+	__start__ -.-> check_safety;
+	__start__ -.-> describe_scene;
+	actor --> judge;
+	check_safety --> actor;
+	describe_scene --> check_safety;
+	judge -.-> actor;
+	judge -.-> finalize;
+	finalize --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc
