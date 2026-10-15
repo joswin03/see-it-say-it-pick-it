@@ -120,19 +120,18 @@ def perceive_scene(scene: Scene, config: dict, endpoint: dict) -> dict:
     found = find_regions(scene.rgb, perception, mm_per_work_pixel**2)
     naming_log = []
     for region in found["regions"]:
-        region["size_mm"] = size_mm(region["mask"], mm_per_work_pixel)
+        region["size_mm"] = size_mm(region["mask"], perception["work_scale"], scene)
         named = name_or_mark_unknown(scene, region, config, endpoint, scale_mm)
         region["name"], region["is_object"] = named["name"], named["is_object"]
         naming_log.append(naming_entry(region, named))
     objects = build_scene_graph(
-        found["regions"], found["work_scale"], mm_per_work_pixel, config["scene_graph"]
+        found["regions"], found["work_scale"], mm_per_work_pixel, config["scene_graph"], scene
     )
     marked = marked_photo(scene.rgb, objects, found["work_scale"])
     return {
         "objects": objects,
         "text": describe(
             objects,
-            scale_mm,
             config["scene_graph"]["nearest_count"],
             config["scene_graph"]["too_wide_mm"],
         ),
@@ -276,9 +275,9 @@ def answer_instruction(
 ) -> tuple[dict, dict]:
     """Answer one instruction: safety check, then plan with one retry on a bad plan.
 
-    The safety screen runs first when ``safety.enabled`` is set (see ``screen_result``). If its
-    reply is unusable, the log says so ("unchecked") and the planner, which also knows the
-    safety rules, decides alone.
+    The safety screen runs first when ``safety.enabled`` is set (see ``screen_result``), with
+    one retry on a cut-off reply. If every reply is unusable, the log says so ("unchecked") and
+    the planner, which also knows the safety rules, decides alone.
 
     Args:
         instruction_id: id of the instruction.
@@ -295,12 +294,20 @@ def answer_instruction(
     object_ids = [item["id"] for item in objects]
     log = {"instruction_id": instruction_id}
     if config["safety"]["enabled"]:
-        try:
-            screen, raw = check_instruction(text, perceived["text"], endpoint, config["safety"])
-            stop = screen_result(screen)
-        except ModelReplyError as error:
-            raw, stop = f"unchecked, {error}: {error.raw}", None
-        log["safety"] = raw
+        feedback, raws = None, []
+        for _ in range(config["decision"]["max_attempts"]):
+            try:
+                screen, raw = check_instruction(
+                    text, perceived["text"], endpoint, config["safety"], feedback
+                )
+                stop = screen_result(screen)
+                raws.append(raw)
+                break
+            except ModelReplyError as error:
+                # a stalled reply is almost always an analysis that ran into its length cap
+                raws.append(f"unchecked, {error}: {error.raw}")
+                feedback, stop = f"your {error}; keep the analysis to one or two sentences", None
+        log["safety"] = raws[0] if len(raws) == 1 else raws
         if stop is not None:
             action, message = stop
             field = "question" if action == "ask_user" else "reason"

@@ -50,7 +50,7 @@ def safety_schema(max_text_chars: int) -> dict:
 
 
 def check_instruction(
-    instruction: str, scene_text: str, endpoint: dict, config: dict
+    instruction: str, scene_text: str, endpoint: dict, config: dict, feedback: str | None = None
 ) -> tuple[dict, str]:
     """Ask Apertus to describe what an instruction asks for.
 
@@ -59,11 +59,16 @@ def check_instruction(
         scene_text: output of ``scene_graph.describe``.
         endpoint: model endpoint settings for ``ask_json``.
         config: the ``safety`` section of the pipeline config, including its ``prompt``.
+        feedback: why the previous reply was rejected, or None on the first attempt.
 
     Returns:
         Parsed reply (fields of ``safety_schema``) and the raw reply text.
     """
-    prompt = config["prompt"].format(scene=scene_text, instruction=instruction)
+    prompt = config["prompt"].format(
+        scene=scene_text, instruction=instruction, max_chars=config["max_analysis_chars"]
+    )
+    if feedback:
+        prompt += f"\n\nYour previous answer was rejected because {feedback}. Answer again."
     schema = safety_schema(config["max_analysis_chars"])
     return ask_json(endpoint, prompt, [], schema, config["max_tokens"])
 

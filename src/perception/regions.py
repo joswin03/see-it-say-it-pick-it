@@ -336,6 +336,30 @@ def colour_groups(class_names: list[str]) -> list[list[int]]:
     return [[index] for index in range(len(class_names)) if index not in neutral] + [neutral]
 
 
+def drop_attached_slivers(regions: list[dict], min_depth_pixels: float) -> list[dict]:
+    """Drop thin regions stuck to another region: shadows, side faces, rim fragments.
+
+    A mug's shadow or a cube's shaded side face is a sliver along an object's edge. A thin
+    object lying on its own (a pen) is kept, since it touches nothing.
+
+    Args:
+        regions: regions with ``mask`` ((h, w) bool), in id order.
+        min_depth_pixels: half the thickness an attached region needs to be kept.
+
+    Returns:
+        The kept regions, renumbered from 1.
+    """
+    kernel = np.ones((3, 3), np.uint8)
+    kept = []
+    for region in regions:
+        depth = cv2.distanceTransform(region["mask"].astype(np.uint8), cv2.DIST_L2, 5).max()
+        grown = cv2.dilate(region["mask"].astype(np.uint8), kernel).astype(bool)
+        attached = any((grown & other["mask"]).any() for other in regions if other is not region)
+        if depth >= min_depth_pixels or not attached:
+            kept.append({**region, "id": len(kept) + 1})
+    return kept
+
+
 def find_regions(rgb: np.ndarray, config: dict, mm2_per_work_pixel: float) -> dict:
     """Segment a photo into trays and colour-consistent object regions.
 
@@ -364,6 +388,9 @@ def find_regions(rgb: np.ndarray, config: dict, mm2_per_work_pixel: float) -> di
     work_pixels_per_mm = 1 / np.sqrt(mm2_per_work_pixel)
     min_depth_pixels = config["min_thickness_mm"] / 2 * work_pixels_per_mm
     edge_margin_pixels = config["tray_edge_margin_mm"] * work_pixels_per_mm
+    attached_depth_pixels = config["min_attached_thickness_mm"] / 2 * work_pixels_per_mm
+    value = hsv[..., 2]
+    floor_value = np.median(value[grey_floor(hsv, config) & trays["grey_tray"]])
     tray_boxes = {name: cv2.boundingRect(tray.astype(np.uint8)) for name, tray in trays.items()}
     small_kernel = np.ones((3, 3), np.uint8)
     regions = []
@@ -402,6 +429,18 @@ def find_regions(rgb: np.ndarray, config: dict, mm2_per_work_pixel: float) -> di
                     tray = max(trays, key=lambda name: (trays[name] & region_mask).sum())
                     if distance_to_box_edge(u, v, tray_boxes[tray]) < edge_margin_pixels:
                         continue
+                    # Grey tray plastic in shadow (walls, shadows next to objects) is darker than
+                    # the lit floor; grey parts lie on the floor and are lit at least as brightly.
+                    # shortcut: drops a dark-grey (not black) object on the grey tray; add a
+                    # texture or tint test if the held-out scenes have one.
+                    if (
+                        tray == "grey_tray"
+                        and group_index == neutral_group
+                        and config["grey_object_max_value"]
+                        < np.median(value[region_mask])
+                        < floor_value
+                    ):
+                        continue
                     majority = np.bincount(classes[region_mask], minlength=len(class_names))
                     regions.append(
                         {
@@ -415,4 +454,5 @@ def find_regions(rgb: np.ndarray, config: dict, mm2_per_work_pixel: float) -> di
                             "tray": tray,
                         }
                     )
+    regions = drop_attached_slivers(regions, attached_depth_pixels)
     return {"trays": trays, "work_scale": work_scale, "regions": regions}

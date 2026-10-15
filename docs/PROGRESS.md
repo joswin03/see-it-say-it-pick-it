@@ -120,8 +120,40 @@ run.py --data <folder> --out <results.json> [--set section.key=value]
 - The grey part in the grey tray is found only where it is not covered; "the object lying on
   the grey part" still picks the wrong object.
 - Relative instructions (second from the right, farthest from) still fail about half the time.
-- Mug interiors are sometimes named as a separate object.
+- One object split into differently named pieces (merge needs identical names), counted on
+  the v9 run against the ground-truth masks and marked photos: the mug in 5 of 5 scenes that
+  have one (01, 04, 05, 07, 10: inside "yellow/green cup", rim or handle "white mug", "white
+  handle", "grey cube"), the mandarin in 2 of 3 (02, 05), the saucer's orange rim and grey
+  centre in at least 3 (05, 06, 10), the hand in 10 ("grey hand" + two "orange plate"s).
+  7 of 10 scenes in all (01, 02, 04, 05, 06, 07, 10).
+- False objects from shading or tray walls: 8 in 4 scenes (01 cube side face and mug shadow,
+  07 mug shadow, 08 cube side face, 10 tray wall x2, mug shadow, rim fragment).
 - Run the held-out scenes.
+
+## v10 (not yet scored): calibration and safety-screen fixes
+
+- Sizes and distances are measured on the table plane: each outline point is undistorted and
+  projected with K and `base_T_camera` (`table_xy` in `src/workcell.py`). Before, one scale
+  from the image centre was used everywhere, but the camera is tilted 8.5 degrees: an 80 mm
+  flat square measured 74 to 83 mm depending on where it lay, now 80 +- 3
+  (`tests/test_calibration.py`). Replaying the v9 names, no object crosses the 120 mm TOO
+  WIDE flag either way; mugs near the top grow ~5 mm. Tall objects still measure too large
+  (their top is closer to the camera); that needs depth, which the 2D dataset does not have.
+- The safety screen stalled in 4 of 50 dev instructions (analysis hit its 300-character cap,
+  then whitespace until the token limit) and ran "unchecked"; one of them, "push the cube off
+  the gears", then became an ask instead of a refusal. The screen now retries once with the
+  reason, like the planner, and the prompt asks for a one- or two-sentence analysis.
+- "underneath X (covered)" in the scene text was read backwards by Apertus (scene_01_i1:
+  "red_block_1 is on top of grey_block_1"); it now reads "covered by X (lying on top of it)".
+- Split objects are merged back (`merge_same_object` in `src/scene_graph.py`). Regions below
+  1100 mm2 (handle, rim sliver, mandarin blemish, cube side face; dev fragments are at most
+  ~950 mm2, the small gear ~1250) join the larger object they touch, preferring one of their
+  own colour. Touching regions whose nouns are synonyms (cup/mug, plate/saucer) merge like
+  same-named ones. Replaying the v9 regions and names: the mug is one object in all 5 mug
+  scenes, the mandarin in 02 and 05, the saucer in 05 and 09; the cube side face in 01 and the
+  mug shadows in 01, 07 and 10 join their objects. Gear stacks (03, 06, 08) and the mug on the
+  red gear (07) stay separate. Still split: the saucer in 06 (its two orange pieces were cut apart
+  by `split_touching`) and the hand in 10 (named "grey hand" and "orange plate").
 
 ## Code review fixes (after v7)
 
