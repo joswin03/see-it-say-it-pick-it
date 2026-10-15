@@ -21,6 +21,7 @@ committed. Thresholds were tuned on the dev set, so the held-out score is the ho
 | vlm1 | `f03902f` (v8 + Qwen3-VL-4B naming) | 42.9 | 27.1 (31/40) | 15.8 | 6/10 | 5/40 | open VLM names regions, Apertus plans |
 | vlm2 | `228040f` (v9 + Qwen3-VL-4B naming) | 42.0 | 26.2 (30/40) | 15.8 | 6/10 | 5/40 | no gain over v9 rules alone, within noise |
 | vlm-only | `e7514fe` (Qwen3-VL-4B boxes, no OpenCV) | 23.0 | 13.1 (15/40) | 9.9 | 6/10 | 18/40 | VLM misses/merges objects, wrong tray labels, box sizes inflate widths; 6.4 min |
+| vlm-only v2 | `b227735` (8B, 2048 px, tray boxes, points) | 29.8 | 16.6 (19/40) | 13.1 | 7/10 | 15/40 | +6.8; still merges touching gears, odd names (orange for mandarin, sun-shaped object for gear); 6.7 min |
 
 Same logic, two runs: 42.0 and 39.9. vLLM at temperature 0 is not bit-exact between runs,
 so differences of about 2 points are noise, not evidence.
