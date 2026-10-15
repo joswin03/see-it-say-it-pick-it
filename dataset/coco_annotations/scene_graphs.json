@@ -1,0 +1,474 @@
+{
+  "scene_01": {
+    "objects": [
+      {
+        "id": "red_cube",
+        "pixel": [
+          361,
+          1059
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "yellow_gear",
+        "pixel": [
+          801,
+          882
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "mug",
+        "pixel": [
+          828,
+          502
+        ],
+        "tray": "grey_tray"
+      }
+    ]
+  },
+  "scene_02": {
+    "objects": [
+      {
+        "id": "red_cube",
+        "pixel": [
+          1671,
+          460
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "plate",
+        "pixel": [
+          1765,
+          1319
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "mandarin",
+        "pixel": [
+          2164,
+          925
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "mug",
+        "pixel": [
+          2174,
+          355
+        ],
+        "tray": "black_tray"
+      }
+    ]
+  },
+  "scene_03": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "pixel": [
+          1527,
+          776
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "yellow_gear",
+        "pixel": [
+          1867,
+          1100
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "red_gear_2",
+        "pixel": [
+          1891,
+          781
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "red_gear_3",
+        "pixel": [
+          2257,
+          791
+        ],
+        "tray": "black_tray"
+      }
+    ]
+  },
+  "scene_04": {
+    "objects": [
+      {
+        "id": "grey_part_1",
+        "pixel": [
+          1548,
+          456
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "white_part",
+        "pixel": [
+          1635,
+          1173
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "grey_part_2",
+        "pixel": [
+          2114,
+          695
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "mug",
+        "pixel": [
+          2138,
+          1435
+        ],
+        "tray": "black_tray"
+      }
+    ]
+  },
+  "scene_05": {
+    "objects": [
+      {
+        "id": "banana",
+        "pixel": [
+          1544,
+          1208
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "mug",
+        "pixel": [
+          1618,
+          597
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "saucer",
+        "pixel": [
+          2024,
+          357
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "plate",
+        "pixel": [
+          2078,
+          1310
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "mandarin",
+        "pixel": [
+          2120,
+          736
+        ],
+        "tray": "black_tray"
+      }
+    ]
+  },
+  "scene_06": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "pixel": [
+          1558,
+          1004
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "yellow_gear",
+        "pixel": [
+          1743,
+          716
+        ],
+        "on": "red_gear_2",
+        "tray": "black_tray"
+      },
+      {
+        "id": "red_gear_2",
+        "pixel": [
+          1797,
+          553
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "red_cube",
+        "pixel": [
+          1891,
+          1364
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "saucer",
+        "pixel": [
+          2164,
+          858
+        ],
+        "tray": "black_tray"
+      }
+    ]
+  },
+  "scene_07": {
+    "objects": [
+      {
+        "id": "red_gear",
+        "pixel": [
+          411,
+          501
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "red_cube",
+        "pixel": [
+          478,
+          1235
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "mug",
+        "pixel": [
+          589,
+          707
+        ],
+        "on": "red_gear",
+        "tray": "grey_tray"
+      },
+      {
+        "id": "yellow_gear",
+        "pixel": [
+          858,
+          1406
+        ],
+        "tray": "grey_tray"
+      }
+    ]
+  },
+  "scene_08": {
+    "objects": [
+      {
+        "id": "small_part",
+        "pixel": [
+          784,
+          570
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "yellow_gear",
+        "pixel": [
+          858,
+          1406
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "red_gear_1",
+        "pixel": [
+          1526,
+          577
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "red_cube",
+        "pixel": [
+          1815,
+          550
+        ],
+        "on": [
+          "red_gear_1",
+          "red_gear_2"
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "plate",
+        "pixel": [
+          1867,
+          1304
+        ],
+        "tray": "black_tray"
+      },
+      {
+        "id": "red_gear_2",
+        "pixel": [
+          2063,
+          587
+        ],
+        "tray": "black_tray"
+      }
+    ]
+  },
+  "scene_09": {
+    "objects": [
+      {
+        "id": "red_gear_2",
+        "pixel": [
+          321,
+          1546
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "red_gear_1",
+        "pixel": [
+          337,
+          1036
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "saucer",
+        "pixel": [
+          415,
+          561
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "mandarin",
+        "pixel": [
+          623,
+          1357
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "grey_part",
+        "pixel": [
+          644,
+          816
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "small_part",
+        "pixel": [
+          806,
+          570
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "yellow_gear",
+        "pixel": [
+          824,
+          1457
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "red_gear_3",
+        "pixel": [
+          833,
+          1181
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "red_cube",
+        "pixel": [
+          959,
+          873
+        ],
+        "on": "grey_part",
+        "tray": "grey_tray"
+      },
+      {
+        "id": "plate",
+        "pixel": [
+          1866,
+          1300
+        ],
+        "tray": "black_tray"
+      }
+    ]
+  },
+  "scene_10": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "pixel": [
+          335,
+          1034
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "saucer",
+        "pixel": [
+          382,
+          535
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "mandarin",
+        "pixel": [
+          466,
+          1411
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "mug",
+        "pixel": [
+          737,
+          745
+        ],
+        "on": "hand",
+        "tray": "grey_tray"
+      },
+      {
+        "id": "red_gear_2",
+        "pixel": [
+          792,
+          1168
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "yellow_gear",
+        "pixel": [
+          833,
+          1478
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "hand",
+        "pixel": [
+          949,
+          394
+        ],
+        "tray": "grey_tray"
+      },
+      {
+        "id": "plate",
+        "pixel": [
+          1865,
+          1299
+        ],
+        "tray": "black_tray"
+      }
+    ]
+  }
+}

@@ -22,32 +22,32 @@
         },
         {
             "id": 1,
-            "name": "bananna",
+            "name": "banana",
             "supercategory": "apertus-online"
         },
         {
             "id": 2,
-            "name": "hand_arm",
+            "name": "grey_part",
             "supercategory": "apertus-online"
         },
         {
             "id": 3,
-            "name": "mandarin",
+            "name": "grey_part_1",
             "supercategory": "apertus-online"
         },
         {
             "id": 4,
-            "name": "metal_plate_1",
+            "name": "grey_part_2",
             "supercategory": "apertus-online"
         },
         {
             "id": 5,
-            "name": "metal_plate_2",
+            "name": "hand",
             "supercategory": "apertus-online"
         },
         {
             "id": 6,
-            "name": "metal_plate_3",
+            "name": "mandarin",
             "supercategory": "apertus-online"
         },
         {
@@ -62,32 +62,32 @@
         },
         {
             "id": 9,
-            "name": "plate_1",
+            "name": "red_cube",
             "supercategory": "apertus-online"
         },
         {
             "id": 10,
-            "name": "plate_2",
+            "name": "red_gear",
             "supercategory": "apertus-online"
         },
         {
             "id": 11,
-            "name": "red_box",
-            "supercategory": "apertus-online"
-        },
-        {
-            "id": 12,
             "name": "red_gear_1",
             "supercategory": "apertus-online"
         },
         {
-            "id": 13,
+            "id": 12,
             "name": "red_gear_2",
             "supercategory": "apertus-online"
         },
         {
-            "id": 14,
+            "id": 13,
             "name": "red_gear_3",
+            "supercategory": "apertus-online"
+        },
+        {
+            "id": 14,
+            "name": "saucer",
             "supercategory": "apertus-online"
         },
         {
@@ -97,7 +97,7 @@
         },
         {
             "id": 16,
-            "name": "small_plate",
+            "name": "white_part",
             "supercategory": "apertus-online"
         },
         {
@@ -242,7 +242,7 @@
         {
             "id": 2,
             "image_id": 0,
-            "category_id": 3,
+            "category_id": 6,
             "bbox": [
                 1973,
                 594,
@@ -282,7 +282,7 @@
         {
             "id": 4,
             "image_id": 0,
-            "category_id": 9,
+            "category_id": 14,
             "bbox": [
                 1774,
                 116,
@@ -302,7 +302,7 @@
         {
             "id": 5,
             "image_id": 0,
-            "category_id": 10,
+            "category_id": 8,
             "bbox": [
                 1698,
                 930,
@@ -322,7 +322,7 @@
         {
             "id": 6,
             "image_id": 1,
-            "category_id": 2,
+            "category_id": 5,
             "bbox": [
                 711,
                 0,
@@ -342,7 +342,7 @@
         {
             "id": 7,
             "image_id": 1,
-            "category_id": 16,
+            "category_id": 14,
             "bbox": [
                 168,
                 315,
@@ -402,7 +402,7 @@
         {
             "id": 10,
             "image_id": 1,
-            "category_id": 13,
+            "category_id": 11,
             "bbox": [
                 153,
                 856,
@@ -442,7 +442,7 @@
         {
             "id": 12,
             "image_id": 1,
-            "category_id": 3,
+            "category_id": 6,
             "bbox": [
                 315,
                 1258,
@@ -522,7 +522,7 @@
         {
             "id": 16,
             "image_id": 2,
-            "category_id": 13,
+            "category_id": 11,
             "bbox": [
                 1378,
                 826,
@@ -542,7 +542,7 @@
         {
             "id": 17,
             "image_id": 2,
-            "category_id": 11,
+            "category_id": 9,
             "bbox": [
                 1727,
                 1204,
@@ -562,7 +562,7 @@
         {
             "id": 18,
             "image_id": 2,
-            "category_id": 8,
+            "category_id": 14,
             "bbox": [
                 1911,
                 612,
@@ -622,7 +622,7 @@
         {
             "id": 21,
             "image_id": 3,
-            "category_id": 13,
+            "category_id": 11,
             "bbox": [
                 1398,
                 404,
@@ -642,7 +642,7 @@
         {
             "id": 22,
             "image_id": 3,
-            "category_id": 11,
+            "category_id": 9,
             "bbox": [
                 1642,
                 344,
@@ -722,7 +722,7 @@
         {
             "id": 26,
             "image_id": 4,
-            "category_id": 5,
+            "category_id": 3,
             "bbox": [
                 1424,
                 301,
@@ -742,7 +742,7 @@
         {
             "id": 27,
             "image_id": 4,
-            "category_id": 6,
+            "category_id": 16,
             "bbox": [
                 1359,
                 836,
@@ -802,7 +802,7 @@
         {
             "id": 30,
             "image_id": 5,
-            "category_id": 11,
+            "category_id": 9,
             "bbox": [
                 141,
                 860,
@@ -862,7 +862,7 @@
         {
             "id": 33,
             "image_id": 6,
-            "category_id": 3,
+            "category_id": 6,
             "bbox": [
                 2011,
                 774,
@@ -882,7 +882,7 @@
         {
             "id": 34,
             "image_id": 6,
-            "category_id": 11,
+            "category_id": 9,
             "bbox": [
                 1479,
                 250,
@@ -922,7 +922,7 @@
         {
             "id": 36,
             "image_id": 7,
-            "category_id": 4,
+            "category_id": 2,
             "bbox": [
                 359,
                 719,
@@ -962,7 +962,7 @@
         {
             "id": 38,
             "image_id": 7,
-            "category_id": 16,
+            "category_id": 14,
             "bbox": [
                 167,
                 314,
@@ -982,7 +982,7 @@
         {
             "id": 39,
             "image_id": 7,
-            "category_id": 11,
+            "category_id": 9,
             "bbox": [
                 748,
                 653,
@@ -1002,7 +1002,7 @@
         {
             "id": 40,
             "image_id": 7,
-            "category_id": 12,
+            "category_id": 13,
             "bbox": [
                 650,
                 989,
@@ -1022,7 +1022,7 @@
         {
             "id": 41,
             "image_id": 7,
-            "category_id": 13,
+            "category_id": 11,
             "bbox": [
                 156,
                 857,
@@ -1042,7 +1042,7 @@
         {
             "id": 42,
             "image_id": 7,
-            "category_id": 14,
+            "category_id": 12,
             "bbox": [
                 136,
                 1362,
@@ -1062,7 +1062,7 @@
         {
             "id": 43,
             "image_id": 7,
-            "category_id": 3,
+            "category_id": 6,
             "bbox": [
                 485,
                 1212,
@@ -1122,7 +1122,7 @@
         {
             "id": 46,
             "image_id": 8,
-            "category_id": 14,
+            "category_id": 11,
             "bbox": [
                 1347,
                 601,
@@ -1162,7 +1162,7 @@
         {
             "id": 48,
             "image_id": 8,
-            "category_id": 12,
+            "category_id": 13,
             "bbox": [
                 2080,
                 614,
@@ -1182,7 +1182,7 @@
         {
             "id": 49,
             "image_id": 8,
-            "category_id": 13,
+            "category_id": 12,
             "bbox": [
                 1715,
                 610,
@@ -1202,7 +1202,7 @@
         {
             "id": 50,
             "image_id": 9,
-            "category_id": 12,
+            "category_id": 10,
             "bbox": [
                 281,
                 373,
@@ -1242,7 +1242,7 @@
         {
             "id": 52,
             "image_id": 9,
-            "category_id": 11,
+            "category_id": 9,
             "bbox": [
                 265,
                 1027,
