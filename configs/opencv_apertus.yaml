@@ -68,7 +68,7 @@ naming:
 gdino_sam:  # used when perception.method is gdino_sam
   detector_id: IDEA-Research/grounding-dino-base
   segmenter_id: facebook/sam2.1-hiera-small
-  prompt: object. hand.  # class-agnostic: the detector says where, Apertus says what
+  prompt: object.  # class-agnostic: the detector says where, Apertus says what; adding "hand." suppressed most boxes
   box_threshold: 0.2
   text_threshold: 0.15
   max_object_mm: 300  # larger boxes are a whole tray or a group, not one object
