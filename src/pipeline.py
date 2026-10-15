@@ -117,7 +117,7 @@ def perceive_scene(scene: Scene, config: dict, endpoint: dict) -> dict:
     regions_by_id = {region["id"]: region for region in found["regions"]}
     for blob_id, blob in found["blobs"].items():
         members = [regions_by_id[region_id] for region_id in blob["region_ids"]]
-        if len(members) > 1:
+        if len(members) > 1 and config["naming"]["blob_first"]:
             whole = blob_region(blob_id, members, found["work_scale"])
             whole["size_mm"] = size_mm(whole["mask"], mm_per_work_pixel)
             named = name_region(

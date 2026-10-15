@@ -22,6 +22,23 @@ from src.workcell import load_scene
 REPO_DIR = Path(__file__).resolve().parent
 
 
+def apply_override(config: dict, override: str) -> None:
+    """Set one nested config field from ``section.key=value``, failing on unknown keys.
+
+    Args:
+        config: parsed config, changed in place.
+        override: dotted path and YAML value, e.g. ``naming.blob_first=false``.
+    """
+    path, _, value = override.partition("=")
+    *sections, key = path.split(".")
+    target = config
+    for section in sections:
+        target = target[section]
+    if key not in target:
+        raise KeyError(f"unknown config field {path}; available: {sorted(target)}")
+    target[key] = yaml.safe_load(value)
+
+
 def scene_dirs(data_dir: Path) -> list[Path]:
     """Scene folders (those holding an ``rgb.png``), sorted by name.
 
@@ -64,10 +81,19 @@ def main() -> None:
     parser.add_argument("--config", type=Path, default=REPO_DIR / "configs" / "opencv_apertus.yaml")
     parser.add_argument("--base-url", help="override the config's model endpoint")
     parser.add_argument("--runs-dir", type=Path, default=REPO_DIR / "runs")
+    parser.add_argument(
+        "--set",
+        action="append",
+        default=[],
+        metavar="SECTION.KEY=VALUE",
+        help="override one config field (YAML value); recorded in the manifest",
+    )
     parser.add_argument("--limit-scenes", type=int, help="only the first N scenes (debugging)")
     args = parser.parse_args()
 
     config = yaml.safe_load(args.config.read_text())
+    for override in args.set:
+        apply_override(config, override)
     endpoint = {key: config[key] for key in ("model_id", "base_url", "request_timeout_s")}
     if args.base_url:
         endpoint["base_url"] = args.base_url
@@ -111,6 +137,7 @@ def main() -> None:
             "out": str(args.out),
             "wall_clock_s": round(time.time() - started),
             "endpoint": endpoint,
+            "overrides": args.set,
         },
     )
     print(f"{len(results)} answers -> {args.out}; run record in {run_dir}")

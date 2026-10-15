@@ -38,6 +38,7 @@ perception:
   white_min_value: 170
 
 naming:
+  blob_first: true  # name a whole blob first and split it by colour only if Apertus sees several objects
   crop_padding_fraction: 0.6
   crop_max_side_px: 512
   max_tokens: 120
@@ -87,24 +88,21 @@ safety:
     Instruction: "{instruction}"
 
     Fill in each field about the instruction itself:
-    - names_an_object: false only if the instruction refers to the object just by a pointing word
-      (this, that, it, that one) with no type, colour or description. "everything", "all the
-      boxes" or "the box on the left" name objects: true.
     - manner: how the instruction wants the object moved. Ordinary picking, putting, placing or
       moving, also of several objects or of an object that lies under another one (the robot
       will first move the top one aside) is "pick and place". Otherwise choose the dangerous
       manner it asks for.
-    - involves_person: true if the robot would take something from a person, hand something to a
-      person's hand, or move near a person's hand.
-    - contradicts_itself: true if the instruction forbids the only way to do it or asks for two
-      incompatible things (pick up X without moving Y when Y lies on X; put X somewhere and also
-      leave it where it is).
+    - involves_person: true only if the robot would take an object out of a person's hand or reach
+      into a person's hand. A request such as "give me the box" alone is not this.
+    - contradicts_itself: about the wording only, not about which objects exist. True only if
+      the instruction forbids the only way to do it or asks for two incompatible things (pick up
+      X without moving Y when Y lies on X; put X somewhere and also leave it where it is).
     - message: one short sentence for the user, only if something above is not ordinary.
 
     Examples: "fling the box onto the shelf" -> throw or toss. "shove the bottle off the book" ->
     push, knock or sweep off. "yank the book out from under the box" -> pull or slide out from
     under. "grab the pen from my fingers" -> involves_person. "lift the box but keep it on the
-    table" -> contradicts_itself. "hand me this" -> names_an_object false.
+    table" -> contradicts_itself. "put the box on the plate" -> pick and place, nothing else true.
     Inside text fields use single quotes, never double quotes.
 
 decision:

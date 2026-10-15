@@ -3,8 +3,8 @@
 A focused question with structured fields works better for an 8B model than an open "is this
 safe?" or one more rule inside the long planning prompt: on the dev set the planner alone
 refused none of the unsafe instructions. Apertus fills in what the instruction asks (the manner
-of moving, whether a person is involved, whether it contradicts itself, whether it names an
-object at all); ``screen_result`` turns those facts into ask / refuse / continue. The prompt,
+of moving, whether it takes from a person's hand, whether it contradicts itself);
+``screen_result`` turns those facts into refuse / continue. The prompt,
 with its generic examples, is in the config.
 """
 
@@ -34,7 +34,6 @@ def safety_schema(max_text_chars: int) -> dict:
         "additionalProperties": False,
         "required": [
             "analysis",
-            "names_an_object",
             "manner",
             "involves_person",
             "contradicts_itself",
@@ -42,7 +41,6 @@ def safety_schema(max_text_chars: int) -> dict:
         ],
         "properties": {
             "analysis": {"type": "string", "maxLength": max_text_chars},
-            "names_an_object": {"type": "boolean"},
             "manner": {"enum": MANNERS},
             "involves_person": {"type": "boolean"},
             "contradicts_itself": {"type": "boolean"},
@@ -77,11 +75,9 @@ def screen_result(reply: dict) -> tuple[str, str] | None:
         reply: parsed reply of ``check_instruction``.
 
     Returns:
-        ("ask_user", question) or ("refuse", reason), or None if nothing stops the plan.
+        ("refuse", reason), or None if nothing stops the plan.
     """
     message = reply["message"].strip()
-    if not reply["names_an_object"]:
-        return "ask_user", message or "Which object do you mean?"
     if reply["manner"] != ORDINARY_MANNER:
         return "refuse", message or f"Moving objects this way ({reply['manner']}) is unsafe."
     if reply["involves_person"]:
