@@ -1,32 +1,28 @@
-"""Run the Apertus actor-judge pipeline on every scene in a folder.
+"""Run the OpenCV + Apertus LangGraph pipeline (src/graph_pipeline) on every scene in a folder.
 
 python run.py --data heldout --out results_heldout.json
 python run.py --data dataset --mock --limit 5
-python run.py --data dataset --set loop.max_iterations=1 --name one-round
+python run.py --data dataset --set endpoint.base_url=https://api.inference.cscs.ch/v1
 """
 
 import argparse
 import json
 import shutil
-import sys
 import time
 from pathlib import Path
 
 from dotenv import load_dotenv
 
 from src import manifest
-from src.config import load_config
-from src.graph import build_graph
-from src.image import resize_for_model, to_data_url
-from src.llm import ApertusClient
+from src.graph_pipeline.config import load_config
+from src.graph_pipeline.graph import build_graph
+from src.graph_pipeline.llm import ApertusClient
+from src.workcell import load_scene
 
 REPO_DIR = Path(__file__).resolve().parent
-sys.path.insert(0, str(REPO_DIR / "starter"))
-from scene_io import load_scene
-
-DEFAULT_CONFIG = REPO_DIR / "configs" / "actor_critic.yaml"
+DEFAULT_CONFIG = REPO_DIR / "configs" / "graph_pipeline.yaml"
 OUTPUTS_DIR = REPO_DIR / "outputs"
-STEPS_PER_ITERATION = 2
+STEPS_PER_ATTEMPT = 2
 FIXED_STEPS = 10
 
 
@@ -90,7 +86,7 @@ def main() -> None:
 
     client = ApertusClient(config, mock=arguments.mock)
     graph = build_graph(config, client)
-    recursion_limit = STEPS_PER_ITERATION * config["loop"]["max_iterations"] + FIXED_STEPS
+    recursion_limit = STEPS_PER_ATTEMPT * config["decision"]["max_attempts"] + FIXED_STEPS
 
     results = []
     remaining = arguments.limit
@@ -99,33 +95,35 @@ def main() -> None:
         if remaining is not None and remaining <= 0:
             break
         scene = load_scene(scene_dir)
-        image = resize_for_model(scene.rgb, config["image"]["max_side"])
-        image_url = to_data_url(image.rgb, config["image"]["jpeg_quality"])
-        scene_graph = None
+        gripper_mm = scene.gripper_max_opening_mm or config["gripper_max_opening_mm"]
+        perceived = None
         instructions = scene.instructions[:remaining] if remaining else scene.instructions
         for instruction_id, _category, text in instructions:
             state = graph.invoke(
                 {
                     "instruction_id": instruction_id,
                     "instruction": text,
-                    "image": image,
-                    "image_url": image_url,
-                    "scene": scene_graph,
+                    "scene": scene,
+                    "gripper_mm": gripper_mm,
+                    "regions": None,
+                    "work_scale": None,
+                    "perceived": perceived,
                     "safety": None,
-                    "candidate": None,
-                    "iteration": 0,
-                    "history": [],
+                    "stop": None,
+                    "decision": None,
+                    "problem": None,
+                    "attempts": 0,
                     "result": None,
                 },
                 {"recursion_limit": recursion_limit},
             )
-            if scene_graph is None:
-                scene_graph = state["scene"]
+            if perceived is None:
+                perceived = state["perceived"]
+                print(f"{scene.name}: {len(perceived['objects'])} objects")
             results.append(state["result"])
-            last_verdict = state["history"][-1]["judgement"]["verdict"]
             print(
                 f"[{len(results)}] {instruction_id}: {state['result']['actions'][0]['action']}"
-                f"  rounds={state['iteration']}  last_verdict={last_verdict}"
+                f"  plan_attempts={state['attempts']}  {text}"
             )
         if remaining is not None:
             remaining -= len(instructions)

@@ -8,4 +8,7 @@ langgraph==1.2.15
 langchain-core==1.6.10
 langchain-openai==1.7.2
 ruff
+pytest
+jsonschema
+matplotlib
 # to run Apertus locally (GPU): pip install vllm

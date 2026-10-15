@@ -15,11 +15,11 @@ from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 REPO_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_DIR))
 
-from src.config import load_config
-from src.graph import build_graph
-from src.llm import ApertusClient
+from src.graph_pipeline.config import load_config
+from src.graph_pipeline.graph import build_graph
+from src.graph_pipeline.llm import ApertusClient
 
-CONFIG_PATH = REPO_DIR / "configs" / "actor_critic.yaml"
+CONFIG_PATH = REPO_DIR / "configs" / "graph_pipeline.yaml"
 GRAPH_DIR = REPO_DIR / "outputs" / "graph"
 DPI = 300
 NODE_WIDTH = 2.6
@@ -43,14 +43,14 @@ def node_label(node_id: str) -> str:
     return node_id.strip("_").upper() if node_id.startswith("__") else node_id
 
 
-def draw_png(graph, path: Path, loop_label: str, skip_label: str) -> None:
+def draw_png(graph, path: Path, edge_labels: dict[tuple[str, str], str]) -> None:
     """Render nodes top to bottom in insertion order; skips and loops are drawn as side arcs.
 
     Args:
         graph: ``CompiledStateGraph.get_graph()`` result.
         path: PNG file to write.
-        loop_label: text placed on edges that go back up (the retry loop).
-        skip_label: text placed on edges that skip nodes going down.
+        edge_labels: text per ``(source, target)`` edge; loops are labelled on the right,
+            skips on the left.
 
     Returns:
         None.
@@ -96,17 +96,16 @@ def draw_png(graph, path: Path, loop_label: str, skip_label: str) -> None:
             color=EDGE_COLOUR,
         )
         axes.add_patch(arrow)
+        label = edge_labels.get((edge.source, edge.target))
         label_y = (source_y + target_y) / 2
-        if goes_back:
-            axes.text(NODE_WIDTH / 2 + 0.75, label_y, loop_label, fontsize=9, va="center")
-        elif row_step > 1:
-            axes.text(
-                -NODE_WIDTH / 2 - 1.05, label_y, skip_label, fontsize=9, va="center", ha="right"
-            )
+        if label and goes_back:
+            axes.text(NODE_WIDTH / 2 + 0.75, label_y, label, fontsize=9, va="center")
+        elif label:
+            axes.text(-NODE_WIDTH / 2 - 1.05, label_y, label, fontsize=9, va="center", ha="right")
     axes.set_xlim(-NODE_WIDTH - 2.6, NODE_WIDTH + 2.6)
     axes.set_ylim(-(len(node_ids) - 1) * ROW_SPACING - 0.8, 0.8)
     axes.axis("off")
-    axes.set_title("Apertus actor-judge pipeline (dashed = conditional edge)", fontsize=12)
+    axes.set_title("OpenCV + Apertus pipeline (dashed = conditional edge)", fontsize=12)
     figure.savefig(path, dpi=DPI, bbox_inches="tight", facecolor="white")
     plt.close(figure)
 
@@ -119,11 +118,17 @@ def main() -> None:
     """
     config = load_config(CONFIG_PATH, [])
     graph = build_graph(config, ApertusClient(config, mock=True)).get_graph()
-    loop = config["loop"]
-    loop_label = f"retry with feedback\nverdict wrong\nand round < {loop['max_iterations']}"
+    edge_labels = {
+        ("__start__", "check_safety"): "scene of this photo\nalready built",
+        ("check_safety", "finalize"): "unsafe or\nself-contradictory:\nrefuse",
+        ("check_plan", "plan"): (
+            "plan not executable:\nretry with the problem\n"
+            f"(at most {config['decision']['max_attempts']} attempts)"
+        ),
+    }
     GRAPH_DIR.mkdir(parents=True, exist_ok=True)
     (GRAPH_DIR / "graph.mmd").write_text(graph.draw_mermaid())
-    draw_png(graph, GRAPH_DIR / "graph.png", loop_label, "scene of this photo\nalready described")
+    draw_png(graph, GRAPH_DIR / "graph.png", edge_labels)
     print(f"Wrote {GRAPH_DIR / 'graph.png'} and {GRAPH_DIR / 'graph.mmd'}")
 
 

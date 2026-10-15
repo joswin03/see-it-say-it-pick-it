@@ -42,8 +42,12 @@ ambiguity/feasibility checks), no extensive literature research, no speculative 
 
 - Never commit on `main`. Work on `dev/vaibhav`; merge to `main`
   only when the user asks.
-- Pipeline code lives in `src/`, orchestrated as a LangGraph graph (one node, one job).
-  Run outputs go to `outputs/`.
+- Our pipeline lives in `src/graph_pipeline/` (LangGraph, one node one job; config
+  `configs/graph_pipeline.yaml`; entry point `run.py`). It reuses Joswin's vision and geometry
+  modules (`src/perception/`, `src/scene_graph.py`, `src/workcell.py`, helpers in
+  `src/pipeline.py` and `src/reasoning/`) unchanged, so later merges from `dev/joswin-opencv`
+  stay clean; his own runner is `scripts/run_opencv.py`. Run outputs go to `outputs/`
+  (`results.json` + `manifest.json` only).
 - Secrets (`APERTUS_API_KEY`) live in `.env` (gitignored), loaded with python-dotenv; never
   printed, logged or written to a manifest. The Apertus endpoint (`base_url`) is a config
   field, so the same code runs against the hosted API or a local vLLM server. Results that
