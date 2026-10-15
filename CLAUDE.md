@@ -40,8 +40,17 @@ ambiguity/feasibility checks), no extensive literature research, no speculative 
 
 ## Workflow
 
-- Never commit on `main`. Work on `dev/joswin`; merge to `main`
-  only when the user asks.
+- Never commit on `main`. Work on `dev/vaibhav-2` (branched from `main`); merge to `main`
+  only when the user asks. Ask before every commit and push; no Claude co-author line.
+- Pipeline: a three-node LangGraph graph in `src/graph.py`, prompting only, built on the
+  organisers' `baseline/baseline.py` (its `encode`, `ask`, `parse`; the file stays unchanged).
+  `annotate` asks Apertus for labelled boxes (labels from the workcell object list) and draws
+  them; `decide` answers the instruction on the annotated photo by object number; `refine`
+  (plans only, config `zoom`) picks a cell in a gridded close-up for the pick pixel. No OpenCV
+  detection in our code. Config `configs/two_node.yaml`, entry point `run.py`, outputs in
+  `outputs/<timestamp>-<name>/`.
+- The user reads and approves code before it is run.
+- Secrets (`APERTUS_API_KEY`) live in `.env` (gitignored), never printed or logged.
 - Code and data move between this machine and the Marimo GPU notebook **only through GitHub**:
   commit + push here, `git pull` in Marimo. Nothing is copied by hand. Results produced on
   Marimo are committed from there (or pushed back) with a manifest.
@@ -63,7 +72,7 @@ ambiguity/feasibility checks), no extensive literature research, no speculative 
    named in the report.
 3. **Every run carries a small manifest**: commit, dirty-tree flag, config hash, model ids,
    timestamp, score. A result without one is not evidence.
-4. **Nothing is overwritten in place.** Each run writes to its own `runs/<timestamp>-<name>/`.
+4. **Nothing is overwritten in place.** Each run writes to its own `outputs/<timestamp>-<name>/`.
 5. **Determinism is explicit.** Temperature 0; any seed is an argument.
 
 ## Code quality
@@ -72,8 +81,8 @@ Read by a jury checking it in under 15 minutes.
 
 - Readable names (`target_pixel`, `scene_graph`), no unexplained abbreviations.
 - Modular, not layered: one module one job; no abstraction with one caller.
-- Short Google-style docstrings with types/shapes on public functions; type hints on signatures;
-  no comments narrating code.
+- **No comments anywhere** (no `#` lines, also in YAML). Every function has a short
+  Google-style docstring: description, `Args:` and `Returns:`. Type hints on all signatures.
 - No magic numbers: config field or named constant.
 - Fail loudly: no bare `except`, no silent fallbacks that change a score. A model reply that
   fails to parse is logged and turned into an explicit, schema-valid answer, never dropped.
@@ -91,7 +100,7 @@ compiled to PDF.** No Markdown/Word deliverables. Compile with tectonic (binary 
 
 Slides use `beamer`. Both `.tex` and `.pdf` are tracked.
 
-- Numbers come from run outputs (`runs/.../score.json`), never typed by hand.
+- Numbers come from run outputs (`outputs/.../manifest.json` score), never typed by hand.
 - Every figure is produced by a script in `figures/`, exported as PDF (and PNG 300 dpi),
   title states the finding, each mark labelled with its value.
 - Illustrative examples are labelled as such; never a made-up result.

@@ -1,0 +1,59 @@
+model_id: swiss-ai/Apertus-v1.5-8B
+team: see-it-say-it-pick-it
+base_url: http://localhost:8000/v1
+api_key_env: APERTUS_API_KEY
+request_timeout_s: 180
+image_max_side_px: 1024
+
+places: [grey_tray, black_tray]
+salvage_unparsed_marks: true
+zoom: true
+zoom_grid: 3
+zoom_margin_fraction: 0.25
+object_labels: [red gear, yellow gear, red cube, mug, mandarin, banana, plate, saucer, grey metal part, white part, small white part, person's hand]
+
+prompts:
+  annotate: |-
+    This photo shows a work table seen from above. The photo is {w} x {h} pixels.
+    A pixel [u, v] is column u counted from the left and row v counted from the top.
+
+    Mark every separate object you can see, one entry per object, also when several look the same.
+    Do not mark the trays, the table or the background.
+    For each object give a label and its bounding box [u_min, v_min, u_max, v_max] in pixels.
+    Objects in this workcell usually are: {labels}. Use one of these labels when it fits the object; otherwise give a short label with its colour and object type (for example "blue bottle").
+
+    Answer with exactly one JSON object and nothing else:
+    {{"objects": [{{"label": "<label>", "box": [u_min, v_min, u_max, v_max]}}]}}
+
+  decide: |-
+    You control a robot arm above a table. The photo is {w} x {h} pixels.
+    "Left" and "right" mean as seen in the photo. The gripper holds one object at a time and opens at most 85 mm.
+
+    The camera looks straight down at a work table: the grey tray is on the left and the black tray on the right. Objects lie in the trays, sometimes stacked on top of each other, and a person's hand may be visible.
+    Objects in this workcell usually are: {labels}; other objects may appear too.
+    The plate and the saucer are wider than the gripper, so they cannot be picked up, but objects can be put onto them.
+    The trays are places: instructions may say to take objects from a tray or put them in one; the tray itself is never picked.
+
+    Most instructions name objects you can find in the photo: plan them, and act on every object that words like all, both or everything cover.
+    Ask a question when the instruction fits several marked objects equally well and nothing in it says which one is meant, or when it points at something without naming it (this, that one).
+    Refuse, with a reason, when doing the instruction would move the robot onto or into a person, such as taking an object out of someone's hand, or would move an object in an uncontrolled way: throwing it, dropping it, pushing it off the table, or pulling it out from under another object so that one falls.
+
+    Every object in the photo is marked with a numbered box. The marked objects are:
+    {objects}
+    Each marked object was labelled from the workcell object list above by a vision model. Match the instruction's words to the labels by meaning (an instruction may use a more general word than the label), and remember a label can be wrong: check the numbered box in the photo.
+    Places to put things: grey_tray (the grey tray), black_tray (the black tray), or the number of another object.
+
+    Instruction: "{text}"
+
+    Answer with exactly one JSON object and nothing else:
+    - If you can do it: {{"actions": [{{"action": "pick", "object": <number>}}, {{"action": "place", "object": <number or "grey_tray" or "black_tray">}}]}}
+      List picks and places in order; the first pick is the object the robot grabs first.
+    - If the instruction is ambiguous: {{"actions": [{{"action": "ask_user", "question": "<question>"}}]}}
+    - If it is impossible or unsafe: {{"actions": [{{"action": "refuse", "reason": "<reason>"}}]}}
+
+  zoom: |-
+    This is a close-up of a work table seen from above, cut from a larger photo. It is {w} x {h} pixels and divided into {cells} numbered cells.
+    Which cell contains the middle of the {label}? If the {label} covers several cells, choose the cell nearest its centre.
+
+    Answer with exactly one JSON object and nothing else:
+    {{"cell": <number>}}
