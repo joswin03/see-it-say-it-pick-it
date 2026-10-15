@@ -7,6 +7,7 @@ base_url: http://localhost:8000/v1
 request_timeout_s: 180
 
 perception:
+  method: vlm  # vlm: Qwen3-VL boxes only (comparison run); opencv: OpenCV regions + naming
   work_scale: 0.25  # segment on a 612 x 512 copy; masks are scaled back to full resolution
   morph_kernel_px: 5  # at work scale
   # Black tray: dark, unsaturated. Anything brighter or more saturated is an object.
@@ -64,6 +65,17 @@ naming:
     part of the tray wall or the table, or a highlight. A human hand or arm is an object.
     If the outline covers only part of an object, name the whole object.
   fixture_words: [tray, table, wall, floor, background, shadow, reflection, surface]  # places, not objects
+
+vlm_detection:  # used when perception.method is vlm; endpoint is naming.endpoint
+  image_max_side_px: 1024
+  max_objects: 20
+  max_tokens: 1200
+  prompt: |-
+    A camera looks straight down at a robot workcell table with a grey tray (left) and a black
+    tray (right). Detect every separate object lying in the trays or on the table, not the trays
+    themselves. Include a person's hand or arm if one is visible. List objects lying on top of
+    others separately. For each give its colour and type as the name (2 to 3 words, e.g. 'blue
+    box', 'white cup'), the tray it lies in, and its bounding box bbox_2d as [x1, y1, x2, y2].
 
 safety:
   enabled: true  # Apertus screens for unsafe / self-contradictory instructions before planning

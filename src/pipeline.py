@@ -9,6 +9,7 @@ import cv2
 import numpy as np
 
 from src.perception.regions import find_regions
+from src.perception.vlm_detect import detect_regions
 from src.reasoning.client import ModelReplyError, image_url
 from src.reasoning.decision import HOLD, decide
 from src.reasoning.naming import name_region
@@ -117,13 +118,25 @@ def perceive_scene(scene: Scene, config: dict, endpoint: dict) -> dict:
     perception = config["perception"]
     scale_mm = mm_per_pixel(scene)
     mm_per_work_pixel = scale_mm / perception["work_scale"]
-    found = find_regions(scene.rgb, perception, mm_per_work_pixel**2)
-    naming_log = []
-    for region in found["regions"]:
-        region["size_mm"] = size_mm(region["mask"], mm_per_work_pixel)
-        named = name_or_mark_unknown(scene, region, config, endpoint, scale_mm)
-        region["name"], region["is_object"] = named["name"], named["is_object"]
-        naming_log.append(naming_entry(region, named))
+    if perception["method"] == "vlm":
+        regions, raw = detect_regions(
+            scene.rgb,
+            {**endpoint, **config["naming"]["endpoint"]},
+            config["vlm_detection"],
+            perception["work_scale"],
+        )
+        naming_log = [{"vlm_detection": raw}]
+        for region in regions:
+            region["size_mm"] = size_mm(region["mask"], mm_per_work_pixel)
+        found = {"regions": regions, "work_scale": perception["work_scale"]}
+    else:
+        found = find_regions(scene.rgb, perception, mm_per_work_pixel**2)
+        naming_log = []
+        for region in found["regions"]:
+            region["size_mm"] = size_mm(region["mask"], mm_per_work_pixel)
+            named = name_or_mark_unknown(scene, region, config, endpoint, scale_mm)
+            region["name"], region["is_object"] = named["name"], named["is_object"]
+            naming_log.append(naming_entry(region, named))
     objects = build_scene_graph(
         found["regions"], found["work_scale"], mm_per_work_pixel, config["scene_graph"]
     )
