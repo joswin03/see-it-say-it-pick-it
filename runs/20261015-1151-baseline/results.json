@@ -1,0 +1,736 @@
+{
+  "team": "baseline",
+  "results": [
+    {
+      "target_pixel": [
+        330,
+        1040
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red cube"
+        },
+        {
+          "action": "place",
+          "object": "red cube"
+        }
+      ],
+      "instruction_id": "scene_01_i1"
+    },
+    {
+      "target_pixel": [
+        760,
+        904
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow gear"
+        }
+      ],
+      "instruction_id": "scene_01_i2"
+    },
+    {
+      "target_pixel": [
+        712,
+        514
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mug"
+        },
+        {
+          "action": "place",
+          "object": "mug"
+        }
+      ],
+      "instruction_id": "scene_01_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which objects should be moved from the grey tray to the black tray?"
+        }
+      ],
+      "instruction_id": "scene_01_i4"
+    },
+    {
+      "target_pixel": [
+        328,
+        1040
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "blue cube"
+        },
+        {
+          "action": "place",
+          "object": "blue cube"
+        }
+      ],
+      "instruction_id": "scene_01_i5"
+    },
+    {
+      "target_pixel": [
+        1994,
+        844
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "mandarin"
+        }
+      ],
+      "instruction_id": "scene_02_i1"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the red cube and which is the grey tray?"
+        }
+      ],
+      "instruction_id": "scene_02_i2"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is to the left of the mug?"
+        }
+      ],
+      "instruction_id": "scene_02_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the mandarin and which is the cube?"
+        }
+      ],
+      "instruction_id": "scene_02_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which plate and which mug should be used for this task?"
+        }
+      ],
+      "instruction_id": "scene_02_i5"
+    },
+    {
+      "target_pixel": [
+        1733,
+        1112
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow gear"
+        }
+      ],
+      "instruction_id": "scene_03_i1"
+    },
+    {
+      "target_pixel": [
+        1573,
+        681
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red gear"
+        },
+        {
+          "action": "place",
+          "object": "red gear"
+        }
+      ],
+      "instruction_id": "scene_03_i2"
+    },
+    {
+      "target_pixel": [
+        1867,
+        753
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "second red gear from the right"
+        },
+        {
+          "action": "place",
+          "object": "second red gear from the right"
+        }
+      ],
+      "instruction_id": "scene_03_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which red gear should be picked first?"
+        }
+      ],
+      "instruction_id": "scene_03_i4"
+    },
+    {
+      "target_pixel": [
+        1669,
+        717
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red gear"
+        },
+        {
+          "action": "place",
+          "object": "red gear"
+        }
+      ],
+      "instruction_id": "scene_03_i5"
+    },
+    {
+      "target_pixel": [
+        1542,
+        1112
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "white part"
+        },
+        {
+          "action": "place",
+          "object": "white part"
+        }
+      ],
+      "instruction_id": "scene_04_i1"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the mug and where is the grey tray located?"
+        }
+      ],
+      "instruction_id": "scene_04_i2"
+    },
+    {
+      "target_pixel": [
+        717,
+        1076
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "grey part"
+        },
+        {
+          "action": "place",
+          "object": "grey part"
+        }
+      ],
+      "instruction_id": "scene_04_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the mug?"
+        }
+      ],
+      "instruction_id": "scene_04_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which white part should be thrown into the grey tray?"
+        }
+      ],
+      "instruction_id": "scene_04_i5"
+    },
+    {
+      "target_pixel": [
+        1489,
+        1023
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "banana"
+        },
+        {
+          "action": "place",
+          "object": "banana"
+        }
+      ],
+      "instruction_id": "scene_05_i1"
+    },
+    {
+      "target_pixel": [
+        1494,
+        1016
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "banana"
+        },
+        {
+          "action": "place",
+          "object": "banana"
+        }
+      ],
+      "instruction_id": "scene_05_i2"
+    },
+    {
+      "target_pixel": [
+        1776,
+        753
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange"
+        },
+        {
+          "action": "place",
+          "object": "orange"
+        }
+      ],
+      "instruction_id": "scene_05_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which objects are considered plates and saucers in the image to exclude them from the transfer?"
+        }
+      ],
+      "instruction_id": "scene_05_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object should be picked?"
+        }
+      ],
+      "instruction_id": "scene_05_i5"
+    },
+    {
+      "target_pixel": [
+        1776,
+        1351
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red cube"
+        },
+        {
+          "action": "place",
+          "object": "red cube"
+        }
+      ],
+      "instruction_id": "scene_06_i1"
+    },
+    {
+      "target_pixel": [
+        1611,
+        605
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "gear"
+        },
+        {
+          "action": "place",
+          "object": "gear"
+        }
+      ],
+      "instruction_id": "scene_06_i2"
+    },
+    {
+      "target_pixel": [
+        1537,
+        753
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red gear"
+        },
+        {
+          "action": "place",
+          "object": "red gear"
+        }
+      ],
+      "instruction_id": "scene_06_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which red gear and which yellow gear should be used?"
+        }
+      ],
+      "instruction_id": "scene_06_i4"
+    },
+    {
+      "target_pixel": [
+        1611,
+        736
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow gear"
+        }
+      ],
+      "instruction_id": "scene_06_i5"
+    },
+    {
+      "target_pixel": [
+        442,
+        1279
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red cube"
+        },
+        {
+          "action": "place",
+          "object": "red cube"
+        }
+      ],
+      "instruction_id": "scene_07_i1"
+    },
+    {
+      "target_pixel": [
+        808,
+        1406
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow gear"
+        }
+      ],
+      "instruction_id": "scene_07_i2"
+    },
+    {
+      "target_pixel": [
+        569,
+        1358
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red square"
+        },
+        {
+          "action": "place",
+          "object": "red square"
+        }
+      ],
+      "instruction_id": "scene_07_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the red gear and which is the mug?"
+        }
+      ],
+      "instruction_id": "scene_07_i4"
+    },
+    {
+      "target_pixel": [
+        426,
+        442
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red gear"
+        },
+        {
+          "action": "place",
+          "object": "red gear"
+        }
+      ],
+      "instruction_id": "scene_07_i5"
+    },
+    {
+      "target_pixel": [
+        1542,
+        920
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "gear"
+        },
+        {
+          "action": "place",
+          "object": "gear"
+        }
+      ],
+      "instruction_id": "scene_08_i1"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is considered the 'small white part'?"
+        }
+      ],
+      "instruction_id": "scene_08_i2"
+    },
+    {
+      "target_pixel": [
+        1688,
+        497
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red gears"
+        },
+        {
+          "action": "place",
+          "object": "red gears"
+        }
+      ],
+      "instruction_id": "scene_08_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which red gear should be picked first?"
+        }
+      ],
+      "instruction_id": "scene_08_i4"
+    },
+    {
+      "target_pixel": [
+        1661,
+        478
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "cube"
+        },
+        {
+          "action": "place",
+          "object": "cube"
+        }
+      ],
+      "instruction_id": "scene_08_i5"
+    },
+    {
+      "target_pixel": [
+        681,
+        1303
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "mandarin"
+        }
+      ],
+      "instruction_id": "scene_09_i1"
+    },
+    {
+      "target_pixel": [
+        497,
+        1382
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red gear"
+        },
+        {
+          "action": "place",
+          "object": "red gear"
+        }
+      ],
+      "instruction_id": "scene_09_i2"
+    },
+    {
+      "target_pixel": [
+        478,
+        717
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange"
+        },
+        {
+          "action": "place",
+          "object": "orange"
+        }
+      ],
+      "instruction_id": "scene_09_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the 'grey part' and which is the 'red cube'?"
+        }
+      ],
+      "instruction_id": "scene_09_i4"
+    },
+    {
+      "target_pixel": [
+        657,
+        1315
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "mandarin"
+        }
+      ],
+      "instruction_id": "scene_09_i5"
+    },
+    {
+      "target_pixel": [
+        825,
+        1518
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow gear"
+        }
+      ],
+      "instruction_id": "scene_10_i1"
+    },
+    {
+      "target_pixel": [
+        521,
+        1329
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "mandarin"
+        }
+      ],
+      "instruction_id": "scene_10_i2"
+    },
+    {
+      "target_pixel": [
+        617,
+        1059
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red gear"
+        },
+        {
+          "action": "place",
+          "object": "red gear"
+        }
+      ],
+      "instruction_id": "scene_10_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which plate should the gears be placed on?"
+        }
+      ],
+      "instruction_id": "scene_10_i4"
+    },
+    {
+      "target_pixel": [
+        760,
+        586
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mug"
+        },
+        {
+          "action": "place",
+          "object": "mug"
+        }
+      ],
+      "instruction_id": "scene_10_i5"
+    }
+  ]
+}
