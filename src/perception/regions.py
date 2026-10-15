@@ -122,11 +122,19 @@ def background_plane(value: np.ndarray, support: np.ndarray) -> np.ndarray:
     return plane.astype(np.float32)
 
 
-def foreground(hsv: np.ndarray, trays: dict[str, np.ndarray], config: dict) -> np.ndarray:
+def foreground(
+    hsv: np.ndarray, lab_b: np.ndarray, trays: dict[str, np.ndarray], config: dict
+) -> np.ndarray:
     """Mark pixels that belong to an object rather than to a tray.
+
+    On the grey tray an unsaturated object (a grey metal part, an off-white part) differs from
+    the floor only in tint: the floor is faintly blue, the parts faintly warm. Lab b (blue to
+    yellow) measures that tint more steadily than HSV hue at low saturation, and is compared
+    with this photo's own floor so the rule does not depend on white balance.
 
     Args:
         hsv: (h, w, 3) uint8 OpenCV HSV at work scale.
+        lab_b: (h, w) uint8 Lab b channel at work scale (128 = neutral, higher = warmer).
         trays: output of ``find_trays``.
         config: the ``perception`` section of the pipeline config.
 
@@ -134,9 +142,9 @@ def foreground(hsv: np.ndarray, trays: dict[str, np.ndarray], config: dict) -> n
         (h, w) bool, cleaned with an open/close and with blobs below the minimum area removed
         by the caller.
     """
-    hue, saturation, value = hsv[..., 0], hsv[..., 1], hsv[..., 2]
-    hue_low, hue_high = config["grey_floor_hue"]
-    off_floor_hue = (hue < hue_low) | (hue > hue_high)
+    saturation, value = hsv[..., 1], hsv[..., 2]
+    floor = grey_floor(hsv, config)
+    floor_tint = np.median(lab_b[floor & trays["grey_tray"]])
     bare_black = (
         trays["black_tray"]
         & (value < config["black_tray_max_value"])
@@ -146,11 +154,11 @@ def foreground(hsv: np.ndarray, trays: dict[str, np.ndarray], config: dict) -> n
     on_black = (value >= black_level + config["black_object_min_contrast"]) | (
         saturation >= config["black_object_min_saturation"]
     )
-    on_grey = ~grey_floor(hsv, config) & (
+    on_grey = ~floor & (
         (saturation >= config["grey_object_min_saturation"])
         | (value >= config["grey_object_min_value"])
         | (value <= config["grey_object_max_value"])
-        | (off_floor_hue & (saturation >= config["grey_object_min_tint_saturation"]))
+        | (lab_b >= floor_tint + config["grey_object_min_warmth"])
     )
     mask = (on_black & trays["black_tray"]) | (on_grey & trays["grey_tray"])
     kernel = np.ones((config["morph_kernel_px"],) * 2, np.uint8)
@@ -214,6 +222,58 @@ def fill_holes(mask: np.ndarray) -> np.ndarray:
     filled = np.zeros(mask.shape, np.uint8)
     cv2.drawContours(filled, contours, -1, 1, thickness=cv2.FILLED)
     return filled.astype(bool)
+
+
+def texture_map(rgb: np.ndarray, work_size: tuple[int, int], blur_px: int) -> np.ndarray:
+    """Local surface roughness: mean absolute Laplacian, measured at full resolution.
+
+    The grain of a cast or 3D-printed gear disappears when the photo is downscaled, so it is
+    measured on the full photo and then averaged down to work scale.
+
+    Args:
+        rgb: (H, W, 3) uint8 full-resolution photo.
+        work_size: (w, h) of the work-scale image.
+        blur_px: box-filter size at work scale that turns pixel noise into a local measure.
+
+    Returns:
+        (h, w) float32 roughness; smooth plastic is below ~1, grainy parts above.
+    """
+    grey = cv2.GaussianBlur(cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY).astype(np.float32), (5, 5), 0)
+    roughness = np.abs(cv2.Laplacian(grey, cv2.CV_32F))
+    return cv2.blur(cv2.resize(roughness, work_size, interpolation=cv2.INTER_AREA), (blur_px,) * 2)
+
+
+def split_by_texture(
+    mask: np.ndarray, texture: np.ndarray, smooth_max: float, min_piece_pixels: float, open_px: int
+) -> list[np.ndarray]:
+    """Separate a smooth object lying on grainy ones of the same colour (a cube on gears).
+
+    Same colour, so hue cannot tell them apart; their surfaces can. The mask is split only if
+    both the smooth and the grainy side hold an object-sized piece, so a single smooth object
+    with grainy highlights, or a single gear with a few smooth pixels, stays whole.
+
+    Args:
+        mask: (h, w) bool, one same-colour part.
+        texture: (h, w) float32 output of ``texture_map``.
+        smooth_max: roughness below which a pixel counts as smooth.
+        min_piece_pixels: smallest area, in work pixels, of a piece that counts as an object.
+        open_px: opening kernel size that removes speckle from both sides.
+
+    Returns:
+        [mask] unchanged, or [smooth, grainy] masks.
+    """
+    kernel = np.ones((5, 5), np.uint8)
+    smooth = cv2.morphologyEx(
+        (mask & (texture < smooth_max)).astype(np.uint8), cv2.MORPH_OPEN, kernel
+    )
+    grainy = cv2.morphologyEx(
+        (mask & ~smooth.astype(bool)).astype(np.uint8), cv2.MORPH_OPEN, kernel
+    )
+    if largest_component(smooth.astype(bool)).sum() < min_piece_pixels:
+        return [mask]
+    if largest_component(grainy.astype(bool)).sum() < min_piece_pixels:
+        return [mask]
+    return [smooth.astype(bool), grainy.astype(bool)]
 
 
 def split_touching(mask: np.ndarray, core_fraction: float) -> list[np.ndarray]:
@@ -294,8 +354,12 @@ def find_regions(rgb: np.ndarray, config: dict, mm2_per_work_pixel: float) -> di
     small = to_work_scale(rgb, work_scale)
     hsv = cv2.cvtColor(small, cv2.COLOR_RGB2HSV)
     trays = find_trays(hsv, config)
-    mask = foreground(hsv, trays, config)
+    lab_b = cv2.cvtColor(small, cv2.COLOR_RGB2LAB)[..., 2]
+    mask = foreground(hsv, lab_b, trays, config)
     classes, class_names = colour_classes(hsv, config)
+    texture = texture_map(rgb, (small.shape[1], small.shape[0]), config["morph_kernel_px"])
+    min_texture_pixels = config["texture_min_piece_mm2"] / mm2_per_work_pixel
+    neutral_group = len(colour_groups(class_names)) - 1
     min_pixels = config["min_region_area_mm2"] / mm2_per_work_pixel
     work_pixels_per_mm = 1 / np.sqrt(mm2_per_work_pixel)
     min_depth_pixels = config["min_thickness_mm"] / 2 * work_pixels_per_mm
@@ -316,7 +380,21 @@ def find_regions(rgb: np.ndarray, config: dict, mm2_per_work_pixel: float) -> di
                 part_mask = part_labels == part_index
                 if part_mask.sum() < min_pixels:
                     continue
-                for region_mask in split_touching(fill_holes(part_mask), config["core_fraction"]):
+                pieces = [fill_holes(part_mask)]
+                if group_index != neutral_group:
+                    pieces = split_by_texture(
+                        pieces[0],
+                        texture,
+                        config["smooth_max_texture"],
+                        min_texture_pixels,
+                        config["morph_kernel_px"],
+                    )
+                region_masks = [
+                    region_mask
+                    for piece in pieces
+                    for region_mask in split_touching(piece, config["core_fraction"])
+                ]
+                for region_mask in region_masks:
                     depth = cv2.distanceTransform(region_mask.astype(np.uint8), cv2.DIST_L2, 5)
                     if region_mask.sum() < min_pixels or depth.max() < min_depth_pixels:
                         continue
