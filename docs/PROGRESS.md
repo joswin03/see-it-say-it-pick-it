@@ -13,7 +13,7 @@ committed. Thresholds were tuned on the dev set, so the held-out score is the ho
 | v1 | `30b8e01` | 13.9 | 10.5 (12/40) | 3.4 | 3/10 | 25/40 | first end-to-end pipeline |
 | v3 | `50b4b66` | 27.8 | 21.0 (24/40) | 6.7 | 3/10 | 10/40 | plan as moves, places listed |
 | v5 | `3b16519` | 34.1 | 23.6 (27/40) | 10.5 | 4/10 | 5/40 | safety check, reply recovery |
-| v6 | `460bbe3` | 16.3 | 12.2 (14/40) | 4.0 | 3/10 | 22/40 | regression, see problem 9 |
+| v6 | `460bbe3` | 16.3 | 12.2 (14/40) | 4.0 | 3/10 | 22/40 | regression: `names_an_object` asked on nearly everything (problem 10), blob-first merged objects (problem 9) |
 | **v7a** | `287e178`, `--set naming.blob_first=false` | **42.0** | 22.8 (26/40) | 19.2 | 8/10 | 8/40 | structured safety screen |
 
 v7a by category: simple 75%, relative 50%, multistep 70%, ambiguous 100%, impossible 75%,
