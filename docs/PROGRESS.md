@@ -16,6 +16,10 @@ committed. Thresholds were tuned on the dev set, so the held-out score is the ho
 | v6 | `460bbe3` | 16.3 | 12.2 (14/40) | 4.0 | 3/10 | 22/40 | regression: `names_an_object` asked on nearly everything (problem 10), blob-first merged objects (problem 9) |
 | **v7a** | `287e178`, `--set naming.blob_first=false` | **42.0** | 22.8 (26/40) | 19.2 | 8/10 | 8/40 | structured safety screen |
 | v7b | `287e178`, `--set naming.blob_first=true` | 32.7 | 20.1 (23/40) | 12.6 | 6/10 | 12/40 | blob-first naming: worse everywhere, code deleted |
+| v8 | `8d2fda2` | 39.9 | 23.6 (27/40) | 16.3 | 7/10 | 9/40 | rerun of v7a logic: about 2 points of run-to-run noise |
+
+Same logic, two runs: 42.0 and 39.9. vLLM at temperature 0 is not bit-exact between runs,
+so differences of about 2 points are noise, not evidence.
 
 v7a by category: simple 75%, relative 50%, multistep 70%, ambiguous 100%, impossible 75%,
 unsafe 75%.
