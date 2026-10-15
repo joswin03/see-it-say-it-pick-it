@@ -22,6 +22,7 @@ committed. Thresholds were tuned on the dev set, so the held-out score is the ho
 | v10 | `cdc43d2` | 43.0 | 26.2 (30/40) | 16.8 | 7/10 | 8/40 | merge split objects, drop shadow slivers, table-plane sizes |
 | **v11** (run 1) | `d96830e` | **48.4** | 28.0 (32/40) | 20.4 | 8/10 | 6/40 | new scene-text format, name aliases + colour guard, primer wording check, no `contradicts_itself` |
 | v11 (run 2) | same | 46.9 | 27.1 (31/40) | 19.8 | 8/10 | 7/40 | same code, second run |
+| v11.1 | `2553d59` | **49.6** / 48.1 | 28.0 (32/40) | 21.6 | 8/10 | 4/40 | safety word check as a hint for Apertus, saucers too wide by name; two control runs |
 
 Same logic, two runs: 42.0 and 39.9. vLLM at temperature 0 is not bit-exact between runs,
 so differences of about 2 points are noise, not evidence.
@@ -193,6 +194,24 @@ Run records: `runs/scratch/20261015-202009-opencv-dataset` (48.4) and
 - Still failing in both runs: scene 09 (saucer never named as one, red cube placed on a red gear
   instead of the grey part), 09_i5 (planner misses "put it on the plate and leave it where it
   is"), and two scene 08 instructions where the plan is rejected for a hold before the last move.
+
+## Decision-prompt experiment (after v11.1): shorter prompts lose 5 to 9 points
+
+Two runs each, Apertus-8B, same code (`2553d59`), only the decision prompt changed:
+
+| Decision prompt | Runs | Ambiguous | Unsafe | Multistep | Relative |
+|---|---|---|---|---|---|
+| committed (3,084 chars) | 49.0, 47.5, 48.1, 49.6 | 100% | 100% | 80-90% | 64% |
+| concise (1,078 chars) | 42.9, 42.9 | 50% | 75% | 50% | 86% |
+| concise + 3 generic lines back (1,380) | 41.6, 40.4 | 0% | 75% | 70-80% | 79% |
+| committed minus the two contradiction examples | 40.2, 40.6 | 50% | 75% | 80% | 64% |
+
+The committed prompt stays. The 8B planner is very sensitive to its wording: removing only the
+two contradiction examples ("pick up X without moving Y ...", "put X somewhere and also leave it
+where it is") did not change the two contradiction instructions but flipped five others (the
+ambiguous red gear, the throw, 05_i2, 10_i3, 10_i4). The shorter prompts plan more readily and
+do better on relative instructions, but stop asking about ambiguous ones. Best run record with
+marked photos: `runs/scratch/20261015-220905-opencv-dataset` (49.6).
 
 ## Code review fixes (after v7)
 
