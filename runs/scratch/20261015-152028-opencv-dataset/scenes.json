@@ -1,0 +1,1312 @@
+{
+  "scene_01": {
+    "objects": [
+      {
+        "id": "red_block_1",
+        "name": "red block",
+        "pixel": [
+          324,
+          1044
+        ],
+        "size_mm": [
+          87,
+          75
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          1
+        ]
+      },
+      {
+        "id": "yellow_gear_1",
+        "name": "yellow gear",
+        "pixel": [
+          800,
+          884
+        ],
+        "size_mm": [
+          49,
+          46
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          3
+        ]
+      },
+      {
+        "id": "yellow_cup_1",
+        "name": "yellow cup",
+        "pixel": [
+          820,
+          500
+        ],
+        "size_mm": [
+          116,
+          98
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          2
+        ]
+      }
+    ],
+    "text": "- red_block_1: red block; in the grey tray; size 87 x 75 mm; image position x=324 y=1044; nearest: yellow_gear_1 124 mm, yellow_cup_1 182 mm\n- yellow_gear_1: yellow gear; in the grey tray; size 49 x 46 mm; image position x=800 y=884; nearest: yellow_cup_1 95 mm, red_block_1 124 mm\n- yellow_cup_1: yellow cup; in the grey tray; size 116 x 98 mm; image position x=820 y=500; nearest: yellow_gear_1 95 mm, red_block_1 182 mm\nLeft to right in the photo: red_block_1, yellow_gear_1, yellow_cup_1\nTop to bottom in the photo: yellow_cup_1, yellow_gear_1, red_block_1",
+    "naming_log": [
+      {
+        "region": 1,
+        "colour": "red",
+        "pixel": [
+          324,
+          1044
+        ],
+        "size_mm": [
+          87,
+          75
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"red block\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 2,
+        "colour": "yellow",
+        "pixel": [
+          820,
+          500
+        ],
+        "size_mm": [
+          116,
+          98
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"yellow cup\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 3,
+        "colour": "yellow",
+        "pixel": [
+          800,
+          884
+        ],
+        "size_mm": [
+          49,
+          46
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"yellow gear\",\n  \"is_object\": true\n}"
+      }
+    ]
+  },
+  "scene_02": {
+    "objects": [
+      {
+        "id": "red_block_1",
+        "name": "red block",
+        "pixel": [
+          1680,
+          456
+        ],
+        "size_mm": [
+          81,
+          78
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          1
+        ]
+      },
+      {
+        "id": "grey_plate_1",
+        "name": "grey plate",
+        "pixel": [
+          1764,
+          1316
+        ],
+        "size_mm": [
+          189,
+          188
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          4
+        ]
+      },
+      {
+        "id": "orange_mandarin_1",
+        "name": "orange mandarin",
+        "pixel": [
+          2160,
+          924
+        ],
+        "size_mm": [
+          74,
+          71
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          2
+        ]
+      },
+      {
+        "id": "cyan_cup_1",
+        "name": "cyan cup",
+        "pixel": [
+          2176,
+          332
+        ],
+        "size_mm": [
+          110,
+          99
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          3
+        ]
+      }
+    ],
+    "text": "- red_block_1: red block; in the black tray; size 81 x 78 mm; image position x=1680 y=456; nearest: cyan_cup_1 127 mm, orange_mandarin_1 166 mm, grey_plate_1 214 mm\n- grey_plate_1: grey plate; in the black tray; size 189 x 188 mm; image position x=1764 y=1316; TOO WIDE TO GRIP; nearest: orange_mandarin_1 138 mm, red_block_1 214 mm, cyan_cup_1 264 mm\n- orange_mandarin_1: orange mandarin; in the black tray; size 74 x 71 mm; image position x=2160 y=924; nearest: grey_plate_1 138 mm, cyan_cup_1 147 mm, red_block_1 166 mm\n- cyan_cup_1: cyan cup; in the black tray; size 110 x 99 mm; image position x=2176 y=332; nearest: red_block_1 127 mm, orange_mandarin_1 147 mm, grey_plate_1 264 mm\nLeft to right in the photo: red_block_1, grey_plate_1, orange_mandarin_1, cyan_cup_1\nTop to bottom in the photo: cyan_cup_1, red_block_1, orange_mandarin_1, grey_plate_1",
+    "naming_log": [
+      {
+        "region": 1,
+        "colour": "red",
+        "pixel": [
+          1680,
+          456
+        ],
+        "size_mm": [
+          81,
+          78
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"red block\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 2,
+        "colour": "orange",
+        "pixel": [
+          2160,
+          924
+        ],
+        "size_mm": [
+          74,
+          71
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"orange mandarin\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 3,
+        "colour": "yellow",
+        "pixel": [
+          2176,
+          332
+        ],
+        "size_mm": [
+          110,
+          99
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"cyan cup\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 4,
+        "colour": "grey",
+        "pixel": [
+          1764,
+          1316
+        ],
+        "size_mm": [
+          189,
+          188
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"grey plate\",\n  \"is_object\": true\n}"
+      }
+    ]
+  },
+  "scene_03": {
+    "objects": [
+      {
+        "id": "yellow_gear_1",
+        "name": "yellow gear",
+        "pixel": [
+          1864,
+          1100
+        ],
+        "size_mm": [
+          48,
+          46
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          4
+        ]
+      },
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          2256,
+          792
+        ],
+        "size_mm": [
+          269,
+          87
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          1,
+          2,
+          3
+        ]
+      }
+    ],
+    "text": "- yellow_gear_1: yellow gear; in the black tray; size 48 x 46 mm; image position x=1864 y=1100; nearest: red_gear_1 123 mm\n- red_gear_1: red gear; in the black tray; size 269 x 87 mm; image position x=2256 y=792; nearest: yellow_gear_1 123 mm\nLeft to right in the photo: yellow_gear_1, red_gear_1\nTop to bottom in the photo: red_gear_1, yellow_gear_1",
+    "naming_log": [
+      {
+        "region": 1,
+        "colour": "red",
+        "pixel": [
+          1896,
+          788
+        ],
+        "size_mm": [
+          87,
+          86
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"red gear\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 2,
+        "colour": "red",
+        "pixel": [
+          1524,
+          776
+        ],
+        "size_mm": [
+          87,
+          86
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"red gear\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 3,
+        "colour": "red",
+        "pixel": [
+          2256,
+          792
+        ],
+        "size_mm": [
+          87,
+          87
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"red gear\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 4,
+        "colour": "yellow",
+        "pixel": [
+          1864,
+          1100
+        ],
+        "size_mm": [
+          48,
+          46
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"yellow gear\",\n  \"is_object\": true\n}"
+      }
+    ]
+  },
+  "scene_04": {
+    "objects": [
+      {
+        "id": "white_block_1",
+        "name": "white block",
+        "pixel": [
+          1624,
+          1180
+        ],
+        "size_mm": [
+          142,
+          97
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          1
+        ]
+      },
+      {
+        "id": "grey_metal_part_1",
+        "name": "grey metal part",
+        "pixel": [
+          1828,
+          392
+        ],
+        "size_mm": [
+          128,
+          44
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          4
+        ]
+      },
+      {
+        "id": "grey_metal_part_2",
+        "name": "grey metal part",
+        "pixel": [
+          2112,
+          708
+        ],
+        "size_mm": [
+          126,
+          46
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          3
+        ]
+      },
+      {
+        "id": "yellow_cup_1",
+        "name": "yellow cup",
+        "pixel": [
+          2136,
+          1436
+        ],
+        "size_mm": [
+          106,
+          97
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          2
+        ]
+      }
+    ],
+    "text": "- white_block_1: white block; in the black tray; size 142 x 97 mm; image position x=1624 y=1180; nearest: yellow_cup_1 142 mm, grey_metal_part_2 168 mm, grey_metal_part_1 202 mm\n- grey_metal_part_1: grey metal part; in the black tray; size 128 x 44 mm; image position x=1828 y=392; nearest: grey_metal_part_2 105 mm, white_block_1 202 mm, yellow_cup_1 270 mm\n- grey_metal_part_2: grey metal part; in the black tray; size 126 x 46 mm; image position x=2112 y=708; nearest: grey_metal_part_1 105 mm, white_block_1 168 mm, yellow_cup_1 180 mm\n- yellow_cup_1: yellow cup; in the black tray; size 106 x 97 mm; image position x=2136 y=1436; nearest: white_block_1 142 mm, grey_metal_part_2 180 mm, grey_metal_part_1 270 mm\nLeft to right in the photo: white_block_1, grey_metal_part_1, grey_metal_part_2, yellow_cup_1\nTop to bottom in the photo: grey_metal_part_1, grey_metal_part_2, white_block_1, yellow_cup_1\nThe 2 objects named 'grey metal part', left to right: grey_metal_part_1, grey_metal_part_2",
+    "naming_log": [
+      {
+        "region": 1,
+        "colour": "white",
+        "pixel": [
+          1624,
+          1180
+        ],
+        "size_mm": [
+          142,
+          97
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"white block\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 2,
+        "colour": "yellow",
+        "pixel": [
+          2136,
+          1436
+        ],
+        "size_mm": [
+          106,
+          97
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"yellow cup\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 3,
+        "colour": "grey",
+        "pixel": [
+          2112,
+          708
+        ],
+        "size_mm": [
+          126,
+          46
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"grey metal part\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 4,
+        "colour": "grey",
+        "pixel": [
+          1828,
+          392
+        ],
+        "size_mm": [
+          128,
+          44
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"grey metal part\",\n  \"is_object\": true\n}"
+      }
+    ]
+  },
+  "scene_05": {
+    "objects": [
+      {
+        "id": "orange_1",
+        "name": "orange",
+        "pixel": [
+          2120,
+          736
+        ],
+        "size_mm": [
+          72,
+          71
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          1
+        ]
+      }
+    ],
+    "text": "- orange_1: orange; in the black tray; size 72 x 71 mm; image position x=2120 y=736; nearest: none\nLeft to right in the photo: orange_1\nTop to bottom in the photo: orange_1",
+    "naming_log": [
+      {
+        "region": 1,
+        "colour": "orange",
+        "pixel": [
+          2120,
+          736
+        ],
+        "size_mm": [
+          72,
+          71
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"orange\",\n  \"is_object\": true\n}"
+      }
+    ]
+  },
+  "scene_06": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          1556,
+          1000
+        ],
+        "size_mm": [
+          87,
+          86
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          3
+        ]
+      },
+      {
+        "id": "red_gear_2",
+        "name": "red gear",
+        "pixel": [
+          1780,
+          588
+        ],
+        "size_mm": [
+          86,
+          86
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          4
+        ]
+      },
+      {
+        "id": "red_block_1",
+        "name": "red block",
+        "pixel": [
+          1904,
+          1360
+        ],
+        "size_mm": [
+          76,
+          75
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          1
+        ]
+      },
+      {
+        "id": "orange_plate_1",
+        "name": "orange plate",
+        "pixel": [
+          2164,
+          860
+        ],
+        "size_mm": [
+          125,
+          123
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          2
+        ]
+      }
+    ],
+    "text": "- red_gear_1: red gear; in the black tray; size 87 x 86 mm; image position x=1556 y=1000; nearest: red_gear_2 116 mm, red_block_1 124 mm, orange_plate_1 155 mm\n- red_gear_2: red gear; in the black tray; size 86 x 86 mm; image position x=1780 y=588; nearest: red_gear_1 116 mm, orange_plate_1 117 mm, red_block_1 194 mm\n- red_block_1: red block; in the black tray; size 76 x 75 mm; image position x=1904 y=1360; nearest: red_gear_1 124 mm, orange_plate_1 140 mm, red_gear_2 194 mm\n- orange_plate_1: orange plate; in the black tray; size 125 x 123 mm; image position x=2164 y=860; TOO WIDE TO GRIP; nearest: red_gear_2 117 mm, red_block_1 140 mm, red_gear_1 155 mm\nLeft to right in the photo: red_gear_1, red_gear_2, red_block_1, orange_plate_1\nTop to bottom in the photo: red_gear_2, orange_plate_1, red_gear_1, red_block_1\nThe 2 objects named 'red gear', left to right: red_gear_1, red_gear_2",
+    "naming_log": [
+      {
+        "region": 1,
+        "colour": "red",
+        "pixel": [
+          1904,
+          1360
+        ],
+        "size_mm": [
+          76,
+          75
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"red block\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 2,
+        "colour": "orange",
+        "pixel": [
+          2164,
+          860
+        ],
+        "size_mm": [
+          125,
+          123
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"orange plate\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 3,
+        "colour": "red",
+        "pixel": [
+          1556,
+          1000
+        ],
+        "size_mm": [
+          87,
+          86
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"red gear\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 4,
+        "colour": "red",
+        "pixel": [
+          1780,
+          588
+        ],
+        "size_mm": [
+          86,
+          86
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"red gear\",\n  \"is_object\": true\n}"
+      }
+    ]
+  },
+  "scene_07": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          428,
+          488
+        ],
+        "size_mm": [
+          87,
+          61
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          2
+        ]
+      },
+      {
+        "id": "red_block_1",
+        "name": "red block",
+        "pixel": [
+          480,
+          1236
+        ],
+        "size_mm": [
+          81,
+          77
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          1
+        ]
+      },
+      {
+        "id": "yellow_cup_1",
+        "name": "yellow cup",
+        "pixel": [
+          592,
+          704
+        ],
+        "size_mm": [
+          112,
+          94
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          3
+        ]
+      },
+      {
+        "id": "yellow_gear_1",
+        "name": "yellow gear",
+        "pixel": [
+          856,
+          1408
+        ],
+        "size_mm": [
+          49,
+          48
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          4
+        ]
+      }
+    ],
+    "text": "- red_gear_1: red gear; in the grey tray; size 87 x 61 mm; image position x=428 y=488; nearest: yellow_cup_1 67 mm, red_block_1 186 mm, yellow_gear_1 251 mm\n- red_block_1: red block; in the grey tray; size 81 x 77 mm; image position x=480 y=1236; nearest: yellow_gear_1 102 mm, yellow_cup_1 135 mm, red_gear_1 186 mm\n- yellow_cup_1: yellow cup; in the grey tray; size 112 x 94 mm; image position x=592 y=704; nearest: red_gear_1 67 mm, red_block_1 135 mm, yellow_gear_1 186 mm\n- yellow_gear_1: yellow gear; in the grey tray; size 49 x 48 mm; image position x=856 y=1408; nearest: red_block_1 102 mm, yellow_cup_1 186 mm, red_gear_1 251 mm\nLeft to right in the photo: red_gear_1, red_block_1, yellow_cup_1, yellow_gear_1\nTop to bottom in the photo: red_gear_1, yellow_cup_1, red_block_1, yellow_gear_1",
+    "naming_log": [
+      {
+        "region": 1,
+        "colour": "red",
+        "pixel": [
+          480,
+          1236
+        ],
+        "size_mm": [
+          81,
+          77
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"red block\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 2,
+        "colour": "red",
+        "pixel": [
+          428,
+          488
+        ],
+        "size_mm": [
+          87,
+          61
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"red gear\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 3,
+        "colour": "yellow",
+        "pixel": [
+          592,
+          704
+        ],
+        "size_mm": [
+          112,
+          94
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"yellow cup\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 4,
+        "colour": "yellow",
+        "pixel": [
+          856,
+          1408
+        ],
+        "size_mm": [
+          49,
+          48
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"yellow gear\",\n  \"is_object\": true\n}"
+      }
+    ]
+  },
+  "scene_08": {
+    "objects": [
+      {
+        "id": "grey_block_1",
+        "name": "grey block",
+        "pixel": [
+          780,
+          568
+        ],
+        "size_mm": [
+          81,
+          54
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          3
+        ]
+      },
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          1528,
+          576
+        ],
+        "size_mm": [
+          86,
+          68
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [
+          "red_block_1"
+        ],
+        "under": [],
+        "source_ids": [
+          4
+        ]
+      },
+      {
+        "id": "red_cube_1",
+        "name": "red cube",
+        "pixel": [
+          1816,
+          540
+        ],
+        "size_mm": [
+          84,
+          75
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [
+          "red_block_1"
+        ],
+        "under": [],
+        "source_ids": [
+          5
+        ]
+      },
+      {
+        "id": "red_block_1",
+        "name": "red block",
+        "pixel": [
+          1820,
+          540
+        ],
+        "size_mm": [
+          192,
+          99
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [
+          "red_gear_1",
+          "red_cube_1"
+        ],
+        "source_ids": [
+          1,
+          6
+        ]
+      },
+      {
+        "id": "grey_plate_1",
+        "name": "grey plate",
+        "pixel": [
+          1868,
+          1300
+        ],
+        "size_mm": [
+          189,
+          187
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          2
+        ]
+      }
+    ],
+    "text": "- grey_block_1: grey block; in the grey tray; size 81 x 54 mm; image position x=780 y=568; nearest: red_gear_1 185 mm, red_cube_1 257 mm, red_block_1 258 mm, grey_plate_1 325 mm\n- red_gear_1: red gear; in the black tray; size 86 x 68 mm; image position x=1528 y=576; lying on red_block_1; nearest: red_cube_1 72 mm, red_block_1 73 mm, grey_block_1 185 mm, grey_plate_1 198 mm\n- red_cube_1: red cube; in the black tray; size 84 x 75 mm; image position x=1816 y=540; lying on red_block_1; nearest: red_block_1 1 mm, red_gear_1 72 mm, grey_plate_1 189 mm, grey_block_1 257 mm\n- red_block_1: red block; in the black tray; size 192 x 99 mm; image position x=1820 y=540; underneath red_gear_1, red_cube_1 (covered); nearest: red_cube_1 1 mm, red_gear_1 73 mm, grey_plate_1 189 mm, grey_block_1 258 mm\n- grey_plate_1: grey plate; in the black tray; size 189 x 187 mm; image position x=1868 y=1300; TOO WIDE TO GRIP; nearest: red_block_1 189 mm, red_cube_1 189 mm, red_gear_1 198 mm, grey_block_1 325 mm\nLeft to right in the photo: grey_block_1, red_gear_1, red_cube_1, red_block_1, grey_plate_1\nTop to bottom in the photo: red_cube_1, red_block_1, grey_block_1, red_gear_1, grey_plate_1",
+    "naming_log": [
+      {
+        "region": 1,
+        "colour": "red",
+        "pixel": [
+          1820,
+          540
+        ],
+        "size_mm": [
+          192,
+          99
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"red block\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 2,
+        "colour": "grey",
+        "pixel": [
+          1868,
+          1300
+        ],
+        "size_mm": [
+          189,
+          187
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"grey plate\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 3,
+        "colour": "grey",
+        "pixel": [
+          780,
+          568
+        ],
+        "size_mm": [
+          81,
+          54
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"grey block\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 4,
+        "colour": "red",
+        "pixel": [
+          1528,
+          576
+        ],
+        "size_mm": [
+          86,
+          68
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"red gear\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 5,
+        "colour": "red",
+        "pixel": [
+          1816,
+          540
+        ],
+        "size_mm": [
+          84,
+          75
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"red cube\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 6,
+        "colour": "red",
+        "pixel": [
+          2064,
+          576
+        ],
+        "size_mm": [
+          86,
+          57
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"red block\",\n  \"is_object\": true\n}"
+      }
+    ]
+  },
+  "scene_09": {
+    "objects": [
+      {
+        "id": "orange_plate_1",
+        "name": "orange plate",
+        "pixel": [
+          304,
+          588
+        ],
+        "size_mm": [
+          124,
+          120
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          4
+        ]
+      },
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          320,
+          1548
+        ],
+        "size_mm": [
+          91,
+          90
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          6
+        ]
+      },
+      {
+        "id": "red_gear_2",
+        "name": "red gear",
+        "pixel": [
+          332,
+          1040
+        ],
+        "size_mm": [
+          90,
+          87
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          5
+        ]
+      },
+      {
+        "id": "orange_mandarin_1",
+        "name": "orange mandarin",
+        "pixel": [
+          624,
+          1360
+        ],
+        "size_mm": [
+          71,
+          68
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          3
+        ]
+      },
+      {
+        "id": "yellow_gear_1",
+        "name": "yellow gear",
+        "pixel": [
+          828,
+          1456
+        ],
+        "size_mm": [
+          48,
+          43
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          8
+        ]
+      },
+      {
+        "id": "red_gear_3",
+        "name": "red gear",
+        "pixel": [
+          832,
+          1180
+        ],
+        "size_mm": [
+          89,
+          80
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          7
+        ]
+      },
+      {
+        "id": "red_cube_1",
+        "name": "red cube",
+        "pixel": [
+          944,
+          860
+        ],
+        "size_mm": [
+          86,
+          83
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          1
+        ]
+      },
+      {
+        "id": "grey_plate_1",
+        "name": "grey plate",
+        "pixel": [
+          1868,
+          1300
+        ],
+        "size_mm": [
+          189,
+          187
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          2
+        ]
+      }
+    ],
+    "text": "- orange_plate_1: orange plate; in the grey tray; size 124 x 120 mm; image position x=304 y=588; nearest: red_gear_2 112 mm, red_cube_1 172 mm, red_gear_3 196 mm, orange_mandarin_1 207 mm, red_gear_1 238 mm, yellow_gear_1 251 mm\n- red_gear_1: red gear; in the grey tray; size 91 x 90 mm; image position x=320 y=1548; nearest: orange_mandarin_1 89 mm, red_gear_2 126 mm, yellow_gear_1 128 mm, red_gear_3 156 mm, red_cube_1 230 mm, orange_plate_1 238 mm\n- red_gear_2: red gear; in the grey tray; size 90 x 87 mm; image position x=332 y=1040; nearest: orange_mandarin_1 107 mm, orange_plate_1 112 mm, red_gear_1 126 mm, red_gear_3 129 mm, red_cube_1 158 mm, yellow_gear_1 160 mm\n- orange_mandarin_1: orange mandarin; in the grey tray; size 71 x 68 mm; image position x=624 y=1360; nearest: yellow_gear_1 56 mm, red_gear_3 68 mm, red_gear_1 89 mm, red_gear_2 107 mm, red_cube_1 147 mm, orange_plate_1 207 mm\n- yellow_gear_1: yellow gear; in the grey tray; size 48 x 43 mm; image position x=828 y=1456; nearest: orange_mandarin_1 56 mm, red_gear_3 68 mm, red_gear_1 128 mm, red_cube_1 150 mm, red_gear_2 160 mm, orange_plate_1 251 mm\n- red_gear_3: red gear; in the grey tray; size 89 x 80 mm; image position x=832 y=1180; nearest: orange_mandarin_1 68 mm, yellow_gear_1 68 mm, red_cube_1 84 mm, red_gear_2 129 mm, red_gear_1 156 mm, orange_plate_1 196 mm\n- red_cube_1: red cube; in the grey tray; size 86 x 83 mm; image position x=944 y=860; nearest: red_gear_3 84 mm, orange_mandarin_1 147 mm, yellow_gear_1 150 mm, red_gear_2 158 mm, orange_plate_1 172 mm, red_gear_1 230 mm\n- grey_plate_1: grey plate; in the black tray; size 189 x 187 mm; image position x=1868 y=1300; TOO WIDE TO GRIP; nearest: red_cube_1 253 mm, red_gear_3 258 mm, yellow_gear_1 260 mm, orange_mandarin_1 308 mm, red_gear_2 386 mm, red_gear_1 388 mm\nLeft to right in the photo: orange_plate_1, red_gear_1, red_gear_2, orange_mandarin_1, yellow_gear_1, red_gear_3, red_cube_1, grey_plate_1\nTop to bottom in the photo: orange_plate_1, red_cube_1, red_gear_2, red_gear_3, grey_plate_1, orange_mandarin_1, yellow_gear_1, red_gear_1\nThe 3 objects named 'red gear', left to right: red_gear_1, red_gear_2, red_gear_3",
+    "naming_log": [
+      {
+        "region": 1,
+        "colour": "red",
+        "pixel": [
+          944,
+          860
+        ],
+        "size_mm": [
+          86,
+          83
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"red cube\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 2,
+        "colour": "grey",
+        "pixel": [
+          1868,
+          1300
+        ],
+        "size_mm": [
+          189,
+          187
+        ],
+        "tray": "black_tray",
+        "reply": "{\n  \"name\": \"grey plate\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 3,
+        "colour": "orange",
+        "pixel": [
+          624,
+          1360
+        ],
+        "size_mm": [
+          71,
+          68
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"orange mandarin\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 4,
+        "colour": "orange",
+        "pixel": [
+          304,
+          588
+        ],
+        "size_mm": [
+          124,
+          120
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"orange plate\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 5,
+        "colour": "red",
+        "pixel": [
+          332,
+          1040
+        ],
+        "size_mm": [
+          90,
+          87
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"red gear\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 6,
+        "colour": "red",
+        "pixel": [
+          320,
+          1548
+        ],
+        "size_mm": [
+          91,
+          90
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"red gear\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 7,
+        "colour": "red",
+        "pixel": [
+          832,
+          1180
+        ],
+        "size_mm": [
+          89,
+          80
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"red gear\",\n  \"is_object\": true\n}"
+      },
+      {
+        "region": 8,
+        "colour": "yellow",
+        "pixel": [
+          828,
+          1456
+        ],
+        "size_mm": [
+          48,
+          43
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"yellow gear\",\n  \"is_object\": true\n}"
+      }
+    ]
+  },
+  "scene_10": {
+    "objects": [
+      {
+        "id": "orange_hand_1",
+        "name": "orange hand",
+        "pixel": [
+          924,
+          440
+        ],
+        "size_mm": [
+          108,
+          107
+        ],
+        "tray": "grey_tray",
+        "is_hand": true,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": [
+          1
+        ]
+      }
+    ],
+    "text": "- orange_hand_1: orange hand; in the grey tray; size 108 x 107 mm; image position x=924 y=440; A PERSON'S HAND; nearest: none\nLeft to right in the photo: orange_hand_1\nTop to bottom in the photo: orange_hand_1",
+    "naming_log": [
+      {
+        "region": 1,
+        "colour": "orange",
+        "pixel": [
+          924,
+          440
+        ],
+        "size_mm": [
+          108,
+          107
+        ],
+        "tray": "grey_tray",
+        "reply": "{\n  \"name\": \"orange hand\",\n  \"is_object\": true\n}"
+      }
+    ]
+  }
+}

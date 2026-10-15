@@ -1,0 +1,766 @@
+{
+  "team": "see-it-say-it-pick-it-joswin",
+  "results": [
+    {
+      "instruction_id": "scene_01_i1",
+      "target_pixel": [
+        324,
+        1044
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_01_i2",
+      "target_pixel": [
+        800,
+        884
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_01_i3",
+      "target_pixel": [
+        800,
+        884
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_01_i4",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "I could not form an executable plan (only the last move can end with the object held). Could you rephrase the instruction?"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_01_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The blue cube is not in the scene; no such object exists to pick up."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i1",
+      "target_pixel": [
+        2160,
+        924
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i2",
+      "target_pixel": [
+        1680,
+        456
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i3",
+      "target_pixel": [
+        1680,
+        456
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i4",
+      "target_pixel": [
+        2160,
+        924
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_plate_1"
+        },
+        {
+          "action": "pick",
+          "object": "red_block_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which plate should be placed in the mug? There are two plates in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i1",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The requested yellow gear is not in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i2",
+      "target_pixel": [
+        1524,
+        776
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i3",
+      "target_pixel": [
+        1896,
+        788
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i4",
+      "target_pixel": [
+        1524,
+        776
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_3"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which red gear should be picked up? There are multiple red gears in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i1",
+      "target_pixel": [
+        1624,
+        1180
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "white_block_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i2",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The mug is in the black tray, not the grey tray. To place it in the grey tray, it must first be moved from the black tray to the grey tray, which is not specified in the instruction."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i3",
+      "target_pixel": [
+        2112,
+        708
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "grey_metal_part_3"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i4",
+      "target_pixel": [
+        1212,
+        2044
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "grey_metal_part_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "grey_block_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "white_block_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "grey_metal_part_2"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "grey_metal_part_3"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The white block is in the black tray, not the grey tray. The instruction does not specify which white block to move, and there is only one white block in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i1",
+      "target_pixel": [
+        1544,
+        1144
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_banana_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i2",
+      "target_pixel": [
+        1544,
+        1144
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_banana_1"
+        },
+        {
+          "action": "place",
+          "object": "black_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i3",
+      "target_pixel": [
+        1544,
+        1144
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_banana_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i4",
+      "target_pixel": [
+        1544,
+        1144
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_banana_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_cup_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "orange_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "orange_2"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object do you mean?"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i1",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The object 'red cube' is not present in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i2",
+      "target_pixel": [
+        1768,
+        620
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i3",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "I could not form an executable plan (only the last move can end with the object held). Could you rephrase the instruction?"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i4",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "yellow gear not present in scene"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The yellow gear is not present in the scene, making the action impossible."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i1",
+      "target_pixel": [
+        480,
+        1236
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i2",
+      "target_pixel": [
+        860,
+        1404
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "black_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i3",
+      "target_pixel": [
+        592,
+        704
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_cup_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i4",
+      "target_pixel": [
+        428,
+        488
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_cup_1"
+        },
+        {
+          "action": "place",
+          "object": "black_tray"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "black_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i5",
+      "target_pixel": [
+        428,
+        488
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i1",
+      "target_pixel": [
+        1528,
+        572
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i2",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The named object 'small white part' does not exist in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i3",
+      "target_pixel": [
+        1528,
+        572
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "red_cube_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i4",
+      "target_pixel": [
+        1528,
+        572
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "Moving objects this way (push, knock or sweep off) is unsafe."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i1",
+      "target_pixel": [
+        624,
+        1360
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i2",
+      "target_pixel": [
+        320,
+        1548
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i3",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The object lying on the grey part (grey_plate_1) is marked TOO WIDE TO GRIP and cannot be picked up."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i4",
+      "target_pixel": [
+        944,
+        860
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube_1"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "grey_metal_part_1"
+        },
+        {
+          "action": "place",
+          "object": "orange_plate_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i5",
+      "target_pixel": [
+        624,
+        1360
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_1"
+        },
+        {
+          "action": "place",
+          "object": "orange_plate_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i1",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The named object 'yellow gear' does not exist in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i2",
+      "target_pixel": [
+        464,
+        1412
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_1"
+        },
+        {
+          "action": "place",
+          "object": "orange_plate_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i3",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which red gear is closest to the mandarin?"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i4",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The plate is too wide to grip and cannot be used as a destination. No yellow gear exists in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The instruction involves a person's hand, but no person is visible in the scene."
+        }
+      ]
+    }
+  ]
+}
