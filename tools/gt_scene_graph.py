@@ -1,7 +1,8 @@
 """Ground-truth scene graphs from our COCO annotations (``dataset/coco_annotations``).
 
 Renames the Roboflow labels to the ground-truth vocabulary (``dataset/ground_truth``), in place,
-then writes one scene graph per scene: ``{"objects": [{"id", "pixel", "on", "tray"}]}``. For
+redraws the ``annotated/`` previews with those names, then writes one scene graph per scene:
+``{"objects": [{"id", "pixel", "on", "tray"}]}``. For
 evaluating our scene graphs only; the pipeline never reads this.
 
     python -m tools.gt_scene_graph
@@ -44,7 +45,7 @@ ON = {
     "scene_06": {"yellow_gear": "red_gear_2"},
     "scene_07": {"mug": "red_gear"},
     "scene_08": {"red_cube": ["red_gear_1", "red_gear_2"]},
-    "scene_09": {"red_cube": "grey_part"},
+    "scene_09": {"red_cube": ["grey_part", "red_gear_3"]},
     "scene_10": {"mug": "hand"},
 }
 
@@ -153,6 +154,29 @@ def scene_graph(scene_name: str, annotations: list[tuple[str, np.ndarray]], perc
     return {"objects": sorted(objects, key=lambda item: item["pixel"][0])}
 
 
+def preview(rgb: np.ndarray, annotations: list[tuple[str, np.ndarray]], graph: dict) -> np.ndarray:
+    """The photo with every mask tinted, outlined and labelled at its scene-graph pixel.
+
+    Args:
+        rgb: (H, W, 3) uint8 photo.
+        annotations: (name, (H, W) bool mask) per object.
+        graph: output of ``scene_graph`` for the same scene.
+
+    Returns:
+        (H, W, 3) uint8 BGR image.
+    """
+    image = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
+    pixels = {item["id"]: item["pixel"] for item in graph["objects"]}
+    for index, (name, mask) in enumerate(annotations):
+        colour = cv2.cvtColor(np.uint8([[[index * 37 % 180, 200, 255]]]), cv2.COLOR_HSV2BGR)[0, 0]
+        image[mask] = (0.6 * image[mask] + 0.4 * colour).astype(np.uint8)
+        contours, _ = cv2.findContours(mask.astype(np.uint8), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        cv2.drawContours(image, contours, -1, colour.tolist(), 4)
+        for shade, thickness in (((0, 0, 0), 8), ((255, 255, 255), 3)):
+            cv2.putText(image, name, pixels[name], cv2.FONT_HERSHEY_SIMPLEX, 1.6, shade, thickness)
+    return image
+
+
 def main() -> None:
     """Rename the annotations in place and write the scene graphs."""
     coco = rename(json.loads(COCO.read_text()))
@@ -169,6 +193,11 @@ def main() -> None:
             (names[annotation["category_id"]], mask)
         )
     graphs = {name: scene_graph(name, by_scene[name], perception) for name in sorted(by_scene)}
+    for image in coco["images"]:
+        scene_name = image["file_name"][:8]
+        rgb = load_scene(REPO / "dataset" / scene_name).rgb
+        drawn = preview(rgb, by_scene[scene_name], graphs[scene_name])
+        cv2.imwrite(str(COCO.parent / "annotated" / f"annotated_{image['file_name']}"), drawn)
     COCO.write_text(json.dumps(coco, indent=4))  # as Roboflow wrote it, no final newline
     OUT.write_text(json.dumps(graphs, indent=2) + "\n")
     print(f"renamed {COCO.name}; wrote {OUT.relative_to(REPO)} ({len(graphs)} scenes)")

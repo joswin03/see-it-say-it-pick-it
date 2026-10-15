@@ -389,7 +389,10 @@
           959,
           873
         ],
-        "on": "grey_part",
+        "on": [
+          "grey_part",
+          "red_gear_3"
+        ],
         "tray": "grey_tray"
       },
       {
