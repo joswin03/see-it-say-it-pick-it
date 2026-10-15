@@ -7,3 +7,4 @@ __pycache__/
 tectonic
 docs/*.aux
 docs/*.log
+vllm_server.log
