@@ -44,7 +44,8 @@ naming:
   # Generic workcell vocabulary offered as examples, not as a closed list: the organisers may
   # test new objects. Not derived from the dataset labels.
   example_names: [gear, cube, block, mug, cup, plate, saucer, bowl, fruit, banana, orange,
-                  metal part, plastic part, bracket, tool, human hand, tray]
+                  metal part, plastic part, bracket, tool, human hand]
+  fixture_words: [tray, table, wall, floor, background, shadow, reflection, surface]  # places, not objects
 
 decision:
   max_tokens: 900

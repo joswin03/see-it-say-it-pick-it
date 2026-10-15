@@ -79,7 +79,7 @@ def main() -> None:
     for scene_dir in scene_dirs(args.data)[: args.limit_scenes]:
         scene = load_scene(scene_dir)
         gripper_mm = scene.gripper_max_opening_mm or config["gripper_max_opening_mm"]
-        perceived = perceive_scene(scene, config, endpoint)
+        perceived = perceive_scene(scene, config, endpoint, gripper_mm)
         scenes[scene.name] = scene_record(perceived)
         cv2.imwrite(
             str(run_dir / f"{scene.name}_marked.jpg"),

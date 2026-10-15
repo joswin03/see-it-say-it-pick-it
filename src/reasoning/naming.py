@@ -14,8 +14,9 @@ NAMING_PROMPT = """This is a close-up from a camera looking straight down at a r
 The area outlined in cyan was found by colour segmentation. Its colour is mostly {colour}; it is
 about {length_mm} x {width_mm} mm and lies in the {tray}.
 
-What is the outlined thing? Give a short name of 1 to 3 words with its colour if useful, for
-example: {examples}.
+What is the outlined thing? Answer with its colour followed by the object type, 2 to 3 words,
+for example "red cube", "yellow gear", "white mug", "orange mandarin". Object types seen in
+workcells include: {examples}.
 Set is_object to false if the outline is not a separate physical object: a reflection, a shadow,
 part of the tray wall or the table, or a highlight. A human hand or arm is an object.
 If the outline covers only part of an object, name the whole object."""
@@ -77,7 +78,8 @@ def name_region(
         config: the ``naming`` section of the pipeline config.
 
     Returns:
-        Dict with ``name`` (lower case), ``is_object`` and ``raw`` (the model reply).
+        Dict with ``name`` (lower case), ``is_object`` (False also when the name is a fixture
+        such as the tray or the table, which are places rather than objects) and ``raw``.
     """
     crop = outlined_crop(rgb, region["mask"], work_scale, config["crop_padding_fraction"])
     length_mm, width_mm = region["size_mm"]
@@ -95,4 +97,6 @@ def name_region(
         NAMING_SCHEMA,
         config["max_tokens"],
     )
-    return {"name": reply["name"].strip().lower(), "is_object": reply["is_object"], "raw": raw}
+    name = reply["name"].strip().lower()
+    is_fixture = any(word in name.split() for word in config["fixture_words"])
+    return {"name": name, "is_object": reply["is_object"] and not is_fixture, "raw": raw}

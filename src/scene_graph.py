@@ -163,13 +163,16 @@ def build_scene_graph(
     return objects
 
 
-def describe(objects: list[dict], mm_per_pixel: float, nearest_count: int) -> str:
+def describe(
+    objects: list[dict], mm_per_pixel: float, nearest_count: int, gripper_mm: float
+) -> str:
     """Render the scene graph as text for the decision prompt.
 
     Args:
         objects: output of ``build_scene_graph``.
         mm_per_pixel: table millimetres per full-resolution pixel.
         nearest_count: how many nearest neighbours to list per object.
+        gripper_mm: maximum gripper opening; wider objects are flagged as not graspable.
 
     Returns:
         One line per object, then left-to-right and top-to-bottom orderings.
@@ -196,6 +199,8 @@ def describe(objects: list[dict], mm_per_pixel: float, nearest_count: int) -> st
             fields.append("lying on " + ", ".join(item["on_top_of"]))
         if item["under"]:
             fields.append("underneath " + ", ".join(item["under"]) + " (covered)")
+        if width > gripper_mm:
+            fields.append(f"TOO WIDE TO GRIP (over {round(gripper_mm)} mm)")
         if item["is_hand"]:
             fields.append("A PERSON'S HAND")
         fields.append(f"nearest: {nearest or 'none'}")

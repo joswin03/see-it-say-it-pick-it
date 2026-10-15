@@ -14,10 +14,16 @@ tray (right in the photo). The photo shows the objects with their ids drawn on t
 Scene graph, measured by the vision system (trust it for positions, sizes and stacking):
 {scene}
 
+Object names come from a vision model and may use synonyms or a slightly different colour:
+match the instruction by meaning (cube = block, mug = cup, mandarin = orange, part = plate-like
+metal or plastic piece). An object is missing only if nothing in the scene can be what the
+instruction names.
+
 Robot facts:
 - The gripper holds one object at a time and opens at most {gripper_mm} mm: an object whose
   width (the smaller size) is above {gripper_mm} mm cannot be picked.
 - An object that is underneath another cannot be picked before the one on top is moved aside.
+- An object can only be put into or onto something larger than itself.
 - Places to put things: grey_tray, black_tray, any object that can hold things (a plate, a
   saucer, a tray), or "aside" (free table space, used to clear an object off another).
 - Left, right, top and bottom mean as seen in the photo (x grows to the right, y downwards).

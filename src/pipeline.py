@@ -46,13 +46,14 @@ def marked_photo(rgb: np.ndarray, objects: list[dict], work_scale: float) -> np.
     return image
 
 
-def perceive_scene(scene: Scene, config: dict, endpoint: dict) -> dict:
+def perceive_scene(scene: Scene, config: dict, endpoint: dict, gripper_mm: float) -> dict:
     """Find, name and relate the objects in one scene.
 
     Args:
         scene: loaded scene.
         config: full pipeline config.
         endpoint: model endpoint settings.
+        gripper_mm: maximum gripper opening.
 
     Returns:
         Dict with ``objects`` (scene graph), ``text`` (its description), ``marked`` (annotated
@@ -83,7 +84,7 @@ def perceive_scene(scene: Scene, config: dict, endpoint: dict) -> dict:
     marked = marked_photo(scene.rgb, objects, found["work_scale"])
     return {
         "objects": objects,
-        "text": describe(objects, scale_mm, config["scene_graph"]["nearest_count"]),
+        "text": describe(objects, scale_mm, config["scene_graph"]["nearest_count"], gripper_mm),
         "marked": marked,
         "marked_url": image_url(marked, config["decision"]["image_max_side_px"]),
         "naming_log": naming_log,
@@ -117,23 +118,39 @@ def clear_tops_first(steps: list[dict], objects: list[dict]) -> list[dict]:
     return result
 
 
-def plan_problem(steps: list[dict], object_ids: set[str]) -> str | None:
+def plan_problem(steps: list[dict], objects: list[dict], gripper_mm: float) -> str | None:
     """Explain why a plan is not executable, or return None if it is.
 
     Args:
         steps: pick/place steps.
-        object_ids: ids of pickable objects.
+        objects: scene-graph objects.
+        gripper_mm: maximum gripper opening.
 
     Returns:
         A one-sentence problem description, or None.
     """
+    by_id = {item["id"]: item for item in objects}
     if not steps:
         return "the plan has no steps"
     if steps[0]["action"] != "pick":
         return "the plan must start with a pick"
+    held = None
     for step in steps:
-        if step["action"] == "pick" and step["object"] not in object_ids:
-            return f"'{step['object']}' is a place, not an object that can be picked"
+        target = step["object"]
+        if step["action"] == "pick":
+            if target not in by_id:
+                return f"'{target}' is a place, not an object that can be picked"
+            if by_id[target]["size_mm"][1] > gripper_mm:
+                return f"{target} is too wide for the {round(gripper_mm)} mm gripper"
+            if held is not None:
+                return f"the gripper still holds {held} when picking {target}"
+            held = target
+        else:
+            if held is None:
+                return f"placing on {target} with nothing in the gripper"
+            if target == held:
+                return f"{held} cannot be placed on itself"
+            held = None
     return None
 
 
@@ -207,7 +224,9 @@ def answer_instruction(
             feedback,
         )
         problem = (
-            plan_problem(reply["steps"], set(object_ids)) if reply["decision"] == "plan" else None
+            plan_problem(reply["steps"], objects, gripper_mm)
+            if reply["decision"] == "plan"
+            else None
         )
         attempts.append({"raw": raw, "problem": problem})
         if problem is None:
