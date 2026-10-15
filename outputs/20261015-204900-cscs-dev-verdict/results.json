@@ -1,0 +1,685 @@
+{
+  "team": "see-it-say-it-pick-it",
+  "results": [
+    {
+      "instruction_id": "scene_01_i1",
+      "target_pixel": [
+        306,
+        873
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_01_i2",
+      "target_pixel": [
+        736,
+        808
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_sun_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_01_i3",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "Mug not present in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_01_i4",
+      "target_pixel": [
+        306,
+        873
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_1"
+        },
+        {
+          "action": "place",
+          "object": "red_block_1"
+        },
+        {
+          "action": "pick",
+          "object": "green_cup_1"
+        },
+        {
+          "action": "place",
+          "object": "green_cup_1"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_sun_1"
+        },
+        {
+          "action": "place",
+          "object": "yellow_sun_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_01_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "No blue cube is present in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i1",
+      "target_pixel": [
+        2018,
+        820
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i2",
+      "target_pixel": [
+        1611,
+        378
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube_1"
+        },
+        {
+          "action": "place",
+          "object": "red_cube_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i3",
+      "target_pixel": [
+        1611,
+        378
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i4",
+      "target_pixel": [
+        2018,
+        820
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_1"
+        },
+        {
+          "action": "place",
+          "object": "white_plate_1"
+        },
+        {
+          "action": "pick",
+          "object": "red_cube_1"
+        },
+        {
+          "action": "place",
+          "object": "gray_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The plate and mug are wider than 85 mm and cannot be picked by the robot arm."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i1",
+      "target_pixel": [
+        1783,
+        999
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i2",
+      "target_pixel": [
+        1702,
+        641
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i3",
+      "target_pixel": [
+        1953,
+        641
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i4",
+      "target_pixel": [
+        1702,
+        641
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_3"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_3"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "Red gears are wider than 85 mm and cannot be picked."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i1",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which white rectangular plate would you like me to pick up (white_plate_1, white_plate_2, or white_plate_3)?"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i2",
+      "target_pixel": [
+        1984,
+        1315
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "green_cup_1"
+        },
+        {
+          "action": "place",
+          "object": "gray_tray_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i3",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The only grey object (gray_tray_1) is wider than 85 mm and cannot be picked."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i4",
+      "target_pixel": [
+        1984,
+        1315
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "green_cup_1"
+        },
+        {
+          "action": "place",
+          "object": "gray_tray_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "White parts (plates) are wider than 85 mm and cannot be picked by the gripper."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i1",
+      "target_pixel": [
+        1482,
+        813
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "banana_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i2",
+      "target_pixel": [
+        1482,
+        813
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "banana_1"
+        },
+        {
+          "action": "place",
+          "object": "banana_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i3",
+      "target_pixel": [
+        2008,
+        574
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_fruit_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i4",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "No black tray is present in the scene to move objects from."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object would you like me to give you?"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i1",
+      "target_pixel": [
+        1783,
+        1231
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i2",
+      "target_pixel": [
+        1664,
+        538
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i3",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which red gear should be picked?"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i4",
+      "target_pixel": [
+        1664,
+        538
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The red gears are not under the yellow dish, so the instruction is impossible to execute."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i1",
+      "target_pixel": [
+        402,
+        999
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_square_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i2",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The black tray is not present in the scene, making it impossible to complete the instruction."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i3",
+      "target_pixel": [
+        402,
+        999
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_square_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i4",
+      "target_pixel": [
+        402,
+        402
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "green_cup_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i5",
+      "target_pixel": [
+        402,
+        402
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i1",
+      "target_pixel": [
+        1673,
+        430
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i2",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The object 'small white part' is not present in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i3",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "No object is on top of the red gears."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i4",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "No red gears are present in the scene to fulfill the instruction."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "No cube is present in the scene to push off the gears."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i1",
+      "target_pixel": [
+        588,
+        1238
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_sphere_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i2",
+      "target_pixel": [
+        258,
+        1367
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_3"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i3",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object on the gray tray should be picked?"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i4",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "Grey part not present in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "Mandarin not present in the scene"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i1",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "yellow gear not present in the scene"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i2",
+      "target_pixel": [
+        402,
+        1238
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_fruit_1"
+        },
+        {
+          "action": "place",
+          "object": "white_heart_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i3",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which red circular object with spiky edges should be picked?"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i4",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "No gears are present in the scene to perform the requested action."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i5",
+      "target_pixel": [
+        641,
+        521
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "green_cup_1"
+        },
+        {
+          "action": "place",
+          "object": "green_cup_1"
+        }
+      ]
+    }
+  ]
+}

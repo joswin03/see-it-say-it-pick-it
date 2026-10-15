@@ -1,4 +1,8 @@
-"""Structured outputs Apertus must produce, used for constrained JSON decoding."""
+"""Structured outputs Apertus must produce, used for constrained JSON decoding.
+
+Field names sort alphabetically in the order the model should write them, because the hosted
+endpoint emits keys alphabetically while a local vLLM server keeps the declared order.
+"""
 
 from typing import Annotated, Literal
 
@@ -10,8 +14,8 @@ Pixel = Annotated[list[Annotated[int, Field(ge=0)]], Field(min_length=2, max_len
 class SceneObject(BaseModel):
     """One pickable object seen in the photo."""
 
+    appearance: str
     id: str
-    description: str
     pixel: Pixel
     location: str
     lying_on: str | None
@@ -29,7 +33,7 @@ class SceneDescription(BaseModel):
 class SafetyAssessment(BaseModel):
     """Which answer kind the instruction calls for, and why."""
 
-    reasoning: str
+    analysis: str
     decision: Literal["plan", "ask_user", "refuse"]
 
 
@@ -41,22 +45,24 @@ class PlanStep(BaseModel):
 
 
 class Candidate(BaseModel):
-    """The actor's answer to one instruction, before conversion to the official schema."""
+    """The actor's answer to one instruction, before conversion to the official schema.
 
-    reasoning: str
+    Fields that only one decision uses are optional, so the model can end its reply once the
+    answer is complete instead of padding it.
+    """
+
+    analysis: str
     decision: Literal["plan", "ask_user", "refuse"]
-    target_object: str | None
-    target_pixel: Pixel | None
-    actions: list[PlanStep]
-    question: str | None
-    reason: str | None
+    plan_steps: list[PlanStep] = Field(default_factory=list)
+    question: str | None = None
+    reason: str | None = None
+    target_object: str | None = None
+    target_pixel: Pixel | None = None
 
 
 class Judgement(BaseModel):
-    """The judge's scores for one candidate, each from 0 to 10."""
+    """The judge's verdict on one candidate."""
 
-    reasoning: str
-    decision_score: int = Field(ge=0, le=10)
-    target_score: int = Field(ge=0, le=10)
-    plan_score: int = Field(ge=0, le=10)
-    feedback: str
+    analysis: str
+    verdict: Literal["right", "wrong"]
+    what_to_change: str

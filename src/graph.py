@@ -12,7 +12,12 @@ from src.image import ModelImage, draw_target, to_data_url
 from src.llm import ApertusClient
 from src.schemas import Candidate, Judgement, SafetyAssessment, SceneDescription
 
-UNPARSED_SAFETY = {"reasoning": "safety reply did not match the schema", "decision": None}
+UNPARSED_SAFETY = {"analysis": "safety reply did not match the schema", "decision": None}
+ACTOR_UNPARSED_ANALYSIS = "actor reply did not match the schema"
+ACTOR_UNPARSED_FEEDBACK = (
+    "Your previous reply was not one complete JSON object following the schema. Answer again."
+)
+JUDGE_UNPARSED_FEEDBACK = "The reviewer reply could not be read. Check your answer once more."
 UNPARSED_SCENE = {"objects": [], "trays": [], "person_visible": None, "error": "unparsed reply"}
 
 
@@ -28,36 +33,14 @@ class PipelineState(TypedDict):
     candidate: dict | None
     iteration: int
     history: Annotated[list[dict], operator.add]
-    model_calls: Annotated[list[dict], operator.add]
     result: dict | None
-
-
-def candidate_score(candidate: dict, judgement: dict, weights: dict) -> float:
-    """Combine the judge's sub-scores into one score from 0 to 10.
-
-    Args:
-        candidate: ``Candidate`` as a dict.
-        judgement: ``Judgement`` as a dict.
-        weights: ``decision``, ``target`` and ``plan`` weights from the config.
-
-    Returns:
-        Weighted mean for a plan; the decision score alone for ask_user or refuse.
-    """
-    if candidate["decision"] != "plan":
-        return float(judgement["decision_score"])
-    weighted = (
-        weights["decision"] * judgement["decision_score"]
-        + weights["target"] * judgement["target_score"]
-        + weights["plan"] * judgement["plan_score"]
-    )
-    return weighted / (weights["decision"] + weights["target"] + weights["plan"])
 
 
 def build_graph(config: dict, client: ApertusClient) -> CompiledStateGraph:
     """Assemble and compile the pipeline graph.
 
     Args:
-        config: full run config (prompts, loop limits, judge weights, image settings).
+        config: full run config (prompts, loop limit, image settings).
         client: Apertus client used by every node.
 
     Returns:
@@ -74,13 +57,13 @@ def build_graph(config: dict, client: ApertusClient) -> CompiledStateGraph:
             state: current pipeline state.
 
         Returns:
-            State update with ``scene`` and the raw model reply.
+            State update with ``scene``.
         """
         image = state["image"]
         prompt = prompts["scene"].format(width=image.width, height=image.height)
-        parsed, raw = client.ask(prompt, state["image_url"], SceneDescription)
+        parsed = client.ask(prompt, state["image_url"], SceneDescription)
         scene = parsed.model_dump() if parsed else UNPARSED_SCENE
-        return {"scene": scene, "model_calls": [{"node": "describe_scene", "raw": raw}]}
+        return {"scene": scene}
 
     def check_safety(state: PipelineState) -> dict:
         """Decide whether the instruction calls for a plan, a question or a refusal.
@@ -89,14 +72,14 @@ def build_graph(config: dict, client: ApertusClient) -> CompiledStateGraph:
             state: current pipeline state.
 
         Returns:
-            State update with ``safety`` and the raw model reply.
+            State update with ``safety``.
         """
         prompt = prompts["safety"].format(
             scene=json.dumps(state["scene"]), instruction=state["instruction"]
         )
-        parsed, raw = client.ask(prompt, state["image_url"], SafetyAssessment)
+        parsed = client.ask(prompt, state["image_url"], SafetyAssessment)
         safety = parsed.model_dump() if parsed else UNPARSED_SAFETY
-        return {"safety": safety, "model_calls": [{"node": "check_safety", "raw": raw}]}
+        return {"safety": safety}
 
     def actor(state: PipelineState) -> dict:
         """Propose an answer, revising the previous one with the judge's feedback.
@@ -105,7 +88,7 @@ def build_graph(config: dict, client: ApertusClient) -> CompiledStateGraph:
             state: current pipeline state.
 
         Returns:
-            State update with the new ``candidate``, the next ``iteration`` and the raw reply.
+            State update with the new ``candidate`` and the next ``iteration``.
         """
         image = state["image"]
         feedback = ""
@@ -113,8 +96,7 @@ def build_graph(config: dict, client: ApertusClient) -> CompiledStateGraph:
             last = state["history"][-1]
             feedback = prompts["actor_feedback"].format(
                 previous=json.dumps(last["candidate"]),
-                score=f"{last['score']:.1f}",
-                critique=last["judgement"]["feedback"],
+                critique=last["judgement"]["what_to_change"],
             )
         prompt = prompts["actor"].format(
             width=image.width,
@@ -124,38 +106,48 @@ def build_graph(config: dict, client: ApertusClient) -> CompiledStateGraph:
             instruction=state["instruction"],
             feedback=feedback,
         )
-        parsed, raw = client.ask(prompt, state["image_url"], Candidate)
+        parsed = client.ask(prompt, state["image_url"], Candidate)
         candidate = (
             parsed.model_dump()
             if parsed
             else {
-                "reasoning": "actor reply did not match the schema",
+                "analysis": ACTOR_UNPARSED_ANALYSIS,
                 "decision": "refuse",
-                "target_object": None,
-                "target_pixel": None,
-                "actions": [],
+                "plan_steps": [],
                 "question": None,
                 "reason": "The planner could not produce a valid answer.",
+                "target_object": None,
+                "target_pixel": None,
             }
         )
         iteration = state["iteration"] + 1
-        return {
-            "candidate": candidate,
-            "iteration": iteration,
-            "model_calls": [{"node": "actor", "iteration": iteration, "raw": raw}],
-        }
+        return {"candidate": candidate, "iteration": iteration}
 
     def judge(state: PipelineState) -> dict:
-        """Score the current candidate, showing the judge a cross at its target pixel.
+        """Judge the current candidate right or wrong, showing a cross at its target pixel.
+
+        A candidate that only stands in for an unparsable actor reply is wrong without a call.
 
         Args:
             state: current pipeline state.
 
         Returns:
-            State update appending ``{iteration, candidate, judgement, score}`` to ``history``.
+            State update appending ``{iteration, candidate, judgement}`` to ``history``.
         """
         image = state["image"]
         candidate = state["candidate"]
+        if candidate["analysis"] == ACTOR_UNPARSED_ANALYSIS:
+            judgement = {
+                "analysis": ACTOR_UNPARSED_ANALYSIS,
+                "verdict": "wrong",
+                "what_to_change": ACTOR_UNPARSED_FEEDBACK,
+            }
+            entry = {
+                "iteration": state["iteration"],
+                "candidate": candidate,
+                "judgement": judgement,
+            }
+            return {"history": [entry]}
         image_url = state["image_url"]
         if candidate["decision"] == "plan" and candidate["target_pixel"]:
             marked = draw_target(
@@ -172,32 +164,25 @@ def build_graph(config: dict, client: ApertusClient) -> CompiledStateGraph:
             instruction=state["instruction"],
             candidate=json.dumps(candidate),
         )
-        parsed, raw = client.ask(prompt, image_url, Judgement)
+        parsed = client.ask(prompt, image_url, Judgement)
         judgement = (
             parsed.model_dump()
             if parsed
             else {
-                "reasoning": "judge reply did not match the schema",
-                "decision_score": 0,
-                "target_score": 0,
-                "plan_score": 0,
-                "feedback": "none",
+                "analysis": "judge reply did not match the schema",
+                "verdict": "wrong",
+                "what_to_change": JUDGE_UNPARSED_FEEDBACK,
             }
         )
-        score = candidate_score(candidate, judgement, config["judge_weights"])
-        entry = {
-            "iteration": state["iteration"],
-            "candidate": candidate,
-            "judgement": judgement,
-            "score": score,
-        }
-        return {
-            "history": [entry],
-            "model_calls": [{"node": "judge", "iteration": state["iteration"], "raw": raw}],
-        }
+        entry = {"iteration": state["iteration"], "candidate": candidate, "judgement": judgement}
+        return {"history": [entry]}
 
     def finalize(state: PipelineState) -> dict:
-        """Keep the best-scoring candidate (latest on ties) as the official answer.
+        """Turn the latest candidate into the official answer.
+
+        The loop stops at the first "right" verdict, so the latest candidate is the judged-right
+        one, or the last revision when every round was judged wrong. A stand-in for an
+        unparsable actor reply is used only when no round produced a parsable answer.
 
         Args:
             state: current pipeline state.
@@ -205,10 +190,13 @@ def build_graph(config: dict, client: ApertusClient) -> CompiledStateGraph:
         Returns:
             State update with ``result`` in the official schema.
         """
-        best = max(reversed(state["history"]), key=lambda entry: entry["score"])
-        result = candidate_to_result(
-            state["instruction_id"], best["candidate"], state["image"].scale
-        )
+        parsed = [
+            entry["candidate"]
+            for entry in state["history"]
+            if entry["candidate"]["analysis"] != ACTOR_UNPARSED_ANALYSIS
+        ]
+        final_candidate = parsed[-1] if parsed else state["history"][-1]["candidate"]
+        result = candidate_to_result(state["instruction_id"], final_candidate, state["image"].scale)
         return {"result": result}
 
     def route_start(state: PipelineState) -> str:
@@ -223,7 +211,7 @@ def build_graph(config: dict, client: ApertusClient) -> CompiledStateGraph:
         return "check_safety" if state["scene"] is not None else "describe_scene"
 
     def route_after_judge(state: PipelineState) -> str:
-        """Stop when the judge accepts the candidate or the iteration budget is spent.
+        """Stop when the judge says "right" or the round limit is reached.
 
         Args:
             state: pipeline state after the judge.
@@ -231,8 +219,8 @@ def build_graph(config: dict, client: ApertusClient) -> CompiledStateGraph:
         Returns:
             ``"finalize"`` or ``"actor"``.
         """
-        accepted = state["history"][-1]["score"] >= loop["accept_score"]
-        if accepted or state["iteration"] >= loop["max_iterations"]:
+        judged_right = state["history"][-1]["judgement"]["verdict"] == "right"
+        if judged_right or state["iteration"] >= loop["max_iterations"]:
             return "finalize"
         return "actor"
 

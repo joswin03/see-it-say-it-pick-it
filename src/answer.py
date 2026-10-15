@@ -67,15 +67,14 @@ def candidate_to_result(instruction_id: str, candidate: dict, scale: float) -> d
             "target_pixel": to_full_resolution(target_pixel, scale) if target_pixel else None,
             "actions": [
                 {"action": step["action"], "object": step["object"]}
-                for step in candidate["actions"]
+                for step in candidate["plan_steps"]
             ],
         }
     errors = [error.message for error in RESULT_VALIDATOR.iter_errors(result)]
-    starts_with_pick = decision != "plan" or (
-        result["actions"] and result["actions"][0]["action"] == "pick"
-    )
-    if not starts_with_pick:
+    if decision == "plan" and not (result["actions"] and result["actions"][0]["action"] == "pick"):
         errors.append("a plan must start with pick")
+    if decision == "plan" and result["target_pixel"] is None:
+        errors.append("a plan needs target_pixel")
     if errors:
         return refusal(instruction_id, f"No valid answer was produced ({errors[0]}).")
     return result

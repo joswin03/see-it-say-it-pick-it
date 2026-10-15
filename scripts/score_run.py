@@ -1,5 +1,7 @@
 """Score a finished run with the official script and add the score to its manifest.
 
+Nothing else is written into the run directory.
+
 Reads ground truth, so it runs after the pipeline and never inside it.
 
     .venv/bin/python scripts/score_run.py outputs/<run> --data dataset
@@ -39,15 +41,12 @@ def main() -> None:
             str(arguments.run_dir / "results.json"),
             "--data",
             str(arguments.data),
-            "--report",
-            str(arguments.run_dir / "report.json"),
         ],
         capture_output=True,
         text=True,
         check=True,
     )
     print(completed.stdout)
-    (arguments.run_dir / "score.txt").write_text(completed.stdout)
     score = {
         name: float(re.search(pattern, completed.stdout).group(1))
         for name, pattern in SCORE_PATTERN.items()

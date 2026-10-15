@@ -12,7 +12,6 @@ import sys
 import time
 from pathlib import Path
 
-import yaml
 from dotenv import load_dotenv
 
 from src import manifest
@@ -88,7 +87,6 @@ def main() -> None:
     run_name = arguments.name or arguments.config.stem
     run_dir = OUTPUTS_DIR / f"{time.strftime('%Y%m%d-%H%M%S')}-{run_name}"
     run_dir.mkdir(parents=True)
-    (run_dir / "config.yaml").write_text(yaml.safe_dump(config, sort_keys=False))
 
     client = ApertusClient(config, mock=arguments.mock)
     graph = build_graph(config, client)
@@ -97,48 +95,40 @@ def main() -> None:
     results = []
     remaining = arguments.limit
     started = time.time()
-    with (run_dir / "model_calls.jsonl").open("w") as model_calls_file:
-        for scene_dir in scene_folders(arguments.data):
-            if remaining is not None and remaining <= 0:
-                break
-            scene = load_scene(scene_dir)
-            image = resize_for_model(scene.rgb, config["image"]["max_side"])
-            image_url = to_data_url(image.rgb, config["image"]["jpeg_quality"])
-            scene_graph = None
-            instructions = scene.instructions[:remaining] if remaining else scene.instructions
-            for instruction_id, _category, text in instructions:
-                state = graph.invoke(
-                    {
-                        "instruction_id": instruction_id,
-                        "instruction": text,
-                        "image": image,
-                        "image_url": image_url,
-                        "scene": scene_graph,
-                        "safety": None,
-                        "candidate": None,
-                        "iteration": 0,
-                        "history": [],
-                        "model_calls": [],
-                        "result": None,
-                    },
-                    {"recursion_limit": recursion_limit},
-                )
-                if scene_graph is None:
-                    scene_graph = state["scene"]
-                    write_json(run_dir / "scenes" / f"{scene.name}.json", scene_graph)
-                for call in state["model_calls"]:
-                    model_calls_file.write(json.dumps({"instruction_id": instruction_id, **call}))
-                    model_calls_file.write("\n")
-                plan = {key: state[key] for key in ("instruction", "safety", "history", "result")}
-                write_json(run_dir / "plans" / f"{instruction_id}.json", plan)
-                results.append(state["result"])
-                best_score = max(entry["score"] for entry in state["history"])
-                print(
-                    f"[{len(results)}] {instruction_id}: {state['result']['actions'][0]['action']}"
-                    f"  rounds={state['iteration']}  best_judge_score={best_score:.1f}"
-                )
-            if remaining is not None:
-                remaining -= len(instructions)
+    for scene_dir in scene_folders(arguments.data):
+        if remaining is not None and remaining <= 0:
+            break
+        scene = load_scene(scene_dir)
+        image = resize_for_model(scene.rgb, config["image"]["max_side"])
+        image_url = to_data_url(image.rgb, config["image"]["jpeg_quality"])
+        scene_graph = None
+        instructions = scene.instructions[:remaining] if remaining else scene.instructions
+        for instruction_id, _category, text in instructions:
+            state = graph.invoke(
+                {
+                    "instruction_id": instruction_id,
+                    "instruction": text,
+                    "image": image,
+                    "image_url": image_url,
+                    "scene": scene_graph,
+                    "safety": None,
+                    "candidate": None,
+                    "iteration": 0,
+                    "history": [],
+                    "result": None,
+                },
+                {"recursion_limit": recursion_limit},
+            )
+            if scene_graph is None:
+                scene_graph = state["scene"]
+            results.append(state["result"])
+            last_verdict = state["history"][-1]["judgement"]["verdict"]
+            print(
+                f"[{len(results)}] {instruction_id}: {state['result']['actions'][0]['action']}"
+                f"  rounds={state['iteration']}  last_verdict={last_verdict}"
+            )
+        if remaining is not None:
+            remaining -= len(instructions)
 
     submission = {"team": config["team"], "results": results}
     write_json(run_dir / "results.json", submission)

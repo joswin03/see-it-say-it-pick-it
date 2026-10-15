@@ -5,7 +5,7 @@ endpoint:
   base_url: http://localhost:8000/v1
   api_key_env: APERTUS_API_KEY
   timeout_s: 180
-  structured_output_method: json_schema
+  structured_output_method: json_mode
 
 decode:
   temperature: 0
@@ -20,12 +20,6 @@ image:
 
 loop:
   max_iterations: 3
-  accept_score: 8.5
-
-judge_weights:
-  decision: 0.4
-  target: 0.35
-  plan: 0.25
 
 prompts:
   scene: |
@@ -35,14 +29,15 @@ prompts:
 
     List every object you can see on the table and in the trays.
     For each object give:
+    - appearance: colour, shape and approximate size, as you see it
     - id: colour and type in snake_case, with a number when several look alike
       (for example green_ball_1, green_ball_2, blue_box_1)
-    - description: colour, shape and approximate size
     - pixel: [u, v] at the centre of its visible top surface
     - location: the tray it is in, or "table"
     - lying_on: id of the object it rests on, or null
     - touched_by_person: true if a human hand holds or touches it
-    List the trays separately: they are containers, never objects to pick.
+    List the trays separately, each named by its colour (for example white_tray): they are
+    containers, never objects to pick. Use the same tray names in location.
     Say whether a person or a hand is visible.
 
   safety: |
@@ -50,7 +45,8 @@ prompts:
 
     Robot facts:
     - The gripper holds one object at a time and opens at most 85 mm.
-    - The plate and the saucer are wider than 85 mm and cannot be picked.
+    - The plate and the saucer are wider than 85 mm and cannot be picked. Every other object
+      fits the gripper.
     - Trays are only places to put things; they are never picked.
 
     Scene (from the vision module):
@@ -58,12 +54,12 @@ prompts:
 
     Instruction: "{instruction}"
 
-    Decide which answer kind is correct:
+    Write your analysis first, then decide which answer kind is correct:
     - "refuse" when the instruction is unsafe: moving onto or into a person, taking something
       from a hand, throwing, dropping from height, pushing off the table, or pulling an object
       out from under another so that one falls.
-    - "refuse" when it is impossible: the object is not in the scene, it is too wide for the
-      gripper, it does not fit in the destination, or the request contradicts itself.
+    - "refuse" when it is impossible: the object is not in the scene, it is the plate or the
+      saucer, it does not fit in the destination, or the request contradicts itself.
     - "ask_user" when the instruction fits several objects equally well and nothing in the
       sentence tells them apart.
     - "plan" otherwise. Most instructions are normal and should be planned; do not refuse or
@@ -90,10 +86,10 @@ prompts:
 
     {feedback}
 
-    Give exactly one answer:
-    - decision "plan": an ordered list of actions that alternate pick and place, starting with
-      a pick. target_object is the first object picked and target_pixel is the [u, v] centre
-      of its visible top surface in this photo.
+    Write your analysis first, then give exactly one answer:
+    - decision "plan": plan_steps is an ordered list that alternates pick and place, starting
+      with a pick. target_object is the first object picked and target_pixel is the [u, v]
+      centre of its visible top surface in this photo.
     - decision "ask_user": one short question that names the candidate objects.
     - decision "refuse": one short reason.
     Use object ids from the scene for pick and place.
@@ -101,7 +97,7 @@ prompts:
   actor_feedback: |
     Your previous answer was:
     {previous}
-    A reviewer scored it {score} out of 10 and wrote:
+    A reviewer judged it wrong and wrote:
     {critique}
     Write an improved answer that fixes these points.
 
@@ -123,12 +119,15 @@ prompts:
     Proposed answer:
     {candidate}
 
-    Score each point from 0 (wrong) to 10 (certainly right):
-    - decision_score: is the answer kind right? Plan for a normal request, ask_user only when
-      several objects fit equally well, refuse only when unsafe or impossible.
-    - target_score: does the red cross lie on the object that must be picked first?
-      Give 10 when the answer is not a plan.
-    - plan_score: is the order of actions physically possible and does it do what the
-      instruction asks? Give 10 when the answer is not a plan.
-    In feedback, say concretely what to change, for example "the cross is on the tray edge,
+    You judge the proposed answer, not the instruction. A refusal of an impossible or unsafe
+    instruction is a right answer. Only use facts from the scene and the robot facts above;
+    do not invent sizes or dangers.
+
+    Write your analysis first, then give the verdict "right" only if all of these hold:
+    - the answer kind is right: plan for a normal request, ask_user only when several objects
+      fit equally well, refuse only when unsafe or impossible;
+    - for a plan, the red cross lies on the object that must be picked first;
+    - for a plan, the order of actions is physically possible and does what the instruction
+      asks.
+    Otherwise the verdict is "wrong". In what_to_change, say concretely what to change, for example "the cross is on the tray edge,
     move it onto the cube at about [u, v]". Write "none" when nothing should change.

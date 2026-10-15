@@ -11,3 +11,4 @@ vllm_server.log
 !runs/**
 .env
 .ruff_cache/
+literature/papers/
