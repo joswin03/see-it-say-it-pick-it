@@ -210,6 +210,7 @@ Run records: `runs/scratch/20261016-*` (each with `report.json` and `score.txt`)
 | Baseline prompt + ground truth as JSON (with pixels) | 26.2, 26.2 | 30/40 | 0/10 | 4/40 |
 | Our pipeline on OpenCV perception (v11.1) | 49.6, 48.1 | 31-32/40 | 8/10 | 4-5/40 |
 | Our pipeline + ground truth as JSON | 49.5, 50.8 | 37-38/40 | 6/10 | 1-2/40 |
+| Our pipeline + ground truth as JSON with `"too_wide": true` | 52.3, 58.7 | 37/40 | 7-9/10 | 1-2/40 |
 | **Our pipeline + ground truth as text** | **56.4, 56.4** | **37/40** | **8/10** | **0/40** |
 
 - Perception costs about 7 points: 56.4 with the ground truth against 48-50 with OpenCV.
@@ -221,6 +222,10 @@ Run records: `runs/scratch/20261016-*` (each with `report.json` and `score.txt`)
   and the decision prompt refers to the text's lists; the JSON runs lose the ambiguous gear,
   "the red gear with nothing on it" and two multistep plans. Without pixels in the text, the
   baseline cannot point at objects (7/40), worse than with the photo alone.
+- Adding `"too_wide": true` to the JSON (plates and saucers, the same `too_wide()` rule the
+  text and the plan checks use) lifts JSON from 49.5 / 50.8 to 52.3 / 58.7, close to text's
+  56.4. The two runs differ by 6.4 points, so text vs flagged JSON is within noise; the flag
+  was most of the gap. Runs: `runs/scratch/20261016-014530-gt-json-dataset`, `...014532...`.
 - Still failing with perfect perception (both text runs, the same five): 01_i3 "the object
   closest to the mug" (picks the mug itself), 04_i3 "the grey part closest to the mug" and 09_i2
   "the red gear farthest from the saucer" (misread NEAR TO FAR), 07_i5 and 09_i5 (contradictions

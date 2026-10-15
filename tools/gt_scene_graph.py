@@ -22,7 +22,7 @@ import yaml
 from src.perception.regions import find_trays, interior_point, to_work_scale
 from src.pipeline import marked_photo
 from src.reasoning.client import image_url
-from src.scene_graph import HAND_WORDS, describe, size_mm
+from src.scene_graph import HAND_WORDS, describe, size_mm, too_wide
 from src.workcell import Scene, load_scene, table_xy
 
 REPO = Path(__file__).resolve().parent.parent
@@ -247,7 +247,11 @@ def perceive_ground_truth(scene: Scene, config: dict, form: str) -> dict:
     for item in objects:
         item["under"] = [other["id"] for other in objects if item["id"] in other["on_top_of"]]
     marked = marked_photo(scene.rgb, objects, work_scale)
-    text = describe(objects, config["scene_graph"]["too_wide_mm"]) if form == "text" else json.dumps(graph)
+    too_wide_mm = config["scene_graph"]["too_wide_mm"]
+    for entry, item in zip(graph["objects"], objects):
+        if too_wide(item, too_wide_mm):  # the text says TOO WIDE TO GRIP; tell the JSON reader too
+            entry["too_wide"] = True
+    text = describe(objects, too_wide_mm) if form == "text" else json.dumps(graph)
     return {
         "objects": objects,
         "text": text,

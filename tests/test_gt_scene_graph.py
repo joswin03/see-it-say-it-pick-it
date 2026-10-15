@@ -18,4 +18,5 @@ def test_ground_truth_scene_06_as_text_and_json() -> None:
     assert by_id["red_gear_1"]["name"] == "red gear"
     assert "yellow_gear lies on red_gear_2" in text["text"]
     assert "saucer: saucer; " in text["text"] and "TOO WIDE TO GRIP" in text["text"]
-    assert perceive_ground_truth(scene, CONFIG, "json")["text"].startswith('{"objects": [')
+    as_json = perceive_ground_truth(scene, CONFIG, "json")["text"]
+    assert '{"id": "saucer", "pixel": [2164, 858], "tray": "black_tray", "too_wide": true}' in as_json
