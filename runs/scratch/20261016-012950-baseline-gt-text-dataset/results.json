@@ -1,0 +1,887 @@
+{
+  "team": "baseline",
+  "results": [
+    {
+      "target_pixel": [
+        306,
+        1023
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_01_i1"
+    },
+    {
+      "target_pixel": [
+        712,
+        880
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_01_i2"
+    },
+    {
+      "target_pixel": [
+        736,
+        975
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_01_i3"
+    },
+    {
+      "target_pixel": [
+        282,
+        975
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "pick",
+          "object": "mug"
+        },
+        {
+          "action": "place",
+          "object": "mug"
+        }
+      ],
+      "instruction_id": "scene_01_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Where is the blue cube located?"
+        }
+      ],
+      "instruction_id": "scene_01_i5"
+    },
+    {
+      "target_pixel": [
+        1896,
+        894
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "mandarin"
+        }
+      ],
+      "instruction_id": "scene_02_i1"
+    },
+    {
+      "target_pixel": [
+        1540,
+        426
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_02_i2"
+    },
+    {
+      "target_pixel": [
+        1444,
+        497
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_02_i3"
+    },
+    {
+      "action": "pick",
+      "object": "mandarin",
+      "instruction_id": "scene_02_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which plate should be placed in the mug?"
+        }
+      ],
+      "instruction_id": "scene_02_i5"
+    },
+    {
+      "target_pixel": [
+        1707,
+        1095
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_03_i1"
+    },
+    {
+      "target_pixel": [
+        1540,
+        717
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_1"
+        }
+      ],
+      "instruction_id": "scene_03_i2"
+    },
+    {
+      "target_pixel": [
+        1850,
+        741
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        }
+      ],
+      "instruction_id": "scene_03_i3"
+    },
+    {
+      "target_pixel": [
+        1535,
+        717
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_3"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_3"
+        }
+      ],
+      "instruction_id": "scene_03_i4"
+    },
+    {
+      "target_pixel": [
+        1654,
+        717
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_1"
+        }
+      ],
+      "instruction_id": "scene_03_i5"
+    },
+    {
+      "target_pixel": [
+        1434,
+        1076
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "white_part"
+        },
+        {
+          "action": "place",
+          "object": "white_part"
+        }
+      ],
+      "instruction_id": "scene_04_i1"
+    },
+    {
+      "target_pixel": [
+        1776,
+        1286
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mug"
+        },
+        {
+          "action": "place",
+          "object": "mug"
+        }
+      ],
+      "instruction_id": "scene_04_i2"
+    },
+    {
+      "target_pixel": [
+        1611,
+        992
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "grey_part_2"
+        },
+        {
+          "action": "place",
+          "object": "grey_part_2"
+        }
+      ],
+      "instruction_id": "scene_04_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which grey part should be picked first?"
+        }
+      ],
+      "instruction_id": "scene_04_i4"
+    },
+    {
+      "target_pixel": [
+        1415,
+        1119
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "white_part"
+        },
+        {
+          "action": "place",
+          "object": "white_part"
+        }
+      ],
+      "instruction_id": "scene_04_i5"
+    },
+    {
+      "target_pixel": [
+        1434,
+        1076
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "banana"
+        },
+        {
+          "action": "place",
+          "object": "plate"
+        }
+      ],
+      "instruction_id": "scene_05_i1"
+    },
+    {
+      "target_pixel": [
+        1422,
+        1047
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "banana"
+        },
+        {
+          "action": "place",
+          "object": "plate"
+        }
+      ],
+      "instruction_id": "scene_05_i2"
+    },
+    {
+      "target_pixel": [
+        1497,
+        1047
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "banana"
+        },
+        {
+          "action": "place",
+          "object": "banana"
+        }
+      ],
+      "instruction_id": "scene_05_i3"
+    },
+    {
+      "target_pixel": [
+        1454,
+        856
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "banana"
+        },
+        {
+          "action": "place",
+          "object": "banana"
+        },
+        {
+          "action": "pick",
+          "object": "mug"
+        },
+        {
+          "action": "place",
+          "object": "mug"
+        },
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "mandarin"
+        }
+      ],
+      "instruction_id": "scene_05_i4"
+    },
+    {
+      "target_pixel": [
+        1540,
+        975
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "banana"
+        },
+        {
+          "action": "place",
+          "object": "banana"
+        }
+      ],
+      "instruction_id": "scene_05_i5"
+    },
+    {
+      "target_pixel": [
+        1736,
+        1382
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_06_i1"
+    },
+    {
+      "target_pixel": [
+        1611,
+        688
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        }
+      ],
+      "instruction_id": "scene_06_i2"
+    },
+    {
+      "target_pixel": [
+        1540,
+        853
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_1"
+        }
+      ],
+      "instruction_id": "scene_06_i3"
+    },
+    {
+      "target_pixel": [
+        1540,
+        753
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_06_i4"
+    },
+    {
+      "target_pixel": [
+        1540,
+        808
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        }
+      ],
+      "instruction_id": "scene_06_i5"
+    },
+    {
+      "target_pixel": [
+        426,
+        1286
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_07_i1"
+    },
+    {
+      "target_pixel": [
+        732,
+        1382
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_07_i2"
+    },
+    {
+      "target_pixel": [
+        416,
+        552
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mug"
+        },
+        {
+          "action": "place",
+          "object": "red_gear"
+        }
+      ],
+      "instruction_id": "scene_07_i3"
+    },
+    {
+      "target_pixel": [
+        354,
+        449
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear"
+        },
+        {
+          "action": "place",
+          "object": "red_gear"
+        }
+      ],
+      "instruction_id": "scene_07_i4"
+    },
+    {
+      "target_pixel": [
+        330,
+        449
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear"
+        },
+        {
+          "action": "place",
+          "object": "red_gear"
+        }
+      ],
+      "instruction_id": "scene_07_i5"
+    },
+    {
+      "target_pixel": [
+        712,
+        1406
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_08_i1"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which small white part are you referring to?"
+        }
+      ],
+      "instruction_id": "scene_08_i2"
+    },
+    {
+      "target_pixel": [
+        1659,
+        655
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_08_i3"
+    },
+    {
+      "target_pixel": [
+        1540,
+        449
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        }
+      ],
+      "instruction_id": "scene_08_i4"
+    },
+    {
+      "target_pixel": [
+        1487,
+        753
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_1"
+        }
+      ],
+      "instruction_id": "scene_08_i5"
+    },
+    {
+      "target_pixel": [
+        760,
+        1310
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "mandarin"
+        }
+      ],
+      "instruction_id": "scene_09_i1"
+    },
+    {
+      "target_pixel": [
+        736,
+        1133
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_1"
+        }
+      ],
+      "instruction_id": "scene_09_i2"
+    },
+    {
+      "target_pixel": [
+        975,
+        1095
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_09_i3"
+    },
+    {
+      "target_pixel": [
+        975,
+        1454
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "grey_part"
+        }
+      ],
+      "instruction_id": "scene_09_i4"
+    },
+    {
+      "target_pixel": [
+        808,
+        1322
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "plate"
+        }
+      ],
+      "instruction_id": "scene_09_i5"
+    },
+    {
+      "target_pixel": [
+        975,
+        1501
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_10_i1"
+    },
+    {
+      "target_pixel": [
+        593,
+        1310
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "plate"
+        }
+      ],
+      "instruction_id": "scene_10_i2"
+    },
+    {
+      "target_pixel": [
+        583,
+        1023
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_1"
+        }
+      ],
+      "instruction_id": "scene_10_i3"
+    },
+    {
+      "target_pixel": [
+        736,
+        975
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "plate"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "plate"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "plate"
+        }
+      ],
+      "instruction_id": "scene_10_i4"
+    },
+    {
+      "target_pixel": [
+        975,
+        753
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mug"
+        },
+        {
+          "action": "place",
+          "object": "hand"
+        }
+      ],
+      "instruction_id": "scene_10_i5"
+    }
+  ]
+}

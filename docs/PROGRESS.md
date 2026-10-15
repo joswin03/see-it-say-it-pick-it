@@ -195,6 +195,37 @@ Run records: `runs/scratch/20261015-202009-opencv-dataset` (48.4) and
   instead of the grey part), 09_i5 (planner misses "put it on the plate and leave it where it
   is"), and two scene 08 instructions where the plan is rejected for a hold before the last move.
 
+## Perfect perception: Apertus on the ground-truth scene graph
+
+What does Apertus-8B score when perception is perfect? The ground-truth scene graphs
+(`dataset/coco_annotations/scene_graphs.json`, from our COCO annotations) replace perception, in
+two forms, with two prompts; two runs each, via the CSCS API (`swiss-ai/Apertus-v1.5-8B`).
+Commands: `run.py --gt-scene-graph text|json` and `python -m tools.gt_baseline --form text|json`.
+Run records: `runs/scratch/20261016-*` (each with `report.json` and `score.txt`).
+
+| Setup | Runs /65 | Grounding | Right asks/refusals | False asks/refusals |
+|---|---|---|---|---|
+| Plain baseline (photo only, no scene graph) | 15.1 | 15/40 | 1/10 | 14/40 |
+| Baseline prompt + ground truth as text (no pixels) | 6.1, 7.9 | 7-9/40 | 0/10 | 2/40 |
+| Baseline prompt + ground truth as JSON (with pixels) | 26.2, 26.2 | 30/40 | 0/10 | 4/40 |
+| Our pipeline on OpenCV perception (v11.1) | 49.6, 48.1 | 31-32/40 | 8/10 | 4-5/40 |
+| Our pipeline + ground truth as JSON | 49.5, 50.8 | 37-38/40 | 6/10 | 1-2/40 |
+| **Our pipeline + ground truth as text** | **56.4, 56.4** | **37/40** | **8/10** | **0/40** |
+
+- Perception costs about 7 points: 56.4 with the ground truth against 48-50 with OpenCV.
+  Grounding goes from 31-32 to 37 of 40.
+- The planning around Apertus matters more than perception. With the same perfect scene
+  graph, the baseline prompt scores 26 (JSON) or 7 (text) and refuses or asks about nothing
+  (0/10): our safety screen, decision prompt, plan checks and code-set pixels are worth 30 points.
+- Text beats JSON by about 6 points with our prompt: the JSON has no sizes or TOO WIDE flags,
+  and the decision prompt refers to the text's lists; the JSON runs lose the ambiguous gear,
+  "the red gear with nothing on it" and two multistep plans. Without pixels in the text, the
+  baseline cannot point at objects (7/40), worse than with the photo alone.
+- Still failing with perfect perception (both text runs, the same five): 01_i3 "the object
+  closest to the mug" (picks the mug itself), 04_i3 "the grey part closest to the mug" and 09_i2
+  "the red gear farthest from the saucer" (misread NEAR TO FAR), 07_i5 and 09_i5 (contradictions
+  planned instead of refused). These are reasoning errors, the ceiling for prompt or tool work.
+
 ## Decision-prompt experiment (after v11.1): shorter prompts lose 5 to 9 points
 
 Two runs each, Apertus-8B, same code (`2553d59`), only the decision prompt changed:

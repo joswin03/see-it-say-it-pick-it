@@ -11,15 +11,33 @@ import argparse
 import json
 import sys
 import time
+import urllib.request
 from pathlib import Path
 
 import yaml
 
+from src.reasoning.client import api_key
 from src.workcell import load_scene
 from tools.gt_scene_graph import OUT, REPO, perceive_ground_truth
 
 sys.path.insert(0, str(REPO / "baseline"))
 import baseline as organisers  # PROMPT, encode, ask, parse, rescale
+
+
+def ask(base_url: str, model: str, image_b64: str, prompt: str, timeout: float) -> str:
+    """``baseline.ask`` with the API key; the organisers' copy always sends "Bearer none"."""
+    content = [
+        {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}},
+        {"type": "text", "text": prompt},
+    ]
+    body = {"model": model, "temperature": 0, "max_tokens": 400, "messages": [{"role": "user", "content": content}]}
+    request = urllib.request.Request(
+        base_url.rstrip("/") + "/chat/completions",
+        data=json.dumps(body).encode(),
+        headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key()}"},
+    )
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        return json.loads(response.read())["choices"][0]["message"]["content"]
 
 
 def scene_text(scene, config: dict, form: str, scale: float) -> str:
@@ -64,7 +82,7 @@ def main() -> None:
             prompt = organisers.PROMPT.format(w=width, h=height, text=text).replace(
                 "\nInstruction:", f"\nObjects in the scene:\n{scenes[scene.name]}\n\nInstruction:", 1
             )
-            reply = organisers.ask(args.base_url, args.model, image, prompt, 180)
+            reply = ask(args.base_url, args.model, image, prompt, 180)
             answer = organisers.parse(reply)
             answer = organisers.rescale(answer, scale) if isinstance(answer, dict) else {"actions": []}
             answer["instruction_id"] = instruction_id

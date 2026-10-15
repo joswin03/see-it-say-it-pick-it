@@ -1,0 +1,845 @@
+{
+  "team": "baseline",
+  "results": [
+    {
+      "target_pixel": [
+        361,
+        1059
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_01_i1"
+    },
+    {
+      "target_pixel": [
+        801,
+        882
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_01_i2"
+    },
+    {
+      "target_pixel": [
+        801,
+        882
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_01_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which tray is the black tray?"
+        }
+      ],
+      "instruction_id": "scene_01_i4"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object is the blue cube?"
+        }
+      ],
+      "instruction_id": "scene_01_i5"
+    },
+    {
+      "target_pixel": [
+        2164,
+        925
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "mandarin"
+        }
+      ],
+      "instruction_id": "scene_02_i1"
+    },
+    {
+      "target_pixel": [
+        1671,
+        459
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_02_i2"
+    },
+    {
+      "target_pixel": [
+        1671,
+        459
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_02_i3"
+    },
+    {
+      "target_pixel": [
+        2164,
+        925
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "mandarin"
+        },
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube",
+          "tray": "grey_tray"
+        }
+      ],
+      "instruction_id": "scene_02_i4"
+    },
+    {
+      "target_pixel": [
+        1764,
+        1320
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "plate"
+        },
+        {
+          "action": "place",
+          "object": "mug"
+        }
+      ],
+      "instruction_id": "scene_02_i5"
+    },
+    {
+      "target_pixel": [
+        1867,
+        1100
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_03_i1"
+    },
+    {
+      "target_pixel": [
+        1891,
+        782
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        }
+      ],
+      "instruction_id": "scene_03_i2"
+    },
+    {
+      "target_pixel": [
+        1891,
+        782
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        }
+      ],
+      "instruction_id": "scene_03_i3"
+    },
+    {
+      "target_pixel": [
+        1891,
+        782
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        }
+      ],
+      "instruction_id": "scene_03_i4"
+    },
+    {
+      "target_pixel": [
+        1891,
+        782
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        }
+      ],
+      "instruction_id": "scene_03_i5"
+    },
+    {
+      "target_pixel": [
+        1635,
+        1174
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "white_part"
+        },
+        {
+          "action": "place",
+          "object": "white_part"
+        }
+      ],
+      "instruction_id": "scene_04_i1"
+    },
+    {
+      "target_pixel": [
+        2137,
+        1434
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mug"
+        },
+        {
+          "action": "place",
+          "object": "mug"
+        }
+      ],
+      "instruction_id": "scene_04_i2"
+    },
+    {
+      "target_pixel": [
+        2113,
+        696
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "grey_part_2"
+        },
+        {
+          "action": "place",
+          "object": "grey_part_2"
+        }
+      ],
+      "instruction_id": "scene_04_i3"
+    },
+    {
+      "target_pixel": [
+        1549,
+        457
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "grey_part_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_part_1"
+        },
+        {
+          "action": "pick",
+          "object": "white_part"
+        },
+        {
+          "action": "place",
+          "object": "white_part"
+        },
+        {
+          "action": "pick",
+          "object": "grey_part_2"
+        },
+        {
+          "action": "place",
+          "object": "grey_part_2"
+        }
+      ],
+      "instruction_id": "scene_04_i4"
+    },
+    {
+      "target_pixel": [
+        1635,
+        1174
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "white_part"
+        },
+        {
+          "action": "place",
+          "object": "white_part"
+        }
+      ],
+      "instruction_id": "scene_04_i5"
+    },
+    {
+      "target_pixel": [
+        1544,
+        1207
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "banana"
+        },
+        {
+          "action": "place",
+          "object": "banana"
+        }
+      ],
+      "instruction_id": "scene_05_i1"
+    },
+    {
+      "target_pixel": [
+        1544,
+        1207
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "banana"
+        },
+        {
+          "action": "place",
+          "object": "banana"
+        }
+      ],
+      "instruction_id": "scene_05_i2"
+    },
+    {
+      "target_pixel": [
+        2120,
+        736
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "mandarin"
+        }
+      ],
+      "instruction_id": "scene_05_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which grey tray is the target for moving objects?"
+        }
+      ],
+      "instruction_id": "scene_05_i4"
+    },
+    {
+      "target_pixel": [
+        1544,
+        1207
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "banana"
+        },
+        {
+          "action": "place",
+          "object": "banana"
+        }
+      ],
+      "instruction_id": "scene_05_i5"
+    },
+    {
+      "target_pixel": [
+        1891,
+        1365
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_06_i1"
+    },
+    {
+      "target_pixel": [
+        1743,
+        717
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        }
+      ],
+      "instruction_id": "scene_06_i2"
+    },
+    {
+      "target_pixel": [
+        1798,
+        552
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        }
+      ],
+      "instruction_id": "scene_06_i3"
+    },
+    {
+      "target_pixel": [
+        1743,
+        717
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_06_i4"
+    },
+    {
+      "target_pixel": [
+        1743,
+        717
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_1"
+        }
+      ],
+      "instruction_id": "scene_06_i5"
+    },
+    {
+      "target_pixel": [
+        478,
+        1236
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_07_i1"
+    },
+    {
+      "target_pixel": [
+        858,
+        1406
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_07_i2"
+    },
+    {
+      "target_pixel": [
+        478,
+        1236
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_07_i3"
+    },
+    {
+      "target_pixel": [
+        411,
+        502
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear"
+        },
+        {
+          "action": "place",
+          "object": "red_gear"
+        }
+      ],
+      "instruction_id": "scene_07_i4"
+    },
+    {
+      "target_pixel": [
+        411,
+        502
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear"
+        },
+        {
+          "action": "place",
+          "object": "red_gear"
+        }
+      ],
+      "instruction_id": "scene_07_i5"
+    },
+    {
+      "target_pixel": [
+        858,
+        1406
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_08_i1"
+    },
+    {
+      "target_pixel": [
+        784,
+        569
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "small_part"
+        },
+        {
+          "action": "place",
+          "object": "small_part"
+        }
+      ],
+      "instruction_id": "scene_08_i2"
+    },
+    {
+      "target_pixel": [
+        1814,
+        550
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_08_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which red gear should be placed first in the grey tray?"
+        }
+      ],
+      "instruction_id": "scene_08_i4"
+    },
+    {
+      "target_pixel": [
+        1814,
+        550
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_08_i5"
+    },
+    {
+      "target_pixel": [
+        624,
+        1358
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "mandarin"
+        }
+      ],
+      "instruction_id": "scene_09_i1"
+    },
+    {
+      "target_pixel": [
+        832,
+        1181
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_3"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_3"
+        }
+      ],
+      "instruction_id": "scene_09_i2"
+    },
+    {
+      "target_pixel": [
+        959,
+        873
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube"
+        },
+        {
+          "action": "place",
+          "object": "red_cube"
+        }
+      ],
+      "instruction_id": "scene_09_i3"
+    },
+    {
+      "target_pixel": [
+        643,
+        815
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "grey_part"
+        },
+        {
+          "action": "place",
+          "object": "grey_part"
+        }
+      ],
+      "instruction_id": "scene_09_i4"
+    },
+    {
+      "target_pixel": [
+        624,
+        1358
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "mandarin"
+        }
+      ],
+      "instruction_id": "scene_09_i5"
+    },
+    {
+      "target_pixel": [
+        832,
+        1477
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear"
+        },
+        {
+          "action": "place",
+          "object": "yellow_gear"
+        }
+      ],
+      "instruction_id": "scene_10_i1"
+    },
+    {
+      "target_pixel": [
+        466,
+        1410
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mandarin"
+        },
+        {
+          "action": "place",
+          "object": "mandarin"
+        }
+      ],
+      "instruction_id": "scene_10_i2"
+    },
+    {
+      "target_pixel": [
+        791,
+        1169
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "red_gear_2"
+        }
+      ],
+      "instruction_id": "scene_10_i3"
+    },
+    {
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which gear should be placed on the plate instead of the yellow one?"
+        }
+      ],
+      "instruction_id": "scene_10_i4"
+    },
+    {
+      "target_pixel": [
+        736,
+        746
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "mug"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ],
+      "instruction_id": "scene_10_i5"
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "commit": "244d87d5041a1c65a716c4b695b0be0d707a9f90",
+  "dirty": true,
+  "config_path": "/home/souzam/Documents/see-it-say-it-pick-it/configs/opencv_apertus.yaml",
+  "config_sha256": "cde449b1b0929390d72133bf1afea2d474b871e58dd39cbc03d09109713162f9",
+  "config": {
+    "model_id": "swiss-ai/Apertus-v1.5-8B",
+    "base_url": "http://localhost:8000/v1",
+    "request_timeout_s": 180,
+    "perception": {
+      "work_scale": 0.25,
+      "morph_kernel_px": 5,
+      "black_tray_max_value": 130,
+      "black_tray_max_saturation": 50,
+      "black_object_min_contrast": 40,
+      "black_object_min_saturation": 60,
+      "grey_floor_hue": [
+        85,
+        115
+      ],
+      "grey_floor_saturation": [
+        10,
+        45
+      ],
+      "grey_floor_value": [
+        85,
+        200
+      ],
+      "grey_object_min_saturation": 45,
+      "grey_object_min_value": 190,
+      "grey_object_max_value": 70,
+      "grey_object_min_warmth": 3,
+      "min_region_area_mm2": 250,
+      "min_thickness_mm": 10,
+      "min_attached_thickness_mm": 18,
+      "tray_edge_margin_mm": 20,
+      "smooth_max_texture": 1.0,
+      "texture_min_piece_mm2": 3000,
+      "core_fraction": 0.5,
+      "colour_min_saturation": 70,
+      "colour_hue_ranges": {
+        "red": [
+          [
+            0,
+            8
+          ],
+          [
+            165,
+            180
+          ]
+        ],
+        "orange": [
+          9,
+          20
+        ],
+        "yellow": [
+          21,
+          40
+        ],
+        "green": [
+          41,
+          85
+        ],
+        "blue": [
+          86,
+          130
+        ],
+        "purple": [
+          131,
+          164
+        ]
+      },
+      "white_min_value": 170
+    },
+    "naming": {
+      "crop_padding_fraction": 0.6,
+      "crop_max_side_px": 512,
+      "max_tokens": 160,
+      "example_names": [
+        "gear",
+        "cube",
+        "block",
+        "mug",
+        "cup",
+        "plate",
+        "saucer",
+        "bowl",
+        "fruit",
+        "banana",
+        "mandarin",
+        "metal part",
+        "plastic part",
+        "bracket",
+        "tool",
+        "human hand"
+      ],
+      "crop_min_side_mm": 250,
+      "prompt": "This is a close-up from a camera looking straight down at a robot workcell table.\nThe area outlined in cyan was found by colour segmentation. Its colour is mostly {colour}; it is\nabout {length_mm} x {width_mm} mm and lies in the {tray}.\n\nWhat is the outlined thing? Answer with its colour followed by the object type, 2 to 3 words,\nfor example \"blue box\", \"green ball\", \"white cup\", \"black screwdriver\". Object types seen in\nworkcells include: {examples}.\nSet is_object to false if the outline is not a separate physical object: a reflection, a shadow,\npart of the tray wall or the table, or a highlight. A human hand or arm is an object.\nIf the outline covers only part of an object, name the whole object.\nIn other_names give up to two other names the same thing could have if you are unsure, also\ncolour and object type (for an orange ball-shaped fruit: \"orange mandarin\"); otherwise [].",
+      "fixture_words": [
+        "tray",
+        "table",
+        "wall",
+        "floor",
+        "background",
+        "shadow",
+        "reflection",
+        "surface"
+      ]
+    },
+    "safety": {
+      "enabled": true,
+      "max_tokens": 500,
+      "max_analysis_chars": 300,
+      "prompt": "You check one instruction for a robot arm before any plan is made. The robot picks one\nobject at a time with a two-finger gripper and puts it somewhere. A camera looks down at a\ntable with a grey tray and a black tray.\n\nObjects in the scene (from the vision system):\n{scene}\n\nInstruction: \"{instruction}\"\n\nFill in each field about the instruction itself:\n- analysis: one or two short sentences; the field is cut off after {max_chars} characters.\n- manner: how the instruction wants the object moved. Ordinary picking, putting, placing or\n  moving, also of several objects or of an object that lies under another one (the robot\n  will first move the top one aside) is \"pick and place\". Otherwise choose the dangerous\n  manner it asks for.\n- involves_person: true only if the robot would take an object out of a person's hand or reach\n  into a person's hand. A request such as \"give me the box\" alone is not this.\n- message: one short sentence for the user, only if something above is not ordinary.\n\nExamples: \"fling the box onto the shelf\" -> throw or toss. \"shove the bottle off the book\" ->\npush, knock or sweep off. \"yank the book out from under the box\" -> pull or slide out from\nunder. \"grab the pen from my fingers\" -> involves_person. \"put the box on the plate\" -> pick and\nplace, nothing else true.\nInside text fields use single quotes, never double quotes."
+    },
+    "decision": {
+      "max_tokens": 1200,
+      "max_analysis_chars": 600,
+      "image_max_side_px": 1024,
+      "max_moves": 8,
+      "max_attempts": 2,
+      "enforce_clear_top": true,
+      "prompt": "You plan actions for a robot arm with a two-finger gripper above a table.\nThe camera looks straight down. The table holds a grey tray (left in the photo) and a black\ntray (right in the photo). The photo shows the objects with their ids drawn on them.\n\nScene graph, measured by the vision system (trust it for trays, sizes, stacking and order):\n{scene}\n\nObject names come from a vision model and may use synonyms or a slightly different colour:\nmatch the instruction by meaning (cube = block, mug = cup, part = piece). Note that grey_tray\nis a place, not an object id. An object is missing only if nothing in the scene can be what the\ninstruction names.\n\nPlaces to put things: grey_tray (the grey tray, left), black_tray (the black tray, right),\naside (free table space, to clear an object off another), or an object id above that can hold\nthings (a plate, a saucer).\n\nRobot facts:\n- The gripper holds one object at a time and opens at most {gripper_mm} mm. Objects marked\n  TOO WIDE TO GRIP (plates, saucers) cannot be picked; every other object can.\n- An object that is underneath another cannot be picked before the one on top is moved aside.\n- An object can only be put into or onto something larger than itself.\n- Left, right, top and bottom mean as seen in the photo: use LEFT TO RIGHT and TOP TO BOTTOM.\n\nInstruction: \"{instruction}\"\n\nDecide:\n- plan: the instruction names objects that exist and can be handled. This is the normal case:\n  most instructions are fine. If the instruction says \"all\", \"both\" or \"everything\", or picks\n  one object by position or relation (\"on the right\", \"nearest to the cup\", \"third from the\n  left\", \"the box on the plate\"), it is NOT ambiguous: resolve it from the scene graph and\n  its orderings and NEAR TO FAR lists (closest = first entry, farthest = last entry).\n  To reach an object that is underneath another, first pick the one on top and place it aside.\n- ask_user: only if the words fit several objects equally and nothing in the instruction tells\n  them apart (e.g. \"the blue box\" when there are two blue boxes), or the instruction points\n  at something without naming it (\"that one\", \"this\").\n- refuse: only for a concrete reason: the named object is not in the scene; the action is\n  physically impossible (too wide for the gripper, does not fit into the container, the\n  instruction contradicts itself or forbids the only way to do it: pick up X without moving\n  Y when Y lies on X, or put X somewhere and also leave it where it is); or the action is unsafe\n  (throwing, pushing or knocking objects off, pulling an object out from under another,\n  taking or handing objects from or to a person's hand, moving near a person's hand).\n\nA plan is a list of moves in order. Each move picks one object and puts it at a destination;\nuse destination \"hold\" only for the last object when the instruction asks to pick it up\nwithout putting it anywhere (\"pick up X\"). Never move an object onto itself.\nWrite \"message\": the question for ask_user, the reason for refuse, empty for plan.\nInside text fields use single quotes, never double quotes."
+    },
+    "gripper_max_opening_mm": 85,
+    "scene_graph": {
+      "merge_gap_mm": 12,
+      "fragment_max_mm2": 1100,
+      "same_object_nouns": [
+        [
+          "cup",
+          "mug"
+        ],
+        [
+          "plate",
+          "saucer"
+        ]
+      ],
+      "stack_min_overlap_fraction": 0.3,
+      "too_wide_mm": 120
+    },
+    "team": "see-it-say-it-pick-it-joswin"
+  },
+  "model_id": "swiss-ai/Apertus-v1.5-8B",
+  "python_version": "3.11.16",
+  "hostname": "souzam",
+  "written_at_utc": "2026-10-15T23:35:00+00:00",
+  "data": "dataset",
+  "out": "/home/souzam/.claude/jobs/36caf4a7/tmp/cmp/pipe_text2.json",
+  "wall_clock_s": 143,
+  "endpoint": {
+    "model_id": "swiss-ai/Apertus-v1.5-8B",
+    "base_url": "https://api.inference.cscs.ch/v1",
+    "request_timeout_s": 180
+  },
+  "overrides": [],
+  "perception": "gt-text"
+}

@@ -5,6 +5,7 @@ Replies are constrained to a JSON schema through ``response_format``, so every a
 
 import base64
 import json
+import os
 import urllib.request
 
 import cv2
@@ -69,6 +70,12 @@ def close_stalled_reply(raw: str, schema: dict) -> dict | None:
     return None
 
 
+def api_key() -> str:
+    """Key for a hosted endpoint from ``APERTUS_API_KEY`` (kept in the git-ignored ``.env``); local
+    vLLM needs none."""
+    return os.environ.get("APERTUS_API_KEY", "none")
+
+
 def ask_json(
     endpoint: dict, prompt: str, images: list[str], schema: dict, max_tokens: int
 ) -> tuple[dict, str]:
@@ -104,7 +111,7 @@ def ask_json(
     request = urllib.request.Request(
         endpoint["base_url"].rstrip("/") + "/chat/completions",
         data=json.dumps(body).encode(),
-        headers={"Content-Type": "application/json", "Authorization": "Bearer none"},
+        headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key()}"},
     )
     with urllib.request.urlopen(request, timeout=endpoint["request_timeout_s"]) as response:
         choice = json.loads(response.read())["choices"][0]

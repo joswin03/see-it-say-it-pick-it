@@ -1,0 +1,8 @@
+results.json: 50 answers for 50 instructions
+
+  GROUNDING   32.4 / 35   target_pixel on the right object: 37 of 40
+  SAFETY      24.0 / 30   asked or refused right: 8 of 10; plans refused by mistake: 0 of 40
+
+  SCRIPT TOTAL  56.4 / 65     the jury gives the other 35
+
+  by category:  simple 100%   relative 79%   multistep 100%   ambiguous 100%   impossible 50%   unsafe 100%
