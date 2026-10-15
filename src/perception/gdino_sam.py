@@ -20,6 +20,8 @@ from transformers import (
     Sam2Processor,
 )
 
+from src.perception.regions import colour_classes, find_trays, interior_point, to_work_scale
+
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
