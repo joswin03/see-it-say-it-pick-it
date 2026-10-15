@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from src.scene_graph import merge_same_object
+from src.scene_graph import describe, merge_same_object
 
 CONFIG = {"fragment_max_mm2": 1100, "same_object_nouns": [["cup", "mug"], ["plate", "saucer"]]}
 
@@ -55,3 +55,37 @@ def test_gears_split_on_purpose_are_not_merged_back() -> None:
     left = region(1, "red gear", (20, 80, 20, 80), 5500, 0, part=(4, 0, 1))
     right = region(2, "red gear", (20, 80, 80, 140), 5500, 0, part=(4, 0, 1))
     assert len(merge_same_object([left, right], 2, CONFIG)) == 2
+
+
+def test_merged_piece_keeps_its_name_as_an_alias() -> None:
+    rim = region(1, "orange plate", (20, 80, 20, 80), 5000, 1)
+    centre = region(2, "grey saucer", (20, 80, 80, 120), 2500, 6)
+    (saucer,) = merge_same_object([rim, centre], 2, CONFIG)
+    assert saucer["aliases"] == ["grey saucer"]
+
+
+def test_scene_text_states_trays_stacks_and_full_near_to_far_ranking() -> None:
+    def node(object_id, tray, x, on_top_of=()):
+        return {
+            "id": object_id, "name": object_id[:-2].replace("_", " "), "aliases": [],
+            "tray": tray, "size_mm": (88, 86), "is_hand": False, "pixel": [x, 100],
+            "table_xy": [x, 0], "on_top_of": list(on_top_of),
+        }
+
+    objects = [
+        node("red_gear_1", "grey_tray", 0),
+        node("yellow_gear_1", "grey_tray", 10, ["red_gear_1"]),
+        node("red_gear_2", "black_tray", 500),
+    ]
+    text = describe(objects, 120)
+    assert "yellow_gear_1 lies on red_gear_1" in text
+    assert "  red_gear_1: yellow_gear_1, red_gear_2" in text
+    assert "image position" not in text and " mm," not in text.split("STACKED")[1]
+    assert text.index("red_gear_2: red gear") > text.index("BLACK TRAY")
+
+
+def test_naming_alternatives_survive_a_merge() -> None:
+    inside = {**region(1, "yellow cup", (20, 80, 20, 80), 6000, 2), "aliases": ["yellow bowl"]}
+    rim = {**region(2, "white mug", (20, 80, 80, 100), 1500, 6), "aliases": ["white cup"]}
+    (mug,) = merge_same_object([inside, rim], 2, CONFIG)
+    assert mug["aliases"] == ["yellow bowl", "white mug", "white cup"]

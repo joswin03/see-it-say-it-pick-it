@@ -63,7 +63,7 @@ def scene_record(perceived: dict) -> dict:
     Returns:
         Dict with objects (without masks), the scene text and the naming log.
     """
-    keep = ("id", "name", "pixel", "size_mm", "tray", "is_hand", "on_top_of", "under", "source_ids")
+    keep = ("id", "name", "aliases", "pixel", "size_mm", "tray", "is_hand", "on_top_of", "under", "source_ids")
     return {
         "objects": [{key: item[key] for key in keep} for item in perceived["objects"]],
         "text": perceived["text"],

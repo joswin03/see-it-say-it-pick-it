@@ -63,12 +63,23 @@ def test_cut_off_safety_reply_is_retried_with_feedback(monkeypatch) -> None:
         if feedback is None:
             raise ModelReplyError("reply cut off at 500 tokens", "{ ...")
         reply = {"manner": "push, knock or sweep off", "involves_person": False}
-        return {**reply, "contradicts_itself": False, "message": "unsafe"}, "raw"
+        return {**reply, "message": "unsafe"}, "raw"
 
     monkeypatch.setattr(pipeline, "check_instruction", check)
     config = {"safety": {"enabled": True}, "decision": {"max_attempts": 2}}
     perceived = {"objects": OBJECTS, "text": ""}
-    answer, log = pipeline.answer_instruction("i1", "push it off", perceived, config, {}, 85)
+    answer, log = pipeline.answer_instruction("i1", "move the gear", perceived, config, {}, 85)
     assert calls[0] is None and "cut off" in calls[1]
     assert answer["actions"] == [{"action": "refuse", "reason": "unsafe"}]
     assert len(log["safety"]) == 2
+
+
+def test_unsafe_wording_from_the_primer_is_refused_without_a_model_call(monkeypatch) -> None:
+    monkeypatch.setattr(pipeline, "check_instruction", lambda *args: 1 / 0)
+    config = {"safety": {"enabled": True}, "decision": {"max_attempts": 2}}
+    perceived = {"objects": OBJECTS, "text": ""}
+    for text in ("throw the gear in the tray", "push the cube off the gears",
+                 "pull the red gear out from under the yellow gear", "take the mug out of my hand",
+                 "drop the mandarin into the mug from high up"):
+        answer, _ = pipeline.answer_instruction("i1", text, perceived, config, {}, 85)
+        assert answer["actions"][0]["action"] == "refuse", text

@@ -12,7 +12,7 @@ from src.perception.regions import find_regions
 from src.reasoning.client import ModelReplyError, image_url
 from src.reasoning.decision import HOLD, decide
 from src.reasoning.naming import name_region
-from src.reasoning.safety import check_instruction, screen_result
+from src.reasoning.safety import check_instruction, screen_result, unsafe_wording
 from src.scene_graph import build_scene_graph, describe, size_mm
 from src.workcell import Scene, mm_per_pixel
 
@@ -77,6 +77,7 @@ def name_or_mark_unknown(
     except ModelReplyError as error:
         return {
             "name": "unknown object",
+            "aliases": [],
             "is_object": True,
             "raw": f"{error}: {error.raw}",
         }
@@ -122,7 +123,8 @@ def perceive_scene(scene: Scene, config: dict, endpoint: dict) -> dict:
     for region in found["regions"]:
         region["size_mm"] = size_mm(region["mask"], perception["work_scale"], scene)
         named = name_or_mark_unknown(scene, region, config, endpoint, scale_mm)
-        region["name"], region["is_object"] = named["name"], named["is_object"]
+        region["name"], region["aliases"] = named["name"], named["aliases"]
+        region["is_object"] = named["is_object"]
         naming_log.append(naming_entry(region, named))
     objects = build_scene_graph(
         found["regions"], found["work_scale"], mm_per_work_pixel, config["scene_graph"], scene
@@ -132,7 +134,6 @@ def perceive_scene(scene: Scene, config: dict, endpoint: dict) -> dict:
         "objects": objects,
         "text": describe(
             objects,
-            config["scene_graph"]["nearest_count"],
             config["scene_graph"]["too_wide_mm"],
         ),
         "marked": marked,
@@ -275,7 +276,8 @@ def answer_instruction(
 ) -> tuple[dict, dict]:
     """Answer one instruction: safety check, then plan with one retry on a bad plan.
 
-    The safety screen runs first when ``safety.enabled`` is set (see ``screen_result``), with
+    The safety screen runs first when ``safety.enabled`` is set: a wording check for the unsafe
+    motions the primer names (``unsafe_wording``), then Apertus (see ``screen_result``), with
     one retry on a cut-off reply. If every reply is unusable, the log says so ("unchecked") and
     the planner, which also knows the safety rules, decides alone.
 
@@ -294,8 +296,11 @@ def answer_instruction(
     object_ids = [item["id"] for item in objects]
     log = {"instruction_id": instruction_id}
     if config["safety"]["enabled"]:
-        feedback, raws = None, []
-        for _ in range(config["decision"]["max_attempts"]):
+        feedback, raws, stop = None, [], None
+        reason = unsafe_wording(text)
+        if reason:
+            raws, stop = [f"wording: {reason}"], ("refuse", reason)
+        for _ in range(0 if reason else config["decision"]["max_attempts"]):
             try:
                 screen, raw = check_instruction(
                     text, perceived["text"], endpoint, config["safety"], feedback

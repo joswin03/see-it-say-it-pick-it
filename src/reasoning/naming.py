@@ -13,13 +13,20 @@ from src.reasoning.client import ask_json, image_url
 NAMING_SCHEMA = {
     "type": "object",
     "additionalProperties": False,
-    "required": ["name", "is_object"],
+    "required": ["name", "other_names", "is_object"],
     "properties": {
         "name": {"type": "string", "minLength": 1, "maxLength": 40},
+        "other_names": {
+            "type": "array",
+            "maxItems": 2,
+            "items": {"type": "string", "minLength": 1, "maxLength": 40},
+        },
         "is_object": {"type": "boolean"},
     },
 }
 
+COLOUR_WORDS = {"red", "orange", "yellow", "green", "blue", "purple", "pink", "brown", "white",
+                "grey", "gray", "black", "silver", "cyan"}
 OUTLINE_BGR_THICKNESS = 3
 OUTLINE_RGB = (0, 255, 255)
 
@@ -80,7 +87,8 @@ def name_region(
         config: the ``naming`` section of the pipeline config, including its ``prompt``.
 
     Returns:
-        Dict with ``name`` (lower case), ``is_object`` (False also when the name is a fixture
+        Dict with ``name`` (lower case), ``aliases`` (other plausible names, lower case, without
+        ``name``), ``is_object`` (False also when the name is a fixture
         such as the tray or the table, which are places rather than objects) and ``raw``.
     """
     crop = outlined_crop(
@@ -106,9 +114,15 @@ def name_region(
         config["max_tokens"],
     )
     name = reply["name"].strip().lower()
+    if not COLOUR_WORDS & set(name.split()):
+        # "gear" for one of three red gears hides it from "the red gear on the left"
+        name = f"{region['colour']} {name}"
     is_fixture = any(word in name.split() for word in config["fixture_words"])
+    # other plausible names travel with the object, so "orange ball" still answers "mandarin"
+    aliases = [other.strip().lower() for other in reply["other_names"]]
     return {
         "name": name,
+        "aliases": [alias for alias in dict.fromkeys(aliases) if alias != name],
         "is_object": reply["is_object"] and not is_fixture,
         "raw": raw,
     }

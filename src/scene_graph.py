@@ -133,7 +133,13 @@ def merge_same_object(regions: list[dict], gap_pixels: int, config: dict) -> lis
         mask and all source ids under ``source_ids``.
     """
     regions = [
-        {**region, "source_ids": [region["id"]], "parts": {region["part"]}} for region in regions
+        {
+            **region,
+            "source_ids": [region["id"]],
+            "parts": {region["part"]},
+            "aliases": list(region.get("aliases", [])),
+        }
+        for region in regions
     ]
     regions = absorb_fragments(regions, gap_pixels, config["fragment_max_mm2"])
     merged: list[dict] = []
@@ -145,6 +151,10 @@ def merge_same_object(regions: list[dict], gap_pixels: int, config: dict) -> lis
                 and not split_on_purpose
                 and touching(existing["mask"], region["mask"], gap_pixels)
             ):
+                # keep the other piece's name: a saucer's merged rim must still answer "saucer"
+                for alias in [region["name"], *region["aliases"]]:
+                    if alias != existing["name"] and alias not in existing["aliases"]:
+                        existing["aliases"].append(alias)
                 absorb(existing, region)
                 break
         else:
@@ -238,58 +248,56 @@ def build_scene_graph(
     return objects
 
 
-def describe(objects: list[dict], nearest_count: int, too_wide_mm: float) -> str:
+def describe(objects: list[dict], too_wide_mm: float) -> str:
     """Render the scene graph as text for the decision prompt.
+
+    Nodes are grouped by tray and carry only what a decision needs (name, other names of merged
+    pieces, size, flags). Edges and positions are stated as facts and ranks rather than pixels
+    and millimetres: an 8B model reads a list position more reliably than it compares numbers.
 
     Args:
         objects: output of ``build_scene_graph``.
-        nearest_count: how many nearest neighbours to list per object.
         too_wide_mm: measured width above which an object is flagged as not graspable.
 
     Returns:
-        One line per object, then left-to-right and top-to-bottom orderings, and the
-        left-to-right order within every name shared by several objects.
+        Objects per tray, the stacking edges, the left-to-right and top-to-bottom orderings,
+        the order within every name shared by several objects, and near-to-far neighbours.
     """
     lines = []
-    for item in objects:
-        others = [other for other in objects if other is not item]
-        distances = sorted(
-            (
-                round(np.hypot(*np.subtract(item["table_xy"], other["table_xy"]))),
-                other["id"],
-            )
-            for other in others
-        )
-        nearest = ", ".join(f"{oid} {mm} mm" for mm, oid in distances[:nearest_count])
-        length, width = item["size_mm"]
-        fields = [
-            f"{item['id']}: {item['name']}",
-            f"in the {item['tray'].replace('_', ' ')}",
-            f"size {length} x {width} mm",
-            f"image position x={item['pixel'][0]} y={item['pixel'][1]}",
-        ]
-        if item["on_top_of"]:
-            fields.append("lying on " + ", ".join(item["on_top_of"]))
-        if item["under"]:
-            # "underneath X" was read backwards by Apertus; name the covering object explicitly
-            fields.append("covered by " + ", ".join(item["under"]) + " (lying on top of it)")
-        if width > too_wide_mm:
-            fields.append("TOO WIDE TO GRIP")
-        if item["is_hand"]:
-            fields.append("A PERSON'S HAND")
-        fields.append(f"nearest: {nearest or 'none'}")
-        lines.append("- " + "; ".join(fields))
-    left_to_right = ", ".join(item["id"] for item in objects)
-    top_to_bottom = ", ".join(
-        item["id"] for item in sorted(objects, key=lambda item: item["pixel"][1])
-    )
-    lines.append(f"Left to right in the photo: {left_to_right}")
-    lines.append(f"Top to bottom in the photo: {top_to_bottom}")
-    names = sorted({item["name"] for item in objects})
-    for name in names:
+    for tray, label in (("grey_tray", "GREY TRAY (left)"), ("black_tray", "BLACK TRAY (right)")):
+        lines.append(f"{label}:")
+        in_tray = [item for item in objects if item["tray"] == tray]
+        for item in in_tray:
+            length, width = item["size_mm"]
+            name = item["name"] + (f" (also seen as {', '.join(item['aliases'])})" if item.get("aliases") else "")
+            flags = [f"{length} x {width} mm"]
+            if width > too_wide_mm:
+                flags.append("TOO WIDE TO GRIP, can hold things")
+            if item["is_hand"]:
+                flags.append("A PERSON'S HAND")
+            lines.append(f"  {item['id']}: {name}; {', '.join(flags)}")
+        if not in_tray:
+            lines.append("  (empty)")
+    stacks = [
+        f"  {item['id']} lies on {lower} (move {item['id']} first to reach {lower})"
+        for item in objects
+        for lower in item["on_top_of"]
+    ]
+    lines += ["STACKED:", *(stacks or ["  (nothing lies on anything)"])]
+    lines.append("LEFT TO RIGHT: " + ", ".join(item["id"] for item in objects))
+    by_row = sorted(objects, key=lambda item: item["pixel"][1])
+    lines.append("TOP TO BOTTOM: " + ", ".join(item["id"] for item in by_row))
+    for name in sorted({item["name"] for item in objects}):
         same = [item["id"] for item in objects if item["name"] == name]
         if len(same) > 1:
-            lines.append(
-                f"The {len(same)} objects named '{name}', left to right: {', '.join(same)}"
-            )
+            lines.append(f"THE {len(same)} '{name}' OBJECTS, LEFT TO RIGHT: {', '.join(same)}")
+    if len(objects) > 1:
+        lines.append("NEAR TO FAR (closest first):")
+    for item in objects:
+        others = sorted(
+            (other for other in objects if other is not item),
+            key=lambda other: np.hypot(*np.subtract(item["table_xy"], other["table_xy"])),
+        )
+        if others:  # full ranking: "the red gear farthest from X" needs every gear's place
+            lines.append(f"  {item['id']}: {', '.join(other['id'] for other in others)}")
     return "\n".join(lines)
