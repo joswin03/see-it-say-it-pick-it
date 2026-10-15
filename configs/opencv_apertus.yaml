@@ -1,4 +1,4 @@
-# OpenCV + Apertus pipeline (run.py). OpenCV finds trays and object regions; Apertus names each
+# OpenCV + Qwen3-VL naming + Apertus pipeline (run.py), branch dev/joswin-vlm. OpenCV finds trays and object regions; Apertus names each
 # region from a crop (Set-of-Mark style, Yang et al. 2023, arXiv 2310.11441) and then decides
 # plan / ask_user / refuse over the resulting scene graph. Pixels and geometry come from code.
 
@@ -42,6 +42,8 @@ perception:
   white_min_value: 170
 
 naming:
+  # An open VLM names the regions; Apertus still does the safety screen and the plan.
+  endpoint: {model_id: Qwen/Qwen3-VL-4B-Instruct, base_url: http://localhost:8001/v1}
   crop_padding_fraction: 0.6
   crop_max_side_px: 512
   max_tokens: 120

@@ -59,7 +59,7 @@ def name_or_mark_unknown(
         scene: loaded scene.
         region: region or blob to name.
         config: full pipeline config.
-        endpoint: model endpoint settings.
+        endpoint: model endpoint settings; ``naming.endpoint`` overrides it for naming only.
         scale_mm: table millimetres per full-resolution pixel.
 
     Returns:
@@ -71,7 +71,7 @@ def name_or_mark_unknown(
             region,
             config["perception"]["work_scale"],
             scale_mm,
-            endpoint,
+            {**endpoint, **config["naming"]["endpoint"]},
             config["naming"],
         )
     except ModelReplyError as error:
