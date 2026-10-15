@@ -9,6 +9,8 @@ import re
 import cv2
 import numpy as np
 
+from src.perception.regions import interior_point
+
 HAND_WORDS = ("hand", "arm", "finger", "person", "human")
 
 
@@ -138,8 +140,6 @@ def build_scene_graph(
         ``size_mm``, ``tray``, ``mask``, ``is_hand``, ``on_top_of`` and ``under`` (id lists),
         ``source_ids``.
     """
-    from src.perception.regions import interior_point
-
     gap_pixels = max(1, round(config["merge_gap_mm"] / mm_per_work_pixel))
     kept = [region for region in regions if region["is_object"]]
     objects = merge_same_object(kept, gap_pixels)
@@ -175,7 +175,8 @@ def describe(
         too_wide_mm: measured width above which an object is flagged as not graspable.
 
     Returns:
-        One line per object, then left-to-right and top-to-bottom orderings.
+        One line per object, then left-to-right and top-to-bottom orderings, and the
+        left-to-right order within every name shared by several objects.
     """
     lines = []
     for item in objects:
@@ -211,4 +212,11 @@ def describe(
     )
     lines.append(f"Left to right in the photo: {left_to_right}")
     lines.append(f"Top to bottom in the photo: {top_to_bottom}")
+    names = sorted({item["name"] for item in objects})
+    for name in names:
+        same = [item["id"] for item in objects if item["name"] == name]
+        if len(same) > 1:
+            lines.append(
+                f"The {len(same)} objects named '{name}', left to right: {', '.join(same)}"
+            )
     return "\n".join(lines)

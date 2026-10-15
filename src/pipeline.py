@@ -8,11 +8,11 @@ target pixel from the scene graph.
 import cv2
 import numpy as np
 
-from src.perception.regions import find_regions
+from src.perception.regions import fill_holes, find_regions, interior_point
 from src.reasoning.client import ModelReplyError, image_url
 from src.reasoning.decision import HOLD, decide
 from src.reasoning.naming import name_region
-from src.reasoning.safety import check_instruction
+from src.reasoning.safety import check_instruction, screen_result
 from src.scene_graph import build_scene_graph, describe, size_mm
 from src.workcell import Scene, mm_per_pixel
 
@@ -47,6 +47,51 @@ def marked_photo(rgb: np.ndarray, objects: list[dict], work_scale: float) -> np.
     return image
 
 
+def blob_region(blob_id: int, members: list[dict], work_scale: float) -> dict:
+    """Combine the colour regions of one foreground blob into a single candidate object.
+
+    Args:
+        blob_id: id of the connected foreground blob.
+        members: its colour regions from ``find_regions``.
+        work_scale: work-scale factor of the masks.
+
+    Returns:
+        Region-like dict (``id``, ``mask``, ``colour``, ``part``, ``pixel``, ``tray``) whose mask
+        is the hole-filled union of the members, with the largest member's colour and tray.
+    """
+    largest = max(members, key=lambda region: region["mask"].sum())
+    mask = fill_holes(np.logical_or.reduce([region["mask"] for region in members]))
+    u, v = interior_point(mask)
+    return {
+        "id": f"blob{blob_id}",
+        "mask": mask,
+        "colour": largest["colour"],
+        "part": ("blob", blob_id),
+        "pixel": [round(u / work_scale), round(v / work_scale)],
+        "tray": largest["tray"],
+    }
+
+
+def naming_entry(region: dict, named: dict) -> dict:
+    """Log record for one naming call.
+
+    Args:
+        region: the region or blob that was named.
+        named: output of ``name_region``.
+
+    Returns:
+        JSON-serialisable dict.
+    """
+    return {
+        "region": region["id"],
+        "colour": region["colour"],
+        "pixel": region["pixel"],
+        "size_mm": region["size_mm"],
+        "tray": region["tray"],
+        "reply": named["raw"],
+    }
+
+
 def perceive_scene(scene: Scene, config: dict, endpoint: dict) -> dict:
     """Find, name and relate the objects in one scene.
 
@@ -57,31 +102,42 @@ def perceive_scene(scene: Scene, config: dict, endpoint: dict) -> dict:
 
     Returns:
         Dict with ``objects`` (scene graph), ``text`` (its description), ``marked`` (annotated
-        photo, (H, W, 3) uint8), ``marked_url`` and ``naming_log`` (one entry per region).
+        photo, (H, W, 3) uint8), ``marked_url`` and ``naming_log`` (one entry per naming call).
+
+    A blob with several colour regions is first named as a whole; it is split into its colour
+    regions only if Apertus says it holds several objects (a gear lying on another gear), so a
+    two-coloured single object (a mug's rim and inside) stays one object.
     """
     perception = config["perception"]
     scale_mm = mm_per_pixel(scene)
     mm_per_work_pixel = scale_mm / perception["work_scale"]
     found = find_regions(scene.rgb, perception, mm_per_work_pixel**2)
     naming_log = []
-    for region in found["regions"]:
-        region["size_mm"] = size_mm(region["mask"], mm_per_work_pixel)
-        named = name_region(
-            scene.rgb, region, found["work_scale"], scale_mm, endpoint, config["naming"]
-        )
-        region["name"], region["is_object"] = named["name"], named["is_object"]
-        naming_log.append(
-            {
-                "region": region["id"],
-                "colour": region["colour"],
-                "pixel": region["pixel"],
-                "size_mm": region["size_mm"],
-                "tray": region["tray"],
-                "reply": named["raw"],
-            }
-        )
+    candidates = []
+    regions_by_id = {region["id"]: region for region in found["regions"]}
+    for blob_id, blob in found["blobs"].items():
+        members = [regions_by_id[region_id] for region_id in blob["region_ids"]]
+        if len(members) > 1:
+            whole = blob_region(blob_id, members, found["work_scale"])
+            whole["size_mm"] = size_mm(whole["mask"], mm_per_work_pixel)
+            named = name_region(
+                scene.rgb, whole, found["work_scale"], scale_mm, endpoint, config["naming"], True
+            )
+            naming_log.append(naming_entry(whole, named))
+            if not named["several"]:
+                whole["name"], whole["is_object"] = named["name"], named["is_object"]
+                candidates.append(whole)
+                continue
+        for region in members:
+            region["size_mm"] = size_mm(region["mask"], mm_per_work_pixel)
+            named = name_region(
+                scene.rgb, region, found["work_scale"], scale_mm, endpoint, config["naming"], False
+            )
+            region["name"], region["is_object"] = named["name"], named["is_object"]
+            naming_log.append(naming_entry(region, named))
+            candidates.append(region)
     objects = build_scene_graph(
-        found["regions"], found["work_scale"], mm_per_work_pixel, config["scene_graph"]
+        candidates, found["work_scale"], mm_per_work_pixel, config["scene_graph"]
     )
     marked = marked_photo(scene.rgb, objects, found["work_scale"])
     return {
@@ -230,9 +286,9 @@ def answer_instruction(
 ) -> tuple[dict, dict]:
     """Answer one instruction: safety check, then plan with one retry on a bad plan.
 
-    The safety check runs first when ``safety.enabled`` is set; "unsafe" or "impossible"
-    becomes a refusal with Apertus's reason. If the check's reply is unusable, the log says so
-    ("unchecked") and the planner, which also knows the safety rules, decides alone.
+    The safety screen runs first when ``safety.enabled`` is set (see ``screen_result``). If its
+    reply is unusable, the log says so ("unchecked") and the planner, which also knows the
+    safety rules, decides alone.
 
     Args:
         instruction_id: id of the instruction.
@@ -250,16 +306,18 @@ def answer_instruction(
     log = {"instruction_id": instruction_id}
     if config["safety"]["enabled"]:
         try:
-            verdict, raw = check_instruction(text, perceived["text"], endpoint, config["safety"])
+            screen, raw = check_instruction(text, perceived["text"], endpoint, config["safety"])
+            stop = screen_result(screen)
         except ModelReplyError as error:
-            verdict, raw = {"verdict": "unchecked"}, f"{error}: {error.raw}"
+            raw, stop = f"unchecked, {error}: {error.raw}", None
         log["safety"] = raw
-        if verdict["verdict"] not in ("ok", "unchecked"):
-            reason = verdict["reason"].strip() or verdict["analysis"].strip()
+        if stop is not None:
+            action, message = stop
+            field = "question" if action == "ask_user" else "reason"
             answer = {
                 "instruction_id": instruction_id,
                 "target_pixel": None,
-                "actions": [{"action": "refuse", "reason": reason}],
+                "actions": [{"action": action, field: message}],
             }
             return answer, log
     attempts = []

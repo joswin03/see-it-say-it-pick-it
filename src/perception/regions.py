@@ -288,7 +288,9 @@ def find_regions(rgb: np.ndarray, config: dict, mm2_per_work_pixel: float) -> di
         Dict with ``trays`` (name -> (h, w) bool), ``work_scale`` and ``regions``: a list of
         dicts with ``id`` (int from 1), ``mask`` ((h, w) bool at work scale), ``colour``,
         ``colour_group`` (int), ``part`` (regions split from one same-colour part share it),
-        ``area_mm2``, ``pixel`` (full-resolution [u, v]) and ``tray``.
+        ``area_mm2``, ``pixel`` (full-resolution [u, v]), ``tray`` and ``blob``; and ``blobs``:
+        blob id -> {"mask": (h, w) bool, "region_ids": [...]} for every connected foreground
+        blob that kept at least one region.
     """
     work_scale = config["work_scale"]
     small = to_work_scale(rgb, work_scale)
@@ -303,6 +305,7 @@ def find_regions(rgb: np.ndarray, config: dict, mm2_per_work_pixel: float) -> di
     tray_boxes = {name: cv2.boundingRect(tray.astype(np.uint8)) for name, tray in trays.items()}
     small_kernel = np.ones((3, 3), np.uint8)
     regions = []
+    blobs = {}
     blob_count, blob_labels = cv2.connectedComponents(mask.astype(np.uint8))
     for blob in range(1, blob_count):
         blob_mask = blob_labels == blob
@@ -335,6 +338,9 @@ def find_regions(rgb: np.ndarray, config: dict, mm2_per_work_pixel: float) -> di
                             "area_mm2": round(float(region_mask.sum() * mm2_per_work_pixel)),
                             "pixel": [round(u / work_scale), round(v / work_scale)],
                             "tray": tray,
+                            "blob": blob,
                         }
                     )
-    return {"trays": trays, "work_scale": work_scale, "regions": regions}
+                    blobs.setdefault(blob, {"mask": blob_mask, "region_ids": []})
+                    blobs[blob]["region_ids"].append(regions[-1]["id"])
+    return {"trays": trays, "work_scale": work_scale, "regions": regions, "blobs": blobs}
