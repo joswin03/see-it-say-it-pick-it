@@ -218,7 +218,7 @@ class MigrationTests(unittest.TestCase):
         }
         response = json.dumps({"choices": [{"message": {"content": '{"ok":true}'}}]}).encode()
         config = {
-            "base_url": "http://localhost:8000/v1",
+            "base_url": "https://api.inference.cscs.ch/v1",
             "api_key_env": "MIGRATION_TEST_KEY",
             "model_id": "test-model",
             "request_timeout_s": 1,

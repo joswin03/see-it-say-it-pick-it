@@ -1,6 +1,6 @@
 model_id: swiss-ai/Apertus-v1.5-8B
 team: see-it-say-it-pick-it
-base_url: http://localhost:8000/v1
+base_url: https://api.inference.cscs.ch/v1
 api_key_env: APERTUS_API_KEY
 request_timeout_s: 180
 image_max_side_px: 1024
@@ -235,19 +235,5 @@ decision:
     without putting it anywhere ("pick up X"). Never move an object onto itself.
     Write "message": the question for ask_user, the reason for refuse, empty for plan.
     Inside text fields use single quotes, never double quotes.
-model_path: /marimo/models/Apertus-v1.5-8B
-vllm_env: /marimo/vllm-env
-server:
-  port: 8000
-  gpu_memory_fraction: 0.45
-  max_model_len: 32768
-  startup_timeout_s: 1200
-  chat_template_content_format: string
-  env_overrides:
-    VLLM_USE_FLASHINFER_SAMPLER: '0'
-baseline_decode:
-  temperature: 0
-  max_tokens: 400
-  max_side: 1024
 decode:
   temperature: 0

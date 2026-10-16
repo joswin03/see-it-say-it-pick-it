@@ -44,8 +44,8 @@ the entire resulting JSON satisfies its schema.
 \textbf{Protocol and reproducibility.} Every run stores the effective YAML configuration,
 scene descriptions, raw model replies, retry reasons, results, and a manifest. Generation
 settings, prompts, thresholds and optional methods are declared in the single configuration.
-Local vLLM remains the default endpoint. A hosted development benchmark is not evidence of a
-fully local submission; the final submission must be rerun with a local model endpoint.
+The default endpoint is the hackathon's hosted Apertus API at CSCS; no other model service is
+called.
 
 \textbf{Scope and limitations.} Ground-truth scene graphs and pre-annotated challenge images
 are excluded from runtime. Joswin's scores above 56 in his progress log used ground-truth

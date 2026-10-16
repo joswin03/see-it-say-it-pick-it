@@ -40,12 +40,12 @@ def write(run_dir: Path, config_path: Path, extra: dict) -> Path:
 
     Records the commit, a dirty-tree flag, the config hash and contents, the model id, the
     Python version, the host and a UTC timestamp. Values that cannot be read from this process,
-    such as the vLLM version of a separate environment, are passed in through ``extra``.
+    such as the score, are passed in through ``extra``.
 
     Args:
         run_dir: existing run directory the manifest describes.
         config_path: YAML config the run was produced with.
-        extra: additional fields, merged last (e.g. ``vllm_version``, ``score``).
+        extra: additional fields, merged last (e.g. ``score``).
 
     Returns:
         Path of the written manifest.
