@@ -1,4 +1,6 @@
 results*.json
+!results_dev.json
+!results_heldout.json
 *.raw.jsonl
 __pycache__/
 .DS_Store
@@ -7,9 +9,13 @@ __pycache__/
 tectonic
 docs/*.aux
 docs/*.log
-!runs/**
 .env
-literature/papers/
 .ruff_cache/
 .pytest_cache/
-outputs/
+outputs/*/annotated/
+outputs/*/answers/
+outputs/*/scene_graphs/
+outputs/*/model_replies.jsonl
+outputs/*/decisions.jsonl
+outputs/*/scenes.json
+outputs/*/config.yaml

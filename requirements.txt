@@ -6,4 +6,5 @@ pyyaml
 python-dotenv
 jsonschema
 langgraph==1.2.15
+matplotlib
 ruff

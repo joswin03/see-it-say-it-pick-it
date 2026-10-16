@@ -1,9 +1,13 @@
 """Run the prompting pipeline (src/graph.py) on every scene in a folder.
 
     python run.py --data heldout --out results_heldout.json
-    python run.py --data dataset --base-url https://api.inference.cscs.ch/v1
     python run.py --data dataset --mock
+    python run.py --data dataset --base-url http://127.0.0.1:8000/v1
     python run.py --data dataset --set stack_min_overlap=0.5
+
+The endpoint comes from ``configs/pipeline.yaml``; the environment variable ``APERTUS_BASE_URL``
+overrides it, as does ``--base-url``. A key is only needed when the endpoint asks for one
+(``api_key_env`` in the config; unset means no authentication).
 
 Writes outputs/<time>-<name>/ with results.json, manifest.json, the annotated photos, the scene
 graphs in the format shared with the ground truth (scene_graphs.json) and one figure per scene
@@ -12,6 +16,7 @@ graphs in the format shared with the ground truth (scene_graphs.json) and one fi
 
 import argparse
 import json
+import os
 import shutil
 import sys
 import time
@@ -77,6 +82,9 @@ def main() -> None:
     config = yaml.safe_load(arguments.config.read_text())
     overrides = {"base_url": arguments.base_url, "model_id": arguments.model}
     overrides = {key: value for key, value in overrides.items() if value}
+    env_base_url = os.environ.get("APERTUS_BASE_URL")
+    if env_base_url and not overrides.get("base_url"):
+        overrides["base_url"] = env_base_url
     for setting in arguments.set:
         key, separator, value = setting.partition("=")
         if not separator:
@@ -92,6 +100,7 @@ def main() -> None:
         target[parts[-1]] = yaml.safe_load(value)
         overrides[key] = target[parts[-1]]
     config.update({key: value for key, value in overrides.items() if "." not in key})
+    print(f"endpoint: {config['base_url']}  model: {config['model_id']}")
     run_dir = OUTPUTS_DIR / f"{time.strftime('%Y%m%d-%H%M%S')}-{arguments.name}"
     (run_dir / "annotated").mkdir(parents=True)
     (run_dir / "scene_graphs").mkdir()

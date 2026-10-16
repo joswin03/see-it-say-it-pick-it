@@ -1,6 +1,9 @@
 model_id: swiss-ai/Apertus-v1.5-8B
 team: see-it-say-it-pick-it
-base_url: https://api.inference.cscs.ch/v1
+# OpenAI-compatible chat endpoint, local by default. Our hackathon runs used the hosted Swiss AI
+# Apertus endpoint; set APERTUS_BASE_URL=https://api.inference.cscs.ch/v1 to point there.
+base_url: http://127.0.0.1:8000/v1
+# Environment variable holding the API key; leave unset for a local server that needs none.
 api_key_env: APERTUS_API_KEY
 request_timeout_s: 180
 image_max_side_px: 1024

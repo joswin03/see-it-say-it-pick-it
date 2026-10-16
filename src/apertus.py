@@ -2,7 +2,8 @@
 
 Images use ``baseline.encode`` and every real call uses the unchanged ``baseline.ask``;
 replies are validated against their JSON schema. The additions:
-the API key replaces baseline.py's fixed ``Bearer none`` header, server errors (HTTP 5xx) are
+the API key (when the config's environment variable is set) replaces baseline.py's fixed
+``Bearer none`` header, server errors (HTTP 5xx) are
 retried, and scoped request options add schema constraints and token limits for the structured
 stages.
 """
@@ -102,7 +103,7 @@ class Apertus:
         self.mock = mock
         self.log_path = log_path
         if not mock:
-            urllib.request.urlopen = send_with_key(os.environ[config["api_key_env"]])
+            urllib.request.urlopen = send_with_key(os.environ.get(config["api_key_env"], "none"))
 
     def ask_json(
         self,
