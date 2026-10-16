@@ -63,7 +63,9 @@ def object_id(value, by_number: dict[int, dict]) -> str | None:
     return None
 
 
-def to_result(instruction_id: str, reply: dict | None, marks: list[dict], places: list[str]):
+def to_result(
+    instruction_id: str, reply: dict | None, marks: list[dict], places: list[str]
+) -> dict:
     """Convert the decide reply into a result; target_pixel is the centre of the first pick.
 
     Args:
@@ -78,7 +80,7 @@ def to_result(instruction_id: str, reply: dict | None, marks: list[dict], places
     """
     actions = reply.get("actions") if isinstance(reply, dict) else None
     if not isinstance(actions, list) or not actions or not isinstance(actions[0], dict):
-        return refusal(instruction_id, "The model reply held no actions.")
+        return refusal(instruction_id, "No valid answer was produced (the reply held no actions).")
     first = actions[0].get("action")
     if first in MESSAGE_FIELD:
         field = MESSAGE_FIELD[first]
@@ -97,9 +99,11 @@ def to_result(instruction_id: str, reply: dict | None, marks: list[dict], places
             elif kind == "place":
                 name = place_name(action.get("object"), by_number, places)
             else:
-                return refusal(instruction_id, f"The plan has an unknown action ({kind}).")
+                reason = f"No valid answer was produced (the plan has an unknown action {kind})."
+                return refusal(instruction_id, reason)
             if name is None:
-                return refusal(instruction_id, f"The plan names no marked object ({action}).")
+                reason = f"No valid answer was produced (the plan names no marked object {action})."
+                return refusal(instruction_id, reason)
             steps.append({"action": kind, "object": name})
         first_pick = next((step for step in steps if step["action"] == "pick"), None)
         target = next((m for m in marks if first_pick and m["id"] == first_pick["object"]), None)

@@ -45,10 +45,11 @@ ambiguity/feasibility checks), no extensive literature research, no speculative 
 - Pipeline: a three-node LangGraph graph in `src/graph.py`, prompting only, built on the
   organisers' `baseline/baseline.py` (its `encode`, `ask`, `parse`; the file stays unchanged).
   `annotate` asks Apertus for labelled boxes (labels from the workcell object list) and draws
-  them; `decide` answers the instruction on the annotated photo by object number; `refine`
-  (plans only, config `zoom`) picks a cell in a gridded close-up for the pick pixel. No OpenCV
-  detection in our code. Config `configs/two_node.yaml`, entry point `run.py`, outputs in
-  `outputs/<timestamp>-<name>/`.
+  them; `stack` asks, on close-ups of overlapping boxes, which object lies on which; `decide`
+  answers the instruction on the annotated photo by object number. Other tools (zoom, facts,
+  counts, check_plan, find) were measured in an ablation and removed. No OpenCV detection in
+  our code. Config `configs/two_node.yaml`, entry point `run.py`, outputs in
+  `outputs/<timestamp>-<name>/` (gitignored), evaluated with `scripts/evaluate_run.py`.
 - The user reads and approves code before it is run.
 - Secrets (`APERTUS_API_KEY`) live in `.env` (gitignored), never printed or logged.
 - Code and data move between this machine and the Marimo GPU notebook **only through GitHub**:

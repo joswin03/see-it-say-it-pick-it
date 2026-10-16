@@ -28,7 +28,7 @@ FIRST_SERVER_ERROR = 500
 MOCK_REPLIES = {
     "annotate": '{"objects": [{"label": "mock object", "box": [100, 100, 200, 200]}]}',
     "decide": '{"actions": [{"action": "pick", "object": 1}]}',
-    "zoom": '{"cell": 5}',
+    "stack": '{"on_top": null}',
 }
 
 

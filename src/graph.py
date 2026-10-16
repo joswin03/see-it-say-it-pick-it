@@ -1,11 +1,12 @@
-"""Three-node LangGraph pipeline, prompting only: annotate the photo, decide, refine the pixel.
+"""LangGraph pipeline, prompting only: annotate the photo, check stacking, decide.
 
-annotate: Apertus marks every object (label and box); the boxes are drawn and numbered on the
-photo. Runs once per photo; later instructions of the same photo start at decide.
-decide: Apertus sees the annotated photo, the numbered object list and the instruction, and
-answers with object numbers; code turns that into the official answer.
-refine: for plans, when ``zoom`` is on, Apertus picks a cell in a gridded close-up of the first
-picked object, and the pick pixel becomes that cell's centre.
+annotate: Apertus marks every object (label from the workcell list, and a box); the boxes are
+drawn and numbered on the photo.
+stack: for every pair of overlapping boxes, Apertus says on a close-up which object lies on
+the other.
+Both run once per photo; later instructions of the same photo start at decide.
+decide: Apertus sees the annotated photo, the numbered object list, the stacking facts and the
+instruction, and answers with object numbers; code turns that into the official answer.
 """
 
 import logging
@@ -18,9 +19,10 @@ from langgraph.graph.state import CompiledStateGraph
 from src.answer import to_result
 from src.apertus import Apertus
 from src.marks import draw_marks, objects_text, read_marks, salvage_marks
-from src.zoom import cell_centre, crop_box, gridded_crop
+from src.stack import overlapping_pairs, pair_close_up, stacking_line
 
 LOGGED_REPLY_CHARACTERS = 300
+NO_STACKING = "(no object lies on another)"
 logger = logging.getLogger(__name__)
 
 
@@ -32,15 +34,16 @@ class PipelineState(TypedDict):
     photo: np.ndarray
     marks: list[dict] | None
     annotated: np.ndarray | None
+    stacking: str | None
     result: dict | None
 
 
 def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
-    """Assemble and compile the three-node graph.
+    """Assemble and compile the pipeline graph.
 
     Args:
         config: run config with ``prompts``, ``places``, ``object_labels``,
-            ``salvage_unparsed_marks`` and the ``zoom`` settings.
+            ``salvage_unparsed_marks``, ``stack_min_overlap`` and ``stack_margin_fraction``.
         apertus: model client.
 
     Returns:
@@ -70,6 +73,30 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
         marks = read_marks(reply, scale)
         return {"marks": marks, "annotated": draw_marks(state["photo"], marks)}
 
+    def stack(state: PipelineState) -> dict:
+        """Ask, for every pair of overlapping boxes, which object lies on the other.
+
+        Args:
+            state: pipeline state after ``annotate``.
+
+        Returns:
+            State update with ``stacking``: one fact per stacked pair, as text.
+        """
+        lines = []
+        for pair in overlapping_pairs(state["marks"], config["stack_min_overlap"]):
+            close_up = pair_close_up(state["photo"], pair, config["stack_margin_fraction"])
+            fields = {
+                "first": f"{pair[0]['number']} ({pair[0]['label']})",
+                "second": f"{pair[1]['number']} ({pair[1]['label']})",
+            }
+            reply, raw, _scale = apertus.ask("stack", prompts["stack"], fields, close_up)
+            if reply is None:
+                logger.warning("stack reply held no JSON: %s", raw[:LOGGED_REPLY_CHARACTERS])
+            line = stacking_line(reply, pair)
+            if line:
+                lines.append(line)
+        return {"stacking": "\n".join(lines) or NO_STACKING}
+
     def decide(state: PipelineState) -> dict:
         """Ask Apertus to plan, ask or refuse on the annotated photo, by object number.
 
@@ -83,6 +110,7 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
             "objects": objects_text(state["marks"]),
             "text": state["instruction"],
             "labels": ", ".join(config["object_labels"]),
+            "stacking": state["stacking"],
         }
         reply, raw, _scale = apertus.ask("decide", prompts["decide"], fields, state["annotated"])
         if reply is None:
@@ -90,39 +118,8 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
         result = to_result(state["instruction_id"], reply, state["marks"], config["places"])
         return {"result": result}
 
-    def refine(state: PipelineState) -> dict:
-        """Move target_pixel to the cell Apertus picks in a gridded close-up of the first pick.
-
-        The crop is cut from the original photo around the first picked object's box; an
-        invalid reply keeps the box centre and is logged.
-
-        Args:
-            state: pipeline state after ``decide``, holding a plan.
-
-        Returns:
-            State update with ``result``, its target_pixel refined when the reply is valid.
-        """
-        result = state["result"]
-        first = result["actions"][0]["object"]
-        mark = next(mark for mark in state["marks"] if mark["id"] == first)
-        height, width = state["photo"].shape[:2]
-        grid = config["zoom_grid"]
-        region = crop_box(mark["box"], config["zoom_margin_fraction"], width, height)
-        if region[2] - region[0] < grid or region[3] - region[1] < grid:
-            logger.warning("zoom skipped: box of %s is too small to grid", first)
-            return {"result": result}
-        crop = gridded_crop(state["photo"], region, grid)
-        fields = {"cells": grid * grid, "label": mark["label"]}
-        reply, raw, _scale = apertus.ask("zoom", prompts["zoom"], fields, crop)
-        cell = reply.get("cell") if isinstance(reply, dict) else None
-        pixel = cell_centre(cell, region, grid)
-        if pixel is None:
-            logger.warning("zoom reply gave no valid cell: %s", raw[:LOGGED_REPLY_CHARACTERS])
-            return {"result": result}
-        return {"result": {**result, "target_pixel": pixel}}
-
     def route_start(state: PipelineState) -> str:
-        """Skip annotate when this photo is already annotated.
+        """Skip annotate and stack when this photo is already done.
 
         Args:
             state: initial pipeline state.
@@ -132,25 +129,12 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
         """
         return "decide" if state["marks"] is not None else "annotate"
 
-    def route_after_decide(state: PipelineState) -> str:
-        """Refine the pixel of a plan when zoom is on; asks and refusals end here.
-
-        Args:
-            state: pipeline state after ``decide``.
-
-        Returns:
-            ``"refine"`` or ``END``.
-        """
-        result = state["result"]
-        is_plan = result["target_pixel"] is not None and result["actions"][0]["action"] == "pick"
-        return "refine" if config["zoom"] and is_plan else END
-
     graph = StateGraph(PipelineState)
     graph.add_node("annotate", annotate)
+    graph.add_node("stack", stack)
     graph.add_node("decide", decide)
-    graph.add_node("refine", refine)
     graph.add_conditional_edges(START, route_start, ["annotate", "decide"])
-    graph.add_edge("annotate", "decide")
-    graph.add_conditional_edges("decide", route_after_decide, ["refine", END])
-    graph.add_edge("refine", END)
+    graph.add_edge("annotate", "stack")
+    graph.add_edge("stack", "decide")
+    graph.add_edge("decide", END)
     return graph.compile()
