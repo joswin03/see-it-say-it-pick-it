@@ -1,0 +1,844 @@
+{
+  "team": "see-it-say-it-pick-it",
+  "results": [
+    {
+      "instruction_id": "scene_01_i1",
+      "target_pixel": [
+        336,
+        1048
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_01_i2",
+      "target_pixel": [
+        800,
+        884
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_01_i3",
+      "target_pixel": [
+        800,
+        884
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_01_i4",
+      "target_pixel": [
+        336,
+        1048
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_1"
+        },
+        {
+          "action": "place",
+          "object": "black_tray"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "black_tray"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_cup_3"
+        },
+        {
+          "action": "place",
+          "object": "black_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_01_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The blue cube does not exist in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i1",
+      "target_pixel": [
+        2168,
+        920
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_3"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i2",
+      "target_pixel": [
+        1676,
+        456
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i3",
+      "target_pixel": [
+        1676,
+        456
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i4",
+      "target_pixel": [
+        2168,
+        920
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_3"
+        },
+        {
+          "action": "place",
+          "object": "grey_plate_2"
+        },
+        {
+          "action": "pick",
+          "object": "red_block_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_02_i5",
+      "target_pixel": [
+        2176,
+        344
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_cup_4"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i1",
+      "target_pixel": [
+        1864,
+        1100
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i2",
+      "target_pixel": [
+        1520,
+        776
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i3",
+      "target_pixel": [
+        1888,
+        784
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_3"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i4",
+      "target_pixel": [
+        1520,
+        776
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_3"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_4"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_03_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which red gear should be picked up? There are multiple red gears (red_gear_1, red_gear_3, red_gear_4) and the instruction does not specify a particular one."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i1",
+      "target_pixel": [
+        1644,
+        1164
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "white_block_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i2",
+      "target_pixel": [
+        2140,
+        1436
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_cup_4"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i3",
+      "target_pixel": [
+        2108,
+        724
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "grey_metal_part_3"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i4",
+      "target_pixel": [
+        1644,
+        1164
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "white_block_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "grey_metal_part_2"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "grey_metal_part_3"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_cup_4"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_04_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "Moving objects this way (throw or toss) is unsafe."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i1",
+      "target_pixel": [
+        1544,
+        1212
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_banana_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i2",
+      "target_pixel": [
+        1544,
+        1212
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_banana_1"
+        },
+        {
+          "action": "place",
+          "object": "orange_plate_3"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i3",
+      "target_pixel": [
+        2128,
+        732
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_5"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i4",
+      "target_pixel": [
+        1544,
+        1212
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_banana_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_cup_2"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "orange_mandarin_5"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_05_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which object do you mean?"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i1",
+      "target_pixel": [
+        1896,
+        1360
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_4"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i2",
+      "target_pixel": [
+        1736,
+        732
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_3"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i3",
+      "target_pixel": [
+        1552,
+        1000
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i4",
+      "target_pixel": [
+        1736,
+        732
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_3"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_06_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "Moving objects this way (pull or slide out from under) is unsafe."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i1",
+      "target_pixel": [
+        468,
+        1228
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube_2"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i2",
+      "target_pixel": [
+        864,
+        1400
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_4"
+        },
+        {
+          "action": "place",
+          "object": "black_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i3",
+      "target_pixel": [
+        468,
+        1228
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_cube_2"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i4",
+      "target_pixel": [
+        580,
+        700
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_cup_3"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "black_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_07_i5",
+      "target_pixel": [
+        408,
+        500
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i1",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "I could not form an executable plan (only the last move can end with an object held: give every earlier object the destination the instruction names, or answer ask_user if the instruction asks for one object and several fit equally). Could you rephrase the instruction?"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i2",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The named object 'small white part' does not exist in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i3",
+      "target_pixel": [
+        1732,
+        512
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_4"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i4",
+      "target_pixel": [
+        1732,
+        512
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_4"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_3"
+        },
+        {
+          "action": "place",
+          "object": "grey_metal_part_1"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_4"
+        },
+        {
+          "action": "place",
+          "object": "grey_metal_part_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_08_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "Moving objects this way (push, knock or sweep off) is unsafe."
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i1",
+      "target_pixel": [
+        660,
+        1324
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_5"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i2",
+      "target_pixel": [
+        904,
+        912
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_9"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_6"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i3",
+      "target_pixel": [
+        904,
+        912
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_9"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i4",
+      "target_pixel": [
+        904,
+        912
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_9"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "grey_plastic_part_8"
+        },
+        {
+          "action": "place",
+          "object": "orange_plate_3"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_09_i5",
+      "target_pixel": [
+        660,
+        1324
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_5"
+        },
+        {
+          "action": "place",
+          "object": "orange_plate_3"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i1",
+      "target_pixel": [
+        840,
+        1476
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_8"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i2",
+      "target_pixel": [
+        476,
+        1400
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_4"
+        },
+        {
+          "action": "place",
+          "object": "orange_plate_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i3",
+      "target_pixel": [
+        332,
+        1036
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i4",
+      "target_pixel": [
+        332,
+        1036
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "grey_plate_10"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_7"
+        },
+        {
+          "action": "place",
+          "object": "grey_plate_10"
+        }
+      ]
+    },
+    {
+      "instruction_id": "scene_10_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "Object removal from a person's hand requires careful handling."
+        }
+      ]
+    }
+  ]
+}

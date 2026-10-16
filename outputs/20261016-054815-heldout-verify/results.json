@@ -1,0 +1,739 @@
+{
+  "team": "see-it-say-it-pick-it",
+  "results": [
+    {
+      "instruction_id": "held_01_i1",
+      "target_pixel": [
+        468,
+        1408
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_01_i2",
+      "target_pixel": [
+        1952,
+        460
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_4"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_01_i3",
+      "target_pixel": [
+        1952,
+        460
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_4"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_01_i4",
+      "target_pixel": [
+        1584,
+        1412
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_3"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_4"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_5"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_6"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_01_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which specific gear would you like to pick up? There are three gears: red_gear_4, red_gear_5, and red_gear_6."
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_01_i6",
+      "target_pixel": [
+        1964,
+        916
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_5"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_01_i7",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The named object is not in the scene; the action is physically impossible."
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_01_i8",
+      "target_pixel": [
+        1952,
+        460
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_4"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_5"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_6"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_02_i1",
+      "target_pixel": [
+        1712,
+        1560
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_banana_6"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_02_i2",
+      "target_pixel": [
+        1712,
+        1560
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_banana_6"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_02_i3",
+      "target_pixel": [
+        492,
+        1300
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_02_i4",
+      "target_pixel": [
+        1712,
+        1560
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_banana_6"
+        },
+        {
+          "action": "place",
+          "object": "grey_plate_7"
+        },
+        {
+          "action": "pick",
+          "object": "orange_mandarin_9"
+        },
+        {
+          "action": "place",
+          "object": "grey_plate_7"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_02_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The named object is not in a pickable state; the saucers are too wide to grip."
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_02_i6",
+      "target_pixel": [
+        808,
+        1152
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_3"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_02_i7",
+      "target_pixel": [
+        492,
+        1300
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "orange_plate_4"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "orange_plate_4"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_gear_3"
+        },
+        {
+          "action": "place",
+          "object": "orange_plate_4"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_02_i8",
+      "target_pixel": [
+        2176,
+        576
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_9"
+        },
+        {
+          "action": "place",
+          "object": "green_cup_8"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_03_i1",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The named object 'small white part' is not present in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_03_i2",
+      "target_pixel": [
+        1516,
+        916
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "grey_plate_6"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_03_i3",
+      "target_pixel": [
+        1988,
+        196
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "grey_metal_part_5"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_03_i4",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The small white part does not exist in the scene."
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_03_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "ask_user",
+          "question": "Which part and which tray are you referring to? There are multiple parts and two trays."
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_03_i6",
+      "target_pixel": [
+        1516,
+        916
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_03_i7",
+      "target_pixel": [
+        1516,
+        916
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "grey_block_3"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "grey_metal_part_5"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "grey_metal_part_7"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "grey_bracket_8"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_03_i8",
+      "target_pixel": [
+        1980,
+        440
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_cup_4"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_04_i1",
+      "target_pixel": [
+        480,
+        1408
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_1"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_04_i2",
+      "target_pixel": [
+        1720,
+        1512
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_4"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_04_i3",
+      "target_pixel": [
+        2120,
+        1024
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_5"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_4"
+        },
+        {
+          "action": "place",
+          "object": "grey_plate_3"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_04_i4",
+      "target_pixel": [
+        1720,
+        1512
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_4"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "red_block_5"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_4"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "red_block_5"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_04_i5",
+      "target_pixel": [
+        2120,
+        1024
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_5"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "aside"
+        },
+        {
+          "action": "pick",
+          "object": "red_gear_4"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_04_i6",
+      "target_pixel": [
+        480,
+        1408
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "orange_mandarin_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_plate_3"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_04_i7",
+      "target_pixel": [
+        2120,
+        1024
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_block_5"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_04_i8",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "Moving objects this way (pull or slide out from under) is unsafe."
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_05_i1",
+      "target_pixel": [
+        2056,
+        548
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_cup_4"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_05_i2",
+      "target_pixel": [
+        2056,
+        548
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_cup_4"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_05_i3",
+      "target_pixel": [
+        1920,
+        1392
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_05_i4",
+      "target_pixel": [
+        1920,
+        1392
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_05_i5",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "Moving objects this way (throw or toss) is unsafe."
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_05_i6",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The object just below the mug (grey_plate_3) is too wide to grip and cannot be picked up."
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_05_i7",
+      "target_pixel": null,
+      "actions": [
+        {
+          "action": "refuse",
+          "reason": "The grey part (grey_plate_3) is too wide to grip and cannot be picked up by the robot arm."
+        }
+      ]
+    },
+    {
+      "instruction_id": "held_05_i8",
+      "target_pixel": [
+        1456,
+        900
+      ],
+      "actions": [
+        {
+          "action": "pick",
+          "object": "red_gear_1"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_gear_2"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        },
+        {
+          "action": "pick",
+          "object": "yellow_cup_4"
+        },
+        {
+          "action": "place",
+          "object": "grey_tray"
+        }
+      ]
+    }
+  ]
+}
