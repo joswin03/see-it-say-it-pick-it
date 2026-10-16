@@ -45,7 +45,7 @@ def overlapping_pairs(marks: list[dict], min_overlap: float) -> list[tuple[dict,
     ]
 
 
-def pair_close_up(photo: np.ndarray, pair: tuple[dict, dict], margin_fraction: float):
+def pair_close_up(photo: np.ndarray, pair: tuple[dict, dict], margin_fraction: float) -> np.ndarray:
     """Draw both objects' numbered boxes and cut out the area around them.
 
     Args:
@@ -73,15 +73,16 @@ def pair_close_up(photo: np.ndarray, pair: tuple[dict, dict], margin_fraction: f
     return drawn[top:bottom, left:right]
 
 
-def stacking_line(reply: dict | None, pair: tuple[dict, dict]) -> str | None:
-    """Turn the reply into a fact like ``2 (yellow gear) lies on 1 (red gear)``.
+def stacking_order(reply: dict | None, pair: tuple[dict, dict]) -> tuple[dict, dict] | None:
+    """Read from the reply which of the two objects lies on the other.
 
     Args:
         reply: parsed reply ``{"on_top": <number or null>}``, or None.
         pair: the two marked objects that were shown.
 
     Returns:
-        The fact, or None when neither lies on the other or the reply is not one of the two.
+        (upper, lower), or None when neither lies on the other or the reply is not one of
+        the two.
     """
     on_top = reply.get("on_top") if isinstance(reply, dict) else None
     if isinstance(on_top, str) and on_top.strip().isdigit():
@@ -93,4 +94,4 @@ def stacking_line(reply: dict | None, pair: tuple[dict, dict]) -> str | None:
         upper, lower = second, first
     else:
         return None
-    return f"{upper['number']} ({upper['label']}) lies on {lower['number']} ({lower['label']})"
+    return upper, lower

@@ -1,12 +1,12 @@
-"""LangGraph pipeline, prompting only: annotate the photo, check stacking, decide.
+"""LangGraph pipeline: annotate the photo, check stacking, screen safety, decide.
 
-annotate: Apertus marks every object (label from the workcell list, and a box); the boxes are
-drawn and numbered on the photo.
-stack: for every pair of overlapping boxes, Apertus says on a close-up which object lies on
-the other.
-Both run once per photo; later instructions of the same photo start at decide.
-decide: Apertus sees the annotated photo, the numbered object list, the stacking facts and the
-instruction, and answers with object numbers; code turns that into the official answer.
+annotate: OpenCV finds the object regions, Apertus names each from an outlined close-up, code
+merges pieces of one object and numbers the objects; their boxes are drawn on the photo.
+stack: convex-hull geometry or Apertus close-ups establish which objects lie on others.
+Both run once per photo; later instructions of the same photo start at safety.
+safety: Apertus screens each instruction for dangerous handling.
+decide: Apertus plans moves using the measured spatial scene graph; code validates the moves,
+clears blocking objects, retries invalid plans and sets the first pick pixel.
 """
 
 import logging
@@ -16,10 +16,17 @@ import numpy as np
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
-from src.answer import to_result
 from src.apertus import Apertus
-from src.marks import draw_marks, objects_text, read_marks, salvage_marks
-from src.stack import overlapping_pairs, pair_close_up, stacking_line
+from src.calibration import mm_per_pixel
+from src.decision import answer_instruction
+from src.marks import draw_marks
+from src.naming import name_region, outlined_crop
+from src.objects import build_marks, size_mm
+from src.regions import find_regions
+from src.safety import check_instruction, screen_result
+from src.scene_graph import describe, stacking
+from src.stack import overlapping_pairs, pair_close_up, stacking_order
+from src.structured import ModelReplyError
 
 LOGGED_REPLY_CHARACTERS = 300
 NO_STACKING = "(no object lies on another)"
@@ -31,19 +38,26 @@ class PipelineState(TypedDict):
 
     instruction_id: str
     instruction: str
+    scene: object
+    distortion: np.ndarray
     photo: np.ndarray
     marks: list[dict] | None
     annotated: np.ndarray | None
     stacking: str | None
+    on_top: list[tuple[str, str]] | None
     result: dict | None
+    scene_text: str
+    keep_in_place: list[str]
+    attempts: list[dict]
 
 
 def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
     """Assemble and compile the pipeline graph.
 
     Args:
-        config: run config with ``prompts``, ``places``, ``object_labels``,
-            ``salvage_unparsed_marks``, ``stack_min_overlap`` and ``stack_margin_fraction``.
+        config: run config with ``prompts``, ``places``, the
+            ``perception``, ``naming`` and ``objects`` sections, ``stack_min_overlap`` and
+            ``stack_margin_fraction``, structured decision and safety settings.
         apertus: model client.
 
     Returns:
@@ -52,10 +66,7 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
     prompts = config["prompts"]
 
     def annotate(state: PipelineState) -> dict:
-        """Ask Apertus to mark every object, then draw the numbered boxes on the photo.
-
-        A reply that is not valid JSON is logged; with ``salvage_unparsed_marks`` its labels
-        and boxes are read from the text instead (``salvage_marks``), also logged.
+        """Find regions with OpenCV, let Apertus name each one, merge pieces, number objects.
 
         Args:
             state: current pipeline state.
@@ -63,26 +74,58 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
         Returns:
             State update with ``marks`` and ``annotated``.
         """
-        fields = {"labels": ", ".join(config["object_labels"])}
-        reply, raw, scale = apertus.ask("annotate", prompts["annotate"], fields, state["photo"])
-        if reply is None:
-            logger.warning("annotate reply held no JSON: %s", raw[:LOGGED_REPLY_CHARACTERS])
-            if config["salvage_unparsed_marks"]:
-                reply = salvage_marks(raw)
-                logger.warning("salvaged %d objects from the text", len(reply["objects"]))
-        marks = read_marks(reply, scale)
-        return {"marks": marks, "annotated": draw_marks(state["photo"], marks)}
+        scene, photo = state["scene"], state["photo"]
+        perception, naming = config["perception"], config["naming"]
+        scale_mm = mm_per_pixel(scene)
+        mm_per_work_pixel = scale_mm / perception["work_scale"]
+        found = find_regions(photo, perception, mm_per_work_pixel**2)
+        min_side_pixels = round(naming["crop_min_side_mm"] / scale_mm)
+        named = []
+        for region in found["regions"]:
+            length_mm, width_mm = size_mm(
+                region["mask"], found["work_scale"], scene, state["distortion"]
+            )
+            crop = outlined_crop(
+                photo, region["mask"], naming["crop_padding_fraction"], min_side_pixels
+            )
+            fields = {
+                "colour": region["colour"],
+                "length_mm": length_mm,
+                "width_mm": width_mm,
+                "tray": region["tray"].replace("_", " "),
+            }
+            name, is_object, aliases = name_region(
+                apertus, prompts["name"], fields, crop, naming["fixture_words"]
+            )
+            named.append({**region, "name": name, "is_object": is_object, "aliases": aliases})
+        marks = build_marks(
+            named,
+            found["work_scale"],
+            mm_per_work_pixel,
+            config["objects"],
+            scene,
+            state["distortion"],
+        )
+        return {"marks": marks, "annotated": draw_marks(photo, marks)}
 
     def stack(state: PipelineState) -> dict:
-        """Ask, for every pair of overlapping boxes, which object lies on the other.
+        """Find stacking from masks, or ask Apertus on overlapping-box close-ups.
 
         Args:
             state: pipeline state after ``annotate``.
 
         Returns:
-            State update with ``stacking``: one fact per stacked pair, as text.
+            State update with ``stacking`` (one fact per stacked pair, as text) and ``on_top``
+            ((upper id, lower id) pairs).
         """
-        lines = []
+        if config.get("stack_method", "vision") == "geometry":
+            on_top = stacking(state["marks"], config["stack_min_overlap"])
+            return {
+                "stacking": "\n".join(f"{upper} lies on {lower}" for upper, lower in on_top)
+                or NO_STACKING,
+                "on_top": on_top,
+            }
+        lines, on_top = [], []
         for pair in overlapping_pairs(state["marks"], config["stack_min_overlap"]):
             close_up = pair_close_up(state["photo"], pair, config["stack_margin_fraction"])
             fields = {
@@ -92,13 +135,20 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
             reply, raw, _scale = apertus.ask("stack", prompts["stack"], fields, close_up)
             if reply is None:
                 logger.warning("stack reply held no JSON: %s", raw[:LOGGED_REPLY_CHARACTERS])
-            line = stacking_line(reply, pair)
-            if line:
-                lines.append(line)
-        return {"stacking": "\n".join(lines) or NO_STACKING}
+            order = stacking_order(reply, pair)
+            if order:
+                upper, lower = order
+                lines.append(
+                    f"{upper['number']} ({upper['label']}) lies on "
+                    f"{lower['number']} ({lower['label']})"
+                )
+                on_top.append((upper["id"], lower["id"]))
+        return {"stacking": "\n".join(lines) or NO_STACKING, "on_top": on_top}
 
     def decide(state: PipelineState) -> dict:
         """Ask Apertus to plan, ask or refuse on the annotated photo, by object number.
+
+        Structured moves are validated and retried with feedback.
 
         Args:
             state: current pipeline state.
@@ -106,17 +156,82 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
         Returns:
             State update with ``result`` in the official schema.
         """
-        fields = {
-            "objects": objects_text(state["marks"]),
-            "text": state["instruction"],
-            "labels": ", ".join(config["object_labels"]),
-            "stacking": state["stacking"],
+        result, attempts = answer_instruction(
+            state["instruction_id"],
+            state["instruction"],
+            state["scene_text"],
+            state["marks"],
+            state["on_top"],
+            state["annotated"],
+            apertus,
+            config,
+            state["keep_in_place"],
+        )
+        return {"result": result, "attempts": state["attempts"] + attempts}
+
+    def safety(state: PipelineState) -> dict:
+        """Screen every instruction with Apertus before generating moves.
+
+        Args:
+            state: Perceived scene and unchanged instruction.
+
+        Returns:
+            Scene text, audit records, objects that must stay where they are, and a refusal
+            when Apertus identifies unsafe handling.
+        """
+        scene_text = describe(state["marks"], state["on_top"])
+        update = {"scene_text": scene_text, "result": None, "attempts": [], "keep_in_place": []}
+        if not config["safety"]["enabled"]:
+            return update
+        feedback = None
+        for _ in range(config["decision"]["max_attempts"]):
+            try:
+                screen, raw = check_instruction(
+                    state["instruction"],
+                    scene_text,
+                    [item["id"] for item in state["marks"]],
+                    apertus,
+                    config["safety"],
+                    feedback,
+                )
+            except ModelReplyError as error:
+                feedback = f"{error}; keep the explanation brief and return every required field"
+                update["attempts"].append(
+                    {"stage": "safety", "raw": error.raw, "problem": feedback}
+                )
+                continue
+            update["attempts"].append({"stage": "safety", "raw": raw, "problem": None})
+            update["keep_in_place"] = screen["keep_in_place"]
+            stop = screen_result(screen)
+            if stop:
+                update["result"] = {
+                    "instruction_id": state["instruction_id"],
+                    "target_pixel": None,
+                    "actions": [{"action": "refuse", "reason": stop[1]}],
+                }
+            return update
+        update["result"] = {
+            "instruction_id": state["instruction_id"],
+            "target_pixel": None,
+            "actions": [
+                {
+                    "action": "ask_user",
+                    "question": "The safety check could not produce a valid answer. Could you clarify the intended handling?",
+                }
+            ],
         }
-        reply, raw, _scale = apertus.ask("decide", prompts["decide"], fields, state["annotated"])
-        if reply is None:
-            logger.warning("decide reply held no JSON: %s", raw[:LOGGED_REPLY_CHARACTERS])
-        result = to_result(state["instruction_id"], reply, state["marks"], config["places"])
-        return {"result": result}
+        return update
+
+    def route_safety(state: PipelineState) -> str:
+        """Stop on a safety decision or continue to planning.
+
+        Args:
+            state: State after safety screening.
+
+        Returns:
+            End marker or decide node name.
+        """
+        return END if state["result"] is not None else "decide"
 
     def route_start(state: PipelineState) -> str:
         """Skip annotate and stack when this photo is already done.
@@ -125,16 +240,18 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
             state: initial pipeline state.
 
         Returns:
-            ``"decide"`` or ``"annotate"``.
+            ``"safety"`` or ``"annotate"``.
         """
-        return "decide" if state["marks"] is not None else "annotate"
+        return "safety" if state["marks"] is not None else "annotate"
 
     graph = StateGraph(PipelineState)
     graph.add_node("annotate", annotate)
     graph.add_node("stack", stack)
     graph.add_node("decide", decide)
-    graph.add_conditional_edges(START, route_start, ["annotate", "decide"])
+    graph.add_node("safety", safety)
+    graph.add_conditional_edges("safety", route_safety, ["decide", END])
+    graph.add_conditional_edges(START, route_start, ["annotate", "safety"])
     graph.add_edge("annotate", "stack")
-    graph.add_edge("stack", "decide")
+    graph.add_edge("stack", "safety")
     graph.add_edge("decide", END)
     return graph.compile()

@@ -15,6 +15,7 @@ import yaml
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from langchain_core.runnables.graph import Graph
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
 REPO_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +24,7 @@ sys.path.insert(0, str(REPO_DIR))
 from src.apertus import Apertus
 from src.graph import build_graph
 
-CONFIG_PATH = REPO_DIR / "configs" / "two_node.yaml"
+CONFIG_PATH = REPO_DIR / "configs" / "pipeline.yaml"
 OUTPUT_STEM = REPO_DIR / "figures" / "pipeline_graph"
 DPI = 300
 NODE_WIDTH = 2.5
@@ -36,24 +37,26 @@ TERMINAL_FILL = "#ededed"
 TERMINAL_EDGE = "#555555"
 EDGE_COLOUR = "#333333"
 POSITIONS = {
-    "__start__": (0.0, 4.4),
-    "annotate": (0.0, 3.3),
-    "stack": (0.0, 2.2),
+    "__start__": (0.0, 5.5),
+    "annotate": (0.0, 4.4),
+    "stack": (0.0, 3.3),
+    "safety": (0.0, 2.2),
     "decide": (0.0, 1.1),
     "__end__": (0.0, 0.0),
 }
 CAPTIONS = {
     "__start__": "START\ninstruction + photo",
-    "annotate": "annotate (Apertus)\nlabelled boxes, once per photo",
-    "stack": "stack (Apertus)\nwhich object lies on which",
-    "decide": "decide (Apertus)\nplan / ask / refuse by number",
+    "annotate": "annotate (OpenCV + Apertus)\nregions, names, once per photo",
+    "stack": "stack (geometry or Apertus)\nwhich object lies on which",
+    "safety": "safety (Apertus)\nhandling and person check",
+    "decide": "decide (Apertus)\nvalidated moves / ask / refuse",
     "__end__": "END\nanswer in official schema",
 }
-APERTUS_NODES = {"annotate", "stack", "decide"}
+APERTUS_NODES = {"annotate", "safety", "decide"}
 SWITCHED_NODES: set[str] = set()
-SIDE_ROUTES = {("__start__", "decide"): ("left", 0.5)}
+SIDE_ROUTES = {("__start__", "safety"): ("left", 0.5), ("safety", "__end__"): ("right", 0.7)}
 CURVATURE: dict[tuple[str, str], float] = {}
-EDGE_LABELS = {("__start__", "decide"): ("photo already\nannotated", (-3.35, 2.75))}
+EDGE_LABELS = {("__start__", "safety"): ("photo already\nannotated", (-3.35, 3.8))}
 
 
 def node_style(node: str) -> tuple[str, str, str]:
@@ -92,7 +95,7 @@ def border_point(node: str, towards: tuple[float, float]) -> tuple[float, float]
     return x + dx * scale, y + dy * scale
 
 
-def draw(graph, path_stem: Path) -> None:
+def draw(graph: Graph, path_stem: Path) -> None:
     """Draw every node and edge of the graph and save PNG and PDF.
 
     Args:
@@ -102,7 +105,7 @@ def draw(graph, path_stem: Path) -> None:
     Returns:
         None.
     """
-    figure, axes = plt.subplots(figsize=(7, 6.5))
+    figure, axes = plt.subplots(figsize=(7, 7.5))
     for node in graph.nodes:
         x, y = POSITIONS[node]
         fill, border, style = node_style(node)
@@ -148,10 +151,10 @@ def draw(graph, path_stem: Path) -> None:
             text, position = label
             axes.text(*position, text, fontsize=8, ha="left", va="center")
     axes.set_xlim(-3.4, 3.4)
-    axes.set_ylim(-0.6, 4.9)
+    axes.set_ylim(-0.6, 6.0)
     axes.axis("off")
     axes.set_title(
-        "Prompting pipeline: every node is an Apertus call; dashed arrow = conditional edge",
+        "Perception cached per photo; Apertus screens and plans each instruction",
         fontsize=10,
     )
     figure.savefig(path_stem.with_suffix(".png"), dpi=DPI, bbox_inches="tight", facecolor="white")
@@ -161,6 +164,9 @@ def draw(graph, path_stem: Path) -> None:
 
 def main() -> None:
     """Build the graph with the mock client and draw it.
+
+    Args:
+        None.
 
     Returns:
         None.

@@ -19,7 +19,7 @@ def _():
     WORKSPACE = Path("/marimo")
     REPO_DIR = WORKSPACE / "see-it-say-it-pick-it"
     SECRETS_FILE = WORKSPACE / "storage" / ".env"
-    CONFIG_PATH = REPO_DIR / "configs" / "baseline.yaml"
+    CONFIG_PATH = REPO_DIR / "configs" / "pipeline.yaml"
 
     CONFIG = yaml.safe_load(CONFIG_PATH.read_text())
     VLLM_ENV = Path(CONFIG["vllm_env"])

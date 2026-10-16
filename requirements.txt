@@ -4,6 +4,7 @@ opencv-python
 pillow
 pyyaml
 python-dotenv
+jsonschema
 langgraph==1.2.15
 ruff
 # to run Apertus locally (GPU): pip install vllm
