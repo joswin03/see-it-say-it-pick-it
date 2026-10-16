@@ -156,4 +156,4 @@ Code Apache-2.0, data CC BY 4.0 (ZHAW). This repository builds on the organiser 
 `github.com/Fatemeh-MA/see-it-say-it-pick-it`; cite the challenge and the ZHAW work listed
 in `dataset/README.md`.
 
-Team: Joswin · Vaibhav Prajapati · Macallyster Edmondson.
+Team: Joswin Dsouza · Vaibhav Prajapati · Macallyster Edmondson.
