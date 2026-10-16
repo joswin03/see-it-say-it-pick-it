@@ -34,9 +34,9 @@
 \node[codebox, right=of marks] (stack) {\textbf{Stacking}\\convex-hull overlap:\\who lies on whom\\\texttt{scene\_graph.py}};
 \node[codebox, right=of stack] (graph) {\textbf{Scene graph text}\\trays, sizes, stacks,\\orders, distances};
 
-\node[llmbox, below=34mm of stack] (safety) {\textbf{Safety screen}\\Apertus: action\\words $\rightarrow$ manner\\\texttt{safety.py}};
-\node[llmbox, right=of safety] (decide) {\textbf{Decide}\\Apertus, JSON:\\plan / ask / refuse\\\texttt{decision.py}};
-\node[codebox, right=of decide] (check) {\textbf{Plan check}\\ids, grip width,\\clear stacks first\\\texttt{plans.py}};
+\node[llmbox, below=34mm of stack] (safety) {\textbf{Safety screen}\\Apertus copies the\\action words, then\\picks the manner\\\texttt{safety.py}};
+\node[llmbox, right=of safety] (decide) {\textbf{Decide}\\Apertus JSON with\\scene ids only:\\plan / ask / refuse\\\texttt{decision.py}};
+\node[codebox, right=of decide] (check) {\textbf{Plan check}\\ids, grip width,\\clear stacks first,\\repair hold moves\\\texttt{plans.py}};
 \node[iobox] (instr) at (photo |- safety) {\textbf{Instruction}\\English sentence};
 
 \node[outbox, right=24mm of check, yshift=10mm, text width=38mm] (plan) {\textbf{Plan}: \texttt{target\_pixel}\\+ pick/place actions};
@@ -69,7 +69,7 @@
 \draw[flow] (instr) -- node[note, above] {unchanged sentence} (safety);
 \draw[flow] (safety) -- node[note, above] {ordinary} (decide);
 \draw[flow] (decide) -- node[note, above] {plan} (check);
-\draw[flow] (check.south) -- ++(0,-5mm) -| node[note, below, pos=0.25] {invalid: retry with reason} (retryin);
+\draw[flow] (check.south) -- ++(0,-5mm) -| node[note, below, pos=0.25] {invalid: retry with reason (max 2)} (retryin);
 \draw[flow] (check.east) -- node[note, above, sloped] {valid} (plan.west);
 \draw[flow] (check.east) -- node[note, above, sloped, pos=0.45] {retries used up} (ask.west);
 \draw[flow] (safety.south) |- node[note, left, pos=0.4] {unsafe: refuse} (refuselane) -| (ask.south);

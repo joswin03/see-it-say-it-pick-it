@@ -5,7 +5,9 @@
     python run.py --data dataset --mock
     python run.py --data dataset --set stack_min_overlap=0.5
 
-Writes outputs/<time>-<name>/ with results.json, manifest.json and the annotated photos.
+Writes outputs/<time>-<name>/ with results.json, manifest.json, the annotated photos, the scene
+graphs in the format shared with the ground truth (scene_graphs.json) and one figure per scene
+(scene_graphs/).
 """
 
 import argparse
@@ -23,6 +25,8 @@ from src import manifest
 from src.apertus import Apertus
 from src.calibration import lens_distortion
 from src.graph import build_graph
+from src.scene_graph import graph_record
+from src.scene_graph_figure import write_run_figure
 
 REPO_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(REPO_DIR / "starter"))
@@ -90,12 +94,14 @@ def main() -> None:
     config.update({key: value for key, value in overrides.items() if "." not in key})
     run_dir = OUTPUTS_DIR / f"{time.strftime('%Y%m%d-%H%M%S')}-{arguments.name}"
     (run_dir / "annotated").mkdir(parents=True)
+    (run_dir / "scene_graphs").mkdir()
 
     (run_dir / "config.yaml").write_text(yaml.safe_dump(config, sort_keys=False))
     graph = build_graph(
         config, Apertus(config, mock=arguments.mock, log_path=run_dir / "model_replies.jsonl")
     )
     scene_records = {}
+    graph_records = {}
     results = []
     started = time.time()
     scene_dirs = sorted(path for path in arguments.data.iterdir() if (path / "rgb.png").is_file())
@@ -127,6 +133,17 @@ def main() -> None:
                     run_dir / "annotated" / f"{scene.name}.jpg", quality=JPEG_QUALITY
                 )
                 print(f"{scene.name}: {len(marks)} objects marked")
+                graph_records[scene.name] = graph_record(marks, on_top)
+                (run_dir / "scene_graphs.json").write_text(
+                    json.dumps(graph_records, indent=2) + "\n"
+                )
+                write_run_figure(
+                    annotated,
+                    graph_records[scene.name],
+                    state["scene_text"],
+                    scene.name,
+                    run_dir / "scene_graphs" / f"{scene.name}.png",
+                )
             scene_records[scene.name] = {
                 "objects": [
                     {key: value for key, value in mark.items() if key != "mask"} for mark in marks

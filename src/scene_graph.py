@@ -95,3 +95,31 @@ def describe(objects: list[dict], on_top: list[tuple[str, str]]) -> str:
         if others:
             lines.append(f"  {item['id']}: {', '.join(other['id'] for other in others)}")
     return "\n".join(lines)
+
+
+def graph_record(objects: list[dict], on_top: list[tuple[str, str]]) -> dict:
+    """The scene graph in the format shared with the ground-truth graphs.
+
+    Args:
+        objects: marked objects with ``id``, ``label``, ``pixel``, ``box``, ``size_mm`` and
+            ``tray``.
+        on_top: (upper id, lower id) pairs.
+
+    Returns:
+        ``{"objects": [{"id", "name", "pixel", "box", "size_mm", "tray", "lies_on"}]}``, left to
+        right; ``box`` is [u_min, v_min, u_max, v_max] in full-resolution pixels.
+    """
+    return {
+        "objects": [
+            {
+                "id": item["id"],
+                "name": item["label"],
+                "pixel": item["pixel"],
+                "box": item["box"],
+                "size_mm": item["size_mm"],
+                "tray": item["tray"],
+                "lies_on": [lower for upper, lower in on_top if upper == item["id"]],
+            }
+            for item in sorted(objects, key=lambda item: item["pixel"][0])
+        ]
+    }
