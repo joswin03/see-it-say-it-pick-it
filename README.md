@@ -23,11 +23,11 @@ parses the instruction text.
 - 8 of 10 dangerous instructions handled correctly (all 4 unsafe and both ambiguous ones;
   2 of 4 impossible ones were planned anyway), 1 false alarm in 40 (an `ask_user` where a
   plan existed).
-- Two independent re-runs of the frozen release re-produced the submitted held-out answers
-  (40/40 equivalent decisions in both; byte-identical JSON 40/40 and 39/40, one refusal
-  reason differs in wording) and scored 55.8 and 52.3 on the dev set (49/50 and 44/50
-  decisions identical): the hosted endpoint is not bit-for-bit deterministic at
-  temperature 0; local-server equivalence and stability have not been measured.
+- Three independent re-runs re-produced the submitted held-out answers (40/40, 40/40 and
+  37/40 equivalent decisions; byte-identical JSON 40/40, 39/40, 32/40) and scored 55.8,
+  52.3 and 55.8 on the dev set (49/50, 44/50 and 47/50 decisions identical to the
+  canonical run): the hosted endpoint is not bit-for-bit deterministic at temperature 0;
+  local-server equivalence and stability have not been measured.
 - Every dev number comes from a run in `outputs/` — the baseline from the team's recorded
   baseline run (`outputs/20261015-1151-baseline/`), the rest from the runs listed in
   `outputs/README.md` — each with a manifest (commit, config hash, UTC timestamp) and, for

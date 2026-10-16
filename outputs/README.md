@@ -17,6 +17,8 @@ the answers.
 | `20261016-053459-heldout-repro` | held-out re-run — submitted answers reproduced byte-for-byte | — |
 | `20261016-054521-dev-verify` | second re-run — 44/50 identical (see note) | 52.3/65 |
 | `20261016-054815-heldout-verify` | second held-out re-run — 39/40 byte-identical (one refusal reason differs) | — |
+| `20261016-060648-dev-final` | re-run at the frozen release config — same 55.8/65, 47/50 identical | 55.8/65 |
+| `20261016-060958-heldout-final` | third held-out re-run — 37/40 equivalent decisions (32/40 byte-identical) | — |
 
 Checksums: `results_heldout.json` at the repository root is sha256 `dbb3fc34…` — exactly
 what `20261016-053459-heldout-repro` re-produced byte-for-byte. `results_dev.json` is sha256
@@ -27,13 +29,16 @@ independent reproduction from the released pipeline.
 
 The submitted file's originating run used config sha256 `69e9e966…`; the first re-runs used
 `0476c067…` (the tip config adds `perception.backend: opencv`), and the released config
-differs further only in the endpoint default (local instead of the hosted endpoint).
+differs further only in the endpoint default (local instead of the hosted endpoint). The
+runs from commit `48dfa3d…` (`…-dev-final`, `…-heldout-final`) used the released config
+`c8e61fd2…`.
 
-Note on 55.8 vs 52.3: the hosted Apertus endpoint is not bit-for-bit deterministic at
-temperature 0. Between the canonical run and the second verification run, two scored
-instructions flipped (one impossible instruction answered with a plan; one false alarm) and
-several plans gained or dropped clear-moves; grounding was identical (37/40). Self-hosting
-with fixed seeds is the proposed way to control this; it has not been measured.
+Note on run-to-run variation: the hosted Apertus endpoint is not bit-for-bit deterministic
+at temperature 0. Dev re-runs scored 55.8, 52.3 and 55.8 (identical decisions 49/50, 44/50,
+47/50; grounding always 37/40); held-out re-runs matched the submitted answers at 40/40,
+40/40 and 37/40 equivalent decisions (byte-identical 40/40, 39/40, 32/40; the remainder are
+wording changes, added clear-moves and three changed routes). Self-hosting with fixed seeds
+is the proposed way to control this; it has not been measured.
 
 The released pipeline does not ship the evaluation-only script that produced the
 `scene_graph_comparison.*` files, nor the dataset-derived annotations it consumed; the

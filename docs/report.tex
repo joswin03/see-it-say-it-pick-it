@@ -47,13 +47,12 @@ crop is a task it does well. A scene-graph audit against held-back ground truth 
 split: object recall 96\,\%, precision 91\,\%, pick pixel inside the matched
 ground-truth bounding box (51 of 51), but stacking (``lies on'') recall only 43\,\%. All numbers come from run directories in
 \code{outputs/}, each with a manifest (commit, config hash, UTC timestamp) and a
-\code{report.json}. Reproducibility was measured, not assumed: two independent re-runs of
-the frozen release re-produced the submitted held-out answers (40 of 40 equivalent decisions
-in both; byte-identical JSON 40 of 40 and 39 of 40, one refusal reason differs in wording)
-and scored 55.8 and 52.3 on the dev set (49 of 50 and 44 of 50 decisions identical). The
-variation appeared with the same effective configuration at temperature~0; its cause has
-not been isolated, and self-hosting with fixed seeds is the proposed next experiment (not
-yet measured).
+\code{report.json}. Reproducibility was measured, not assumed: three independent re-runs
+re-produced the submitted held-out answers (40, 40 and 37 of 40 equivalent decisions;
+byte-identical JSON 40, 39 and 32 of 40) and scored 55.8, 52.3 and 55.8 on the dev set
+(49, 44 and 47 of 50 decisions identical to the canonical run). The variation appeared with
+the same effective configuration at temperature~0; its cause has not been isolated, and
+self-hosting with fixed seeds is the proposed next experiment (not yet measured).
 
 \section{Where Apertus struggled}
 \paragraph{Contradictory instructions are planned, not refused.}
