@@ -1,0 +1,307 @@
+{
+  "scenes": {
+    "scene_01": {
+      "counts": {
+        "true_objects": 3,
+        "our_objects": 3,
+        "matched": 3,
+        "kind_right": 3,
+        "colour_right": 3,
+        "tray_right": 3,
+        "pixel_in_true_box": 3,
+        "nearest_same": 3,
+        "size_error_mm": 65,
+        "true_edges": 0,
+        "our_edges": 0,
+        "edges_found": 0
+      },
+      "findings": [],
+      "matches": {
+        "red_cube": "red_cube_1",
+        "yellow_gear": "yellow_gear_3",
+        "mug": "green_mug_2"
+      }
+    },
+    "scene_02": {
+      "counts": {
+        "true_objects": 4,
+        "our_objects": 4,
+        "matched": 4,
+        "kind_right": 4,
+        "colour_right": 3,
+        "tray_right": 4,
+        "pixel_in_true_box": 4,
+        "nearest_same": 2,
+        "size_error_mm": 178,
+        "true_edges": 0,
+        "our_edges": 0,
+        "edges_found": 0
+      },
+      "findings": [
+        "NAMED mandarin as 'mandarin'"
+      ],
+      "matches": {
+        "red_cube": "red_cube_1",
+        "mug": "mug_4",
+        "mandarin": "mandarin_3",
+        "plate": "plate_2"
+      }
+    },
+    "scene_03": {
+      "counts": {
+        "true_objects": 4,
+        "our_objects": 3,
+        "matched": 3,
+        "kind_right": 3,
+        "colour_right": 3,
+        "tray_right": 3,
+        "pixel_in_true_box": 3,
+        "nearest_same": 1,
+        "size_error_mm": 51,
+        "true_edges": 0,
+        "our_edges": 0,
+        "edges_found": 0
+      },
+      "findings": [
+        "MISSED red_gear_3"
+      ],
+      "matches": {
+        "red_gear_2": "red_gear_3",
+        "red_gear_1": "red_gear_1",
+        "yellow_gear": "yellow_gear_2"
+      }
+    },
+    "scene_04": {
+      "counts": {
+        "true_objects": 4,
+        "our_objects": 4,
+        "matched": 4,
+        "kind_right": 4,
+        "colour_right": 2,
+        "tray_right": 4,
+        "pixel_in_true_box": 4,
+        "nearest_same": 4,
+        "size_error_mm": 149,
+        "true_edges": 0,
+        "our_edges": 0,
+        "edges_found": 0
+      },
+      "findings": [
+        "NAMED grey_part_1 as 'white metal part'",
+        "NAMED grey_part_2 as 'white metal part'"
+      ],
+      "matches": {
+        "white_part": "white_part_1",
+        "grey_part_1": "white_metal_part_2",
+        "mug": "green_mug_4",
+        "grey_part_2": "white_metal_part_3"
+      }
+    },
+    "scene_05": {
+      "counts": {
+        "true_objects": 5,
+        "our_objects": 5,
+        "matched": 5,
+        "kind_right": 5,
+        "colour_right": 4,
+        "tray_right": 5,
+        "pixel_in_true_box": 5,
+        "nearest_same": 5,
+        "size_error_mm": 164,
+        "true_edges": 0,
+        "our_edges": 2,
+        "edges_found": 0
+      },
+      "findings": [
+        "NAMED banana as 'banana'",
+        "EDGE EXTRA orange_5 lies on yellow_saucer_3",
+        "EDGE EXTRA banana_1 lies on plate_4"
+      ],
+      "matches": {
+        "mug": "green_mug_2",
+        "plate": "plate_4",
+        "banana": "banana_1",
+        "saucer": "yellow_saucer_3",
+        "mandarin": "orange_5"
+      }
+    },
+    "scene_06": {
+      "counts": {
+        "true_objects": 5,
+        "our_objects": 4,
+        "matched": 4,
+        "kind_right": 4,
+        "colour_right": 4,
+        "tray_right": 4,
+        "pixel_in_true_box": 4,
+        "nearest_same": 1,
+        "size_error_mm": 53,
+        "true_edges": 1,
+        "our_edges": 0,
+        "edges_found": 0
+      },
+      "findings": [
+        "MISSED yellow_gear",
+        "EDGE MISSED missing:yellow_gear lies on red_gear_2"
+      ],
+      "matches": {
+        "red_gear_1": "red_gear_1",
+        "red_gear_2": "red_gear_2",
+        "saucer": "yellow_saucer_4",
+        "red_cube": "red_cube_3"
+      }
+    },
+    "scene_07": {
+      "counts": {
+        "true_objects": 4,
+        "our_objects": 4,
+        "matched": 4,
+        "kind_right": 4,
+        "colour_right": 4,
+        "tray_right": 4,
+        "pixel_in_true_box": 4,
+        "nearest_same": 4,
+        "size_error_mm": 118,
+        "true_edges": 1,
+        "our_edges": 1,
+        "edges_found": 0
+      },
+      "findings": [
+        "EDGE MISSED mug_3 lies on red_gear_1",
+        "EDGE EXTRA red_gear_1 lies on mug_3"
+      ],
+      "matches": {
+        "red_gear": "red_gear_1",
+        "red_cube": "red_cube_2",
+        "yellow_gear": "yellow_gear_4",
+        "mug": "mug_3"
+      }
+    },
+    "scene_08": {
+      "counts": {
+        "true_objects": 6,
+        "our_objects": 4,
+        "matched": 4,
+        "kind_right": 3,
+        "colour_right": 4,
+        "tray_right": 4,
+        "pixel_in_true_box": 4,
+        "nearest_same": 1,
+        "size_error_mm": 155,
+        "true_edges": 2,
+        "our_edges": 0,
+        "edges_found": 0
+      },
+      "findings": [
+        "MISSED red_gear_1",
+        "NAMED red_cube as 'red gear'",
+        "MISSED red_gear_2",
+        "EDGE MISSED red_gear_3 lies on missing:red_gear_1",
+        "EDGE MISSED red_gear_3 lies on missing:red_gear_2"
+      ],
+      "matches": {
+        "small_part": "white_part_1",
+        "plate": "plate_4",
+        "yellow_gear": "yellow_gear_2",
+        "red_cube": "red_gear_3"
+      }
+    },
+    "scene_09": {
+      "counts": {
+        "true_objects": 10,
+        "our_objects": 6,
+        "matched": 5,
+        "kind_right": 4,
+        "colour_right": 4,
+        "tray_right": 5,
+        "pixel_in_true_box": 4,
+        "nearest_same": 1,
+        "size_error_mm": 169,
+        "true_edges": 2,
+        "our_edges": 4,
+        "edges_found": 0
+      },
+      "findings": [
+        "NAMED mandarin as 'mandarin'",
+        "MISSED grey_part",
+        "MISSED small_part",
+        "MISSED yellow_gear",
+        "NAMED red_gear_3 as 'red cube'",
+        "MISSED red_cube",
+        "MISSED plate",
+        "EXTRA yellow_gear_6 ('yellow gear')",
+        "EDGE MISSED missing:red_cube lies on missing:grey_part",
+        "EDGE MISSED missing:red_cube lies on red_cube_5",
+        "EDGE EXTRA yellow_gear_6 lies on mandarin_4",
+        "EDGE EXTRA red_gear_1 lies on yellow_saucer_3",
+        "EDGE EXTRA yellow_gear_6 lies on red_cube_5",
+        "EDGE EXTRA mandarin_4 lies on red_cube_5"
+      ],
+      "matches": {
+        "saucer": "yellow_saucer_3",
+        "red_gear_2": "red_gear_2",
+        "red_gear_3": "red_cube_5",
+        "red_gear_1": "red_gear_1",
+        "mandarin": "mandarin_4"
+      }
+    },
+    "scene_10": {
+      "counts": {
+        "true_objects": 8,
+        "our_objects": 8,
+        "matched": 7,
+        "kind_right": 7,
+        "colour_right": 7,
+        "tray_right": 6,
+        "pixel_in_true_box": 7,
+        "nearest_same": 1,
+        "size_error_mm": 193,
+        "true_edges": 1,
+        "our_edges": 1,
+        "edges_found": 0
+      },
+      "findings": [
+        "MISSED mandarin",
+        "TRAY hand: black_tray not grey_tray",
+        "EXTRA mandarin_3 ('mandarin')",
+        "EDGE MISSED green_mug_4 lies on person_s_hand_7",
+        "EDGE EXTRA green_mug_4 lies on yellow_saucer_2"
+      ],
+      "matches": {
+        "plate": "white_plate_8",
+        "saucer": "yellow_saucer_2",
+        "yellow_gear": "yellow_gear_6",
+        "mug": "green_mug_4",
+        "hand": "person_s_hand_7",
+        "red_gear_2": "red_gear_5",
+        "red_gear_1": "red_gear_1"
+      }
+    }
+  },
+  "totals": {
+    "true_objects": 53,
+    "our_objects": 45,
+    "matched": 43,
+    "kind_right": 41,
+    "colour_right": 38,
+    "tray_right": 42,
+    "pixel_in_true_box": 42,
+    "nearest_same": 23,
+    "size_error_mm": 1295,
+    "true_edges": 7,
+    "our_edges": 8,
+    "edges_found": 0
+  },
+  "summary": [
+    "objects found (recall)            43/53 = 81%",
+    "objects real (precision)          43/45 = 96%",
+    "object kind right                 41/43 = 95%",
+    "colour right                      38/43 = 88%",
+    "tray right                        42/43 = 98%",
+    "pick pixel inside the true box    42/43 = 98%",
+    "same nearest neighbour            23/43 = 53%",
+    "mean size error per side          15.1 mm",
+    "lies-on edges found (recall)      0/7 = 0%",
+    "lies-on edges real (precision)    0/8 = 0%"
+  ]
+}

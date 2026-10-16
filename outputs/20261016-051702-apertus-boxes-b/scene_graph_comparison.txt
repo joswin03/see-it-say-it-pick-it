@@ -1,0 +1,57 @@
+TOTALS
+objects found (recall)            43/53 = 81%
+objects real (precision)          43/45 = 96%
+object kind right                 41/43 = 95%
+colour right                      38/43 = 88%
+tray right                        42/43 = 98%
+pick pixel inside the true box    42/43 = 98%
+same nearest neighbour            23/43 = 53%
+mean size error per side          15.1 mm
+lies-on edges found (recall)      0/7 = 0%
+lies-on edges real (precision)    0/8 = 0%
+
+scene_01: objects 3/3 found, 0 extra; edges 0/0 found, 0 extra
+scene_02: objects 4/4 found, 0 extra; edges 0/0 found, 0 extra
+    NAMED mandarin as 'mandarin'
+scene_03: objects 3/4 found, 0 extra; edges 0/0 found, 0 extra
+    MISSED red_gear_3
+scene_04: objects 4/4 found, 0 extra; edges 0/0 found, 0 extra
+    NAMED grey_part_1 as 'white metal part'
+    NAMED grey_part_2 as 'white metal part'
+scene_05: objects 5/5 found, 0 extra; edges 0/0 found, 2 extra
+    NAMED banana as 'banana'
+    EDGE EXTRA orange_5 lies on yellow_saucer_3
+    EDGE EXTRA banana_1 lies on plate_4
+scene_06: objects 4/5 found, 0 extra; edges 0/1 found, 0 extra
+    MISSED yellow_gear
+    EDGE MISSED missing:yellow_gear lies on red_gear_2
+scene_07: objects 4/4 found, 0 extra; edges 0/1 found, 1 extra
+    EDGE MISSED mug_3 lies on red_gear_1
+    EDGE EXTRA red_gear_1 lies on mug_3
+scene_08: objects 4/6 found, 0 extra; edges 0/2 found, 0 extra
+    MISSED red_gear_1
+    NAMED red_cube as 'red gear'
+    MISSED red_gear_2
+    EDGE MISSED red_gear_3 lies on missing:red_gear_1
+    EDGE MISSED red_gear_3 lies on missing:red_gear_2
+scene_09: objects 5/10 found, 1 extra; edges 0/2 found, 4 extra
+    NAMED mandarin as 'mandarin'
+    MISSED grey_part
+    MISSED small_part
+    MISSED yellow_gear
+    NAMED red_gear_3 as 'red cube'
+    MISSED red_cube
+    MISSED plate
+    EXTRA yellow_gear_6 ('yellow gear')
+    EDGE MISSED missing:red_cube lies on missing:grey_part
+    EDGE MISSED missing:red_cube lies on red_cube_5
+    EDGE EXTRA yellow_gear_6 lies on mandarin_4
+    EDGE EXTRA red_gear_1 lies on yellow_saucer_3
+    EDGE EXTRA yellow_gear_6 lies on red_cube_5
+    EDGE EXTRA mandarin_4 lies on red_cube_5
+scene_10: objects 7/8 found, 1 extra; edges 0/1 found, 1 extra
+    MISSED mandarin
+    TRAY hand: black_tray not grey_tray
+    EXTRA mandarin_3 ('mandarin')
+    EDGE MISSED green_mug_4 lies on person_s_hand_7
+    EDGE EXTRA green_mug_4 lies on yellow_saucer_2

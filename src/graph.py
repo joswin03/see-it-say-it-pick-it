@@ -1,7 +1,9 @@
 """LangGraph pipeline: annotate the photo, check stacking, screen safety, decide.
 
 annotate: OpenCV finds the object regions, Apertus names each from an outlined close-up, code
-merges pieces of one object and numbers the objects; their boxes are drawn on the photo.
+merges pieces of one object and numbers the objects; their boxes are drawn on the photo. With
+``perception.backend: apertus_boxes`` (ablation) Apertus instead marks labelled boxes on the
+whole photo (``src/boxes.py``).
 stack: convex-hull geometry establishes which objects lie on others.
 Both run once per photo; later instructions of the same photo start at safety.
 safety: Apertus screens each instruction for dangerous handling.
@@ -16,6 +18,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
 from src.apertus import Apertus
+from src.boxes import detect_boxes, marks_from_boxes
 from src.calibration import mm_per_pixel
 from src.decision import answer_instruction
 from src.marks import draw_marks
@@ -27,6 +30,9 @@ from src.scene_graph import describe, stacking
 from src.structured import ModelReplyError
 
 NO_STACKING = "(no object lies on another)"
+OPENCV = "opencv"
+APERTUS_BOXES = "apertus_boxes"
+BACKENDS = {OPENCV, APERTUS_BOXES}
 
 
 class PipelineState(TypedDict):
@@ -59,9 +65,13 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
         Compiled graph; invoke it with a ``PipelineState`` dict.
     """
     prompts = config["prompts"]
+    if config["perception"]["backend"] not in BACKENDS:
+        raise ValueError(f"perception.backend must be one of {sorted(BACKENDS)}")
 
     def annotate(state: PipelineState) -> dict:
         """Find regions with OpenCV, let Apertus name each one, merge pieces, number objects.
+
+        With ``perception.backend: apertus_boxes`` Apertus marks labelled boxes instead.
 
         Args:
             state: current pipeline state.
@@ -71,6 +81,10 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
         """
         scene, photo = state["scene"], state["photo"]
         perception, naming = config["perception"], config["naming"]
+        if perception["backend"] == APERTUS_BOXES:
+            boxes = detect_boxes(photo, apertus, config)
+            marks = marks_from_boxes(boxes, photo, scene, state["distortion"], config)
+            return {"marks": marks, "annotated": draw_marks(photo, marks)}
         scale_mm = mm_per_pixel(scene)
         mm_per_work_pixel = scale_mm / perception["work_scale"]
         found = find_regions(photo, perception, mm_per_work_pixel**2)

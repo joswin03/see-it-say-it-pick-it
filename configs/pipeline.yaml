@@ -10,6 +10,7 @@ places:
 - aside
 stack_min_overlap: 0.3
 perception:
+  backend: opencv
   work_scale: 0.25
   morph_kernel_px: 5
   black_tray_max_value: 130
@@ -59,6 +60,23 @@ perception:
     - 131
     - 164
   white_min_value: 170
+boxes:
+  max_tokens: 1500
+  max_objects: 20
+  max_label_chars: 40
+  object_labels:
+  - red gear
+  - yellow gear
+  - red cube
+  - mug
+  - mandarin
+  - banana
+  - plate
+  - saucer
+  - grey metal part
+  - white part
+  - small white part
+  - person's hand
 naming:
   crop_padding_fraction: 0.6
   crop_min_side_mm: 250
@@ -109,6 +127,14 @@ objects:
   - person
   - human
 prompts:
+  boxes: |-
+    This photo shows a work table seen from above. The photo is {w} x {h} pixels.
+    A pixel [u, v] is column u counted from the left and row v counted from the top.
+
+    Mark every separate object you can see, one entry per object, also when several look the same.
+    Do not mark the trays, the table or the background.
+    For each object give a label and its bounding box [u_min, v_min, u_max, v_max] in pixels.
+    Objects in this workcell usually are: {labels}. Use one of these labels when it fits the object; otherwise give a short label with its colour and object type (for example "blue bottle").
   name: |-
     This is a close-up from a camera looking straight down at a robot workcell table.
     The area outlined in cyan was found by colour segmentation. Its colour is mostly {colour}; it is

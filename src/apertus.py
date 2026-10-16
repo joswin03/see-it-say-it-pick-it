@@ -139,6 +139,7 @@ class Apertus:
                     "manner": "pick and place",
                     "message": "",
                 },
+                "boxes": {"objects": [{"label": "mock object", "box": [100, 100, 300, 300]}]},
                 "decision": {
                     "analysis": "Mock decision",
                     "decision": "ask_user",

@@ -1,0 +1,957 @@
+{
+  "scene_01": {
+    "objects": [
+      {
+        "id": "red_cube_1",
+        "name": "red cube",
+        "pixel": [
+          430,
+          1059
+        ],
+        "box": [
+          251,
+          844,
+          610,
+          1274
+        ],
+        "size_mm": [
+          108,
+          88
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "green_mug_2",
+        "name": "green mug",
+        "pixel": [
+          790,
+          637
+        ],
+        "box": [
+          550,
+          478,
+          1030,
+          796
+        ],
+        "size_mm": [
+          121,
+          81
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_gear_3",
+        "name": "yellow gear",
+        "pixel": [
+          832,
+          927
+        ],
+        "box": [
+          729,
+          820,
+          935,
+          1035
+        ],
+        "size_mm": [
+          54,
+          51
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_02": {
+    "objects": [
+      {
+        "id": "red_cube_1",
+        "name": "red cube",
+        "pixel": [
+          1695,
+          468
+        ],
+        "box": [
+          1540,
+          306,
+          1850,
+          631
+        ],
+        "size_mm": [
+          87,
+          78
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "plate_2",
+        "name": "plate",
+        "pixel": [
+          1959,
+          1251
+        ],
+        "box": [
+          1803,
+          963,
+          2116,
+          1540
+        ],
+        "size_mm": [
+          143,
+          77
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "mandarin_3",
+        "name": "mandarin",
+        "pixel": [
+          2073,
+          834
+        ],
+        "box": [
+          1920,
+          672,
+          2226,
+          997
+        ],
+        "size_mm": [
+          84,
+          77
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "mug_4",
+        "name": "mug",
+        "pixel": [
+          2120,
+          414
+        ],
+        "box": [
+          1903,
+          222,
+          2338,
+          607
+        ],
+        "size_mm": [
+          115,
+          101
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_03": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          1635,
+          768
+        ],
+        "box": [
+          1468,
+          607,
+          1803,
+          930
+        ],
+        "size_mm": [
+          85,
+          81
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_gear_2",
+        "name": "yellow gear",
+        "pixel": [
+          1806,
+          1070
+        ],
+        "box": [
+          1659,
+          966,
+          1953,
+          1174
+        ],
+        "size_mm": [
+          73,
+          51
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_gear_3",
+        "name": "red gear",
+        "pixel": [
+          1977,
+          768
+        ],
+        "box": [
+          1803,
+          607,
+          2152,
+          930
+        ],
+        "size_mm": [
+          90,
+          81
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_04": {
+    "objects": [
+      {
+        "id": "white_part_1",
+        "name": "white part",
+        "pixel": [
+          1669,
+          1097
+        ],
+        "box": [
+          1372,
+          822,
+          1967,
+          1372
+        ],
+        "size_mm": [
+          149,
+          136
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "white_metal_part_2",
+        "name": "white metal part",
+        "pixel": [
+          1765,
+          442
+        ],
+        "box": [
+          1563,
+          323,
+          1967,
+          562
+        ],
+        "size_mm": [
+          104,
+          61
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "white_metal_part_3",
+        "name": "white metal part",
+        "pixel": [
+          2028,
+          649
+        ],
+        "box": [
+          1891,
+          433,
+          2166,
+          865
+        ],
+        "size_mm": [
+          113,
+          70
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "green_mug_4",
+        "name": "green mug",
+        "pixel": [
+          2065,
+          1361
+        ],
+        "box": [
+          1850,
+          1133,
+          2281,
+          1590
+        ],
+        "size_mm": [
+          114,
+          107
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_05": {
+    "objects": [
+      {
+        "id": "banana_1",
+        "name": "banana",
+        "pixel": [
+          1583,
+          1231
+        ],
+        "box": [
+          1372,
+          727,
+          1795,
+          1736
+        ],
+        "size_mm": [
+          249,
+          106
+        ],
+        "tray": "black_tray",
+        "lies_on": [
+          "plate_4"
+        ]
+      },
+      {
+        "id": "green_mug_2",
+        "name": "green mug",
+        "pixel": [
+          1588,
+          593
+        ],
+        "box": [
+          1391,
+          366,
+          1786,
+          820
+        ],
+        "size_mm": [
+          118,
+          99
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_saucer_3",
+        "name": "yellow saucer",
+        "pixel": [
+          1935,
+          447
+        ],
+        "box": [
+          1645,
+          239,
+          2226,
+          655
+        ],
+        "size_mm": [
+          152,
+          109
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "plate_4",
+        "name": "plate",
+        "pixel": [
+          1993,
+          1321
+        ],
+        "box": [
+          1606,
+          894,
+          2381,
+          1748
+        ],
+        "size_mm": [
+          211,
+          194
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "orange_5",
+        "name": "orange",
+        "pixel": [
+          2032,
+          700
+        ],
+        "box": [
+          1850,
+          557,
+          2214,
+          844
+        ],
+        "size_mm": [
+          95,
+          74
+        ],
+        "tray": "black_tray",
+        "lies_on": [
+          "yellow_saucer_3"
+        ]
+      }
+    ]
+  },
+  "scene_06": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          1513,
+          965
+        ],
+        "box": [
+          1324,
+          775,
+          1702,
+          1155
+        ],
+        "size_mm": [
+          95,
+          94
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_gear_2",
+        "name": "red gear",
+        "pixel": [
+          1679,
+          606
+        ],
+        "box": [
+          1492,
+          416,
+          1867,
+          796
+        ],
+        "size_mm": [
+          99,
+          95
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_cube_3",
+        "name": "red cube",
+        "pixel": [
+          1855,
+          1240
+        ],
+        "box": [
+          1688,
+          1085,
+          2022,
+          1396
+        ],
+        "size_mm": [
+          84,
+          76
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_saucer_4",
+        "name": "yellow saucer",
+        "pixel": [
+          2069,
+          812
+        ],
+        "box": [
+          1826,
+          590,
+          2312,
+          1035
+        ],
+        "size_mm": [
+          127,
+          113
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_07": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          456,
+          511
+        ],
+        "box": [
+          313,
+          368,
+          600,
+          655
+        ],
+        "size_mm": [
+          76,
+          73
+        ],
+        "tray": "grey_tray",
+        "lies_on": [
+          "mug_3"
+        ]
+      },
+      {
+        "id": "red_cube_2",
+        "name": "red cube",
+        "pixel": [
+          495,
+          1060
+        ],
+        "box": [
+          304,
+          796,
+          686,
+          1324
+        ],
+        "size_mm": [
+          133,
+          96
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "mug_3",
+        "name": "mug",
+        "pixel": [
+          547,
+          594
+        ],
+        "box": [
+          304,
+          392,
+          791,
+          796
+        ],
+        "size_mm": [
+          125,
+          104
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_gear_4",
+        "name": "yellow gear",
+        "pixel": [
+          787,
+          1385
+        ],
+        "box": [
+          686,
+          1257,
+          889,
+          1513
+        ],
+        "size_mm": [
+          62,
+          48
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_08": {
+    "objects": [
+      {
+        "id": "white_part_1",
+        "name": "white part",
+        "pixel": [
+          858,
+          611
+        ],
+        "box": [
+          720,
+          512,
+          997,
+          710
+        ],
+        "size_mm": [
+          69,
+          51
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_gear_2",
+        "name": "yellow gear",
+        "pixel": [
+          871,
+          1379
+        ],
+        "box": [
+          796,
+          1274,
+          947,
+          1485
+        ],
+        "size_mm": [
+          51,
+          36
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_gear_3",
+        "name": "red gear",
+        "pixel": [
+          1807,
+          638
+        ],
+        "box": [
+          1449,
+          481,
+          2166,
+          796
+        ],
+        "size_mm": [
+          184,
+          81
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "plate_4",
+        "name": "plate",
+        "pixel": [
+          1837,
+          1201
+        ],
+        "box": [
+          1449,
+          796,
+          2226,
+          1606
+        ],
+        "size_mm": [
+          202,
+          195
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_09": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          411,
+          887
+        ],
+        "box": [
+          239,
+          672,
+          583,
+          1102
+        ],
+        "size_mm": [
+          111,
+          86
+        ],
+        "tray": "grey_tray",
+        "lies_on": [
+          "yellow_saucer_3"
+        ]
+      },
+      {
+        "id": "red_gear_2",
+        "name": "red gear",
+        "pixel": [
+          411,
+          1446
+        ],
+        "box": [
+          239,
+          1157,
+          583,
+          1736
+        ],
+        "size_mm": [
+          142,
+          84
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_saucer_3",
+        "name": "yellow saucer",
+        "pixel": [
+          492,
+          603
+        ],
+        "box": [
+          239,
+          354,
+          746,
+          853
+        ],
+        "size_mm": [
+          131,
+          128
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "mandarin_4",
+        "name": "mandarin",
+        "pixel": [
+          718,
+          1273
+        ],
+        "box": [
+          583,
+          1102,
+          853,
+          1444
+        ],
+        "size_mm": [
+          83,
+          65
+        ],
+        "tray": "grey_tray",
+        "lies_on": [
+          "red_cube_5"
+        ]
+      },
+      {
+        "id": "red_cube_5",
+        "name": "red cube",
+        "pixel": [
+          812,
+          988
+        ],
+        "box": [
+          583,
+          727,
+          1042,
+          1250
+        ],
+        "size_mm": [
+          130,
+          113
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_gear_6",
+        "name": "yellow gear",
+        "pixel": [
+          846,
+          1261
+        ],
+        "box": [
+          746,
+          1138,
+          947,
+          1384
+        ],
+        "size_mm": [
+          60,
+          49
+        ],
+        "tray": "grey_tray",
+        "lies_on": [
+          "mandarin_4",
+          "red_cube_5"
+        ]
+      }
+    ]
+  },
+  "scene_10": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          425,
+          1048
+        ],
+        "box": [
+          239,
+          796,
+          612,
+          1300
+        ],
+        "size_mm": [
+          127,
+          93
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_saucer_2",
+        "name": "yellow saucer",
+        "pixel": [
+          495,
+          563
+        ],
+        "box": [
+          239,
+          330,
+          751,
+          796
+        ],
+        "size_mm": [
+          132,
+          121
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "mandarin_3",
+        "name": "mandarin",
+        "pixel": [
+          681,
+          1431
+        ],
+        "box": [
+          567,
+          1300,
+          796,
+          1563
+        ],
+        "size_mm": [
+          64,
+          55
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "green_mug_4",
+        "name": "green mug",
+        "pixel": [
+          782,
+          678
+        ],
+        "box": [
+          567,
+          492,
+          997,
+          865
+        ],
+        "size_mm": [
+          108,
+          95
+        ],
+        "tray": "grey_tray",
+        "lies_on": [
+          "yellow_saucer_2"
+        ]
+      },
+      {
+        "id": "red_gear_5",
+        "name": "red gear",
+        "pixel": [
+          822,
+          1061
+        ],
+        "box": [
+          626,
+          822,
+          1018,
+          1300
+        ],
+        "size_mm": [
+          119,
+          97
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_gear_6",
+        "name": "yellow gear",
+        "pixel": [
+          839,
+          1462
+        ],
+        "box": [
+          732,
+          1329,
+          947,
+          1595
+        ],
+        "size_mm": [
+          65,
+          52
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "person_s_hand_7",
+        "name": "person's hand",
+        "pixel": [
+          1678,
+          246
+        ],
+        "box": [
+          971,
+          0,
+          2386,
+          492
+        ],
+        "size_mm": [
+          367,
+          132
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "white_plate_8",
+        "name": "white plate",
+        "pixel": [
+          1841,
+          1216
+        ],
+        "box": [
+          1475,
+          822,
+          2207,
+          1611
+        ],
+        "size_mm": [
+          196,
+          184
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  }
+}
