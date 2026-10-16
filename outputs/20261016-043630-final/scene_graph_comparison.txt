@@ -1,0 +1,38 @@
+TOTALS
+objects found (recall)            51/53 = 96%
+objects real (precision)          51/56 = 91%
+object kind right                 50/51 = 98%
+colour right                      49/51 = 96%
+tray right                        51/51 = 100%
+pick pixel inside the true box    51/51 = 100%
+same nearest neighbour            43/51 = 84%
+mean size error per side          6.7 mm
+lies-on edges found (recall)      3/7 = 43%
+lies-on edges real (precision)    3/5 = 60%
+
+scene_01: objects 3/3 found, 0 extra; edges 0/0 found, 0 extra
+scene_02: objects 4/4 found, 0 extra; edges 0/0 found, 0 extra
+scene_03: objects 4/4 found, 0 extra; edges 0/0 found, 0 extra
+scene_04: objects 4/4 found, 0 extra; edges 0/0 found, 0 extra
+scene_05: objects 5/5 found, 0 extra; edges 0/0 found, 0 extra
+scene_06: objects 5/5 found, 2 extra; edges 1/1 found, 1 extra
+    EXTRA grey_cup_5 ('grey cup')
+    EXTRA orange_saucer_6 ('orange saucer')
+    EDGE EXTRA grey_cup_5 lies on orange_saucer_7
+scene_07: objects 4/4 found, 0 extra; edges 0/1 found, 0 extra
+    EDGE MISSED yellow_cup_3 lies on red_gear_1
+scene_08: objects 5/6 found, 0 extra; edges 1/2 found, 0 extra
+    NAMED small_part as 'grey metal part'
+    NAMED red_cube as 'red gear'
+    MISSED red_gear_2
+    EDGE MISSED red_gear_4 lies on missing:red_gear_2
+scene_09: objects 10/10 found, 0 extra; edges 1/2 found, 0 extra
+    NAMED small_part as 'grey plastic part'
+    EDGE MISSED red_block_9 lies on grey_metal_part_4
+scene_10: objects 7/8 found, 3 extra; edges 0/1 found, 1 extra
+    MISSED hand
+    EXTRA grey_human_hand_5 ('grey human hand')
+    EXTRA orange_plate_3 ('orange plate')
+    EXTRA orange_plate_9 ('orange plate')
+    EDGE MISSED green_cup_6 lies on missing:hand
+    EDGE EXTRA orange_plate_3 lies on orange_plate_1

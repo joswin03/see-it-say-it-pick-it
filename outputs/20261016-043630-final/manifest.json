@@ -1,5 +1,5 @@
 {
-  "commit": "edc2bbae9c9047d2a55cb4147d7171f2d7aa9d94",
+  "commit": "f53035fc24f46646c2a3e755705de3ac70eec7a6",
   "dirty": true,
   "config_path": "/run/media/vaibhav/Projects/see-it-say-it-pick-it/configs/pipeline.yaml",
   "config_sha256": "69e9e966d4c9603d5432ae0067f9a93783b5a29a5ca7a5e8a08a90bba23efded",
@@ -168,7 +168,7 @@
   "model_id": "swiss-ai/Apertus-v1.5-8B",
   "python_version": "3.11.16",
   "hostname": "fedora-vaibhav",
-  "written_at_utc": "2026-10-16T02:14:08+00:00",
+  "written_at_utc": "2026-10-16T02:40:16+00:00",
   "overrides": {},
   "mock": false,
   "data": "dataset",
@@ -334,7 +334,7 @@
       "temperature": 0
     }
   },
-  "runtime_s": 161,
+  "runtime_s": 225,
   "score": {
     "total": 55.8,
     "grounding": 32.4,

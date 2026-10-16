@@ -1,0 +1,292 @@
+{
+  "scenes": {
+    "scene_01": {
+      "counts": {
+        "true_objects": 3,
+        "our_objects": 3,
+        "matched": 3,
+        "kind_right": 3,
+        "colour_right": 3,
+        "tray_right": 3,
+        "pixel_in_true_box": 3,
+        "nearest_same": 3,
+        "size_error_mm": 21,
+        "true_edges": 0,
+        "our_edges": 0,
+        "edges_found": 0
+      },
+      "findings": [],
+      "matches": {
+        "red_cube": "red_block_1",
+        "yellow_gear": "yellow_gear_2",
+        "mug": "yellow_cup_3"
+      }
+    },
+    "scene_02": {
+      "counts": {
+        "true_objects": 4,
+        "our_objects": 4,
+        "matched": 4,
+        "kind_right": 4,
+        "colour_right": 4,
+        "tray_right": 4,
+        "pixel_in_true_box": 4,
+        "nearest_same": 4,
+        "size_error_mm": 61,
+        "true_edges": 0,
+        "our_edges": 0,
+        "edges_found": 0
+      },
+      "findings": [],
+      "matches": {
+        "plate": "grey_plate_2",
+        "red_cube": "red_block_1",
+        "mandarin": "orange_mandarin_3",
+        "mug": "yellow_cup_4"
+      }
+    },
+    "scene_03": {
+      "counts": {
+        "true_objects": 4,
+        "our_objects": 4,
+        "matched": 4,
+        "kind_right": 4,
+        "colour_right": 4,
+        "tray_right": 4,
+        "pixel_in_true_box": 4,
+        "nearest_same": 4,
+        "size_error_mm": 13,
+        "true_edges": 0,
+        "our_edges": 0,
+        "edges_found": 0
+      },
+      "findings": [],
+      "matches": {
+        "red_gear_1": "red_gear_1",
+        "red_gear_2": "red_gear_3",
+        "red_gear_3": "red_gear_4",
+        "yellow_gear": "yellow_gear_2"
+      }
+    },
+    "scene_04": {
+      "counts": {
+        "true_objects": 4,
+        "our_objects": 4,
+        "matched": 4,
+        "kind_right": 4,
+        "colour_right": 4,
+        "tray_right": 4,
+        "pixel_in_true_box": 4,
+        "nearest_same": 4,
+        "size_error_mm": 8,
+        "true_edges": 0,
+        "our_edges": 0,
+        "edges_found": 0
+      },
+      "findings": [],
+      "matches": {
+        "white_part": "white_block_1",
+        "grey_part_2": "grey_metal_part_3",
+        "grey_part_1": "grey_metal_part_2",
+        "mug": "yellow_cup_4"
+      }
+    },
+    "scene_05": {
+      "counts": {
+        "true_objects": 5,
+        "our_objects": 5,
+        "matched": 5,
+        "kind_right": 5,
+        "colour_right": 5,
+        "tray_right": 5,
+        "pixel_in_true_box": 5,
+        "nearest_same": 5,
+        "size_error_mm": 144,
+        "true_edges": 0,
+        "our_edges": 0,
+        "edges_found": 0
+      },
+      "findings": [],
+      "matches": {
+        "plate": "grey_plate_4",
+        "mug": "yellow_cup_2",
+        "saucer": "orange_plate_3",
+        "banana": "yellow_banana_1",
+        "mandarin": "orange_mandarin_5"
+      }
+    },
+    "scene_06": {
+      "counts": {
+        "true_objects": 5,
+        "our_objects": 7,
+        "matched": 5,
+        "kind_right": 5,
+        "colour_right": 5,
+        "tray_right": 5,
+        "pixel_in_true_box": 5,
+        "nearest_same": 3,
+        "size_error_mm": 61,
+        "true_edges": 1,
+        "our_edges": 2,
+        "edges_found": 1
+      },
+      "findings": [
+        "EXTRA grey_cup_5 ('grey cup')",
+        "EXTRA orange_saucer_6 ('orange saucer')",
+        "EDGE EXTRA grey_cup_5 lies on orange_saucer_7"
+      ],
+      "matches": {
+        "red_gear_1": "red_gear_1",
+        "red_cube": "red_block_4",
+        "red_gear_2": "red_gear_3",
+        "saucer": "orange_saucer_7",
+        "yellow_gear": "yellow_gear_2"
+      }
+    },
+    "scene_07": {
+      "counts": {
+        "true_objects": 4,
+        "our_objects": 4,
+        "matched": 4,
+        "kind_right": 4,
+        "colour_right": 4,
+        "tray_right": 4,
+        "pixel_in_true_box": 4,
+        "nearest_same": 4,
+        "size_error_mm": 19,
+        "true_edges": 1,
+        "our_edges": 0,
+        "edges_found": 0
+      },
+      "findings": [
+        "EDGE MISSED yellow_cup_3 lies on red_gear_1"
+      ],
+      "matches": {
+        "yellow_gear": "yellow_gear_4",
+        "red_gear": "red_gear_1",
+        "red_cube": "red_cube_2",
+        "mug": "yellow_cup_3"
+      }
+    },
+    "scene_08": {
+      "counts": {
+        "true_objects": 6,
+        "our_objects": 5,
+        "matched": 5,
+        "kind_right": 4,
+        "colour_right": 4,
+        "tray_right": 5,
+        "pixel_in_true_box": 5,
+        "nearest_same": 3,
+        "size_error_mm": 133,
+        "true_edges": 2,
+        "our_edges": 1,
+        "edges_found": 1
+      },
+      "findings": [
+        "NAMED small_part as 'grey metal part'",
+        "NAMED red_cube as 'red gear'",
+        "MISSED red_gear_2",
+        "EDGE MISSED red_gear_4 lies on missing:red_gear_2"
+      ],
+      "matches": {
+        "plate": "grey_plate_5",
+        "yellow_gear": "yellow_gear_2",
+        "small_part": "grey_metal_part_1",
+        "red_gear_1": "red_gear_3",
+        "red_cube": "red_gear_4"
+      }
+    },
+    "scene_09": {
+      "counts": {
+        "true_objects": 10,
+        "our_objects": 10,
+        "matched": 10,
+        "kind_right": 10,
+        "colour_right": 9,
+        "tray_right": 10,
+        "pixel_in_true_box": 10,
+        "nearest_same": 8,
+        "size_error_mm": 126,
+        "true_edges": 2,
+        "our_edges": 1,
+        "edges_found": 1
+      },
+      "findings": [
+        "NAMED small_part as 'grey plastic part'",
+        "EDGE MISSED red_block_9 lies on grey_metal_part_4"
+      ],
+      "matches": {
+        "plate": "grey_plate_10",
+        "red_gear_1": "red_gear_2",
+        "small_part": "grey_plastic_part_8",
+        "red_gear_2": "red_gear_1",
+        "yellow_gear": "yellow_gear_7",
+        "saucer": "orange_plate_3",
+        "red_cube": "red_block_9",
+        "grey_part": "grey_metal_part_4",
+        "mandarin": "orange_mandarin_5",
+        "red_gear_3": "red_gear_6"
+      }
+    },
+    "scene_10": {
+      "counts": {
+        "true_objects": 8,
+        "our_objects": 10,
+        "matched": 7,
+        "kind_right": 7,
+        "colour_right": 7,
+        "tray_right": 7,
+        "pixel_in_true_box": 7,
+        "nearest_same": 5,
+        "size_error_mm": 93,
+        "true_edges": 1,
+        "our_edges": 1,
+        "edges_found": 0
+      },
+      "findings": [
+        "MISSED hand",
+        "EXTRA grey_human_hand_5 ('grey human hand')",
+        "EXTRA orange_plate_3 ('orange plate')",
+        "EXTRA orange_plate_9 ('orange plate')",
+        "EDGE MISSED green_cup_6 lies on missing:hand",
+        "EDGE EXTRA orange_plate_3 lies on orange_plate_1"
+      ],
+      "matches": {
+        "plate": "grey_plate_10",
+        "red_gear_1": "red_gear_2",
+        "yellow_gear": "yellow_gear_8",
+        "red_gear_2": "red_gear_7",
+        "mandarin": "orange_mandarin_4",
+        "mug": "green_cup_6",
+        "saucer": "orange_plate_1"
+      }
+    }
+  },
+  "totals": {
+    "true_objects": 53,
+    "our_objects": 56,
+    "matched": 51,
+    "kind_right": 50,
+    "colour_right": 49,
+    "tray_right": 51,
+    "pixel_in_true_box": 51,
+    "nearest_same": 43,
+    "size_error_mm": 679,
+    "true_edges": 7,
+    "our_edges": 5,
+    "edges_found": 3
+  },
+  "summary": [
+    "objects found (recall)            51/53 = 96%",
+    "objects real (precision)          51/56 = 91%",
+    "object kind right                 50/51 = 98%",
+    "colour right                      49/51 = 96%",
+    "tray right                        51/51 = 100%",
+    "pick pixel inside the true box    51/51 = 100%",
+    "same nearest neighbour            43/51 = 84%",
+    "mean size error per side          6.7 mm",
+    "lies-on edges found (recall)      3/7 = 43%",
+    "lies-on edges real (precision)    3/5 = 60%"
+  ]
+}

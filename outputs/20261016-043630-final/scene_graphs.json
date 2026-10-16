@@ -1,0 +1,1172 @@
+{
+  "scene_01": {
+    "objects": [
+      {
+        "id": "red_block_1",
+        "name": "red block",
+        "pixel": [
+          336,
+          1048
+        ],
+        "box": [
+          136,
+          860,
+          552,
+          1252
+        ],
+        "size_mm": [
+          87,
+          76
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_gear_2",
+        "name": "yellow gear",
+        "pixel": [
+          800,
+          884
+        ],
+        "box": [
+          708,
+          788,
+          900,
+          984
+        ],
+        "size_mm": [
+          49,
+          47
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_cup_3",
+        "name": "yellow cup",
+        "pixel": [
+          820,
+          484
+        ],
+        "box": [
+          640,
+          324,
+          1108,
+          684
+        ],
+        "size_mm": [
+          112,
+          94
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_02": {
+    "objects": [
+      {
+        "id": "red_block_1",
+        "name": "red block",
+        "pixel": [
+          1676,
+          456
+        ],
+        "box": [
+          1480,
+          244,
+          1888,
+          672
+        ],
+        "size_mm": [
+          87,
+          83
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "grey_plate_2",
+        "name": "grey plate",
+        "pixel": [
+          1768,
+          1316
+        ],
+        "box": [
+          1388,
+          936,
+          2152,
+          1704
+        ],
+        "size_mm": [
+          188,
+          188
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "orange_mandarin_3",
+        "name": "orange mandarin",
+        "pixel": [
+          2168,
+          920
+        ],
+        "box": [
+          2016,
+          784,
+          2300,
+          1064
+        ],
+        "size_mm": [
+          71,
+          66
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_cup_4",
+        "name": "yellow cup",
+        "pixel": [
+          2176,
+          344
+        ],
+        "box": [
+          2008,
+          180,
+          2360,
+          516
+        ],
+        "size_mm": [
+          91,
+          89
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_03": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          1520,
+          776
+        ],
+        "box": [
+          1344,
+          600,
+          1708,
+          956
+        ],
+        "size_mm": [
+          90,
+          89
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_gear_2",
+        "name": "yellow gear",
+        "pixel": [
+          1864,
+          1100
+        ],
+        "box": [
+          1764,
+          1008,
+          1956,
+          1196
+        ],
+        "size_mm": [
+          47,
+          46
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_gear_3",
+        "name": "red gear",
+        "pixel": [
+          1888,
+          784
+        ],
+        "box": [
+          1708,
+          612,
+          2072,
+          964
+        ],
+        "size_mm": [
+          91,
+          89
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_gear_4",
+        "name": "red gear",
+        "pixel": [
+          2248,
+          788
+        ],
+        "box": [
+          2072,
+          612,
+          2432,
+          968
+        ],
+        "size_mm": [
+          91,
+          90
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_04": {
+    "objects": [
+      {
+        "id": "white_block_1",
+        "name": "white block",
+        "pixel": [
+          1644,
+          1164
+        ],
+        "box": [
+          1360,
+          836,
+          2012,
+          1436
+        ],
+        "size_mm": [
+          143,
+          96
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "grey_metal_part_2",
+        "name": "grey metal part",
+        "pixel": [
+          1820,
+          392
+        ],
+        "box": [
+          1428,
+          300,
+          1936,
+          552
+        ],
+        "size_mm": [
+          133,
+          47
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "grey_metal_part_3",
+        "name": "grey metal part",
+        "pixel": [
+          2108,
+          724
+        ],
+        "box": [
+          2012,
+          356,
+          2240,
+          864
+        ],
+        "size_mm": [
+          134,
+          47
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_cup_4",
+        "name": "yellow cup",
+        "pixel": [
+          2140,
+          1436
+        ],
+        "box": [
+          1956,
+          1208,
+          2344,
+          1624
+        ],
+        "size_mm": [
+          106,
+          91
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_05": {
+    "objects": [
+      {
+        "id": "yellow_banana_1",
+        "name": "yellow banana",
+        "pixel": [
+          1544,
+          1212
+        ],
+        "box": [
+          1456,
+          888,
+          1756,
+          1764
+        ],
+        "size_mm": [
+          214,
+          69
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_cup_2",
+        "name": "yellow cup",
+        "pixel": [
+          1612,
+          588
+        ],
+        "box": [
+          1440,
+          340,
+          1796,
+          772
+        ],
+        "size_mm": [
+          106,
+          90
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "orange_plate_3",
+        "name": "orange plate",
+        "pixel": [
+          2016,
+          360
+        ],
+        "box": [
+          1776,
+          112,
+          2272,
+          536
+        ],
+        "size_mm": [
+          130,
+          100
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "grey_plate_4",
+        "name": "grey plate",
+        "pixel": [
+          2076,
+          1308
+        ],
+        "box": [
+          1700,
+          928,
+          2448,
+          1692
+        ],
+        "size_mm": [
+          188,
+          185
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "orange_mandarin_5",
+        "name": "orange mandarin",
+        "pixel": [
+          2128,
+          732
+        ],
+        "box": [
+          1776,
+          368,
+          2264,
+          860
+        ],
+        "size_mm": [
+          158,
+          77
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_06": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          1552,
+          1000
+        ],
+        "box": [
+          1376,
+          824,
+          1736,
+          1180
+        ],
+        "size_mm": [
+          88,
+          88
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_gear_2",
+        "name": "yellow gear",
+        "pixel": [
+          1736,
+          732
+        ],
+        "box": [
+          1644,
+          616,
+          1836,
+          816
+        ],
+        "size_mm": [
+          51,
+          47
+        ],
+        "tray": "black_tray",
+        "lies_on": [
+          "red_gear_3"
+        ]
+      },
+      {
+        "id": "red_gear_3",
+        "name": "red gear",
+        "pixel": [
+          1796,
+          552
+        ],
+        "box": [
+          1584,
+          440,
+          1944,
+          756
+        ],
+        "size_mm": [
+          90,
+          75
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_block_4",
+        "name": "red block",
+        "pixel": [
+          1896,
+          1360
+        ],
+        "box": [
+          1724,
+          1200,
+          2068,
+          1524
+        ],
+        "size_mm": [
+          80,
+          77
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "grey_cup_5",
+        "name": "grey cup",
+        "pixel": [
+          2156,
+          860
+        ],
+        "box": [
+          2040,
+          748,
+          2280,
+          980
+        ],
+        "size_mm": [
+          59,
+          59
+        ],
+        "tray": "black_tray",
+        "lies_on": [
+          "orange_saucer_7"
+        ]
+      },
+      {
+        "id": "orange_saucer_6",
+        "name": "orange saucer",
+        "pixel": [
+          2192,
+          1044
+        ],
+        "box": [
+          1980,
+          888,
+          2380,
+          1112
+        ],
+        "size_mm": [
+          98,
+          50
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "orange_saucer_7",
+        "name": "orange saucer",
+        "pixel": [
+          2256,
+          708
+        ],
+        "box": [
+          1912,
+          608,
+          2408,
+          1020
+        ],
+        "size_mm": [
+          128,
+          83
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_07": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          408,
+          500
+        ],
+        "box": [
+          288,
+          376,
+          632,
+          708
+        ],
+        "size_mm": [
+          89,
+          66
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_cube_2",
+        "name": "red cube",
+        "pixel": [
+          468,
+          1228
+        ],
+        "box": [
+          264,
+          1024,
+          676,
+          1432
+        ],
+        "size_mm": [
+          82,
+          76
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_cup_3",
+        "name": "yellow cup",
+        "pixel": [
+          580,
+          700
+        ],
+        "box": [
+          404,
+          528,
+          880,
+          888
+        ],
+        "size_mm": [
+          114,
+          91
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_gear_4",
+        "name": "yellow gear",
+        "pixel": [
+          864,
+          1400
+        ],
+        "box": [
+          764,
+          1308,
+          956,
+          1508
+        ],
+        "size_mm": [
+          46,
+          44
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_08": {
+    "objects": [
+      {
+        "id": "grey_metal_part_1",
+        "name": "grey metal part",
+        "pixel": [
+          848,
+          544
+        ],
+        "box": [
+          704,
+          480,
+          1032,
+          716
+        ],
+        "size_mm": [
+          83,
+          58
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_gear_2",
+        "name": "yellow gear",
+        "pixel": [
+          864,
+          1404
+        ],
+        "box": [
+          764,
+          1308,
+          956,
+          1508
+        ],
+        "size_mm": [
+          48,
+          46
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_gear_3",
+        "name": "red gear",
+        "pixel": [
+          1524,
+          500
+        ],
+        "box": [
+          1396,
+          404,
+          1840,
+          752
+        ],
+        "size_mm": [
+          108,
+          90
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_gear_4",
+        "name": "red gear",
+        "pixel": [
+          1732,
+          512
+        ],
+        "box": [
+          1492,
+          348,
+          2120,
+          736
+        ],
+        "size_mm": [
+          159,
+          96
+        ],
+        "tray": "black_tray",
+        "lies_on": [
+          "red_gear_3"
+        ]
+      },
+      {
+        "id": "grey_plate_5",
+        "name": "grey plate",
+        "pixel": [
+          1868,
+          1296
+        ],
+        "box": [
+          1488,
+          920,
+          2252,
+          1684
+        ],
+        "size_mm": [
+          189,
+          188
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_09": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "pixel": [
+          320,
+          1544
+        ],
+        "box": [
+          136,
+          1364,
+          504,
+          1732
+        ],
+        "size_mm": [
+          89,
+          88
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_gear_2",
+        "name": "red gear",
+        "pixel": [
+          336,
+          1036
+        ],
+        "box": [
+          156,
+          856,
+          516,
+          1216
+        ],
+        "size_mm": [
+          89,
+          89
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "orange_plate_3",
+        "name": "orange plate",
+        "pixel": [
+          420,
+          564
+        ],
+        "box": [
+          168,
+          288,
+          672,
+          808
+        ],
+        "size_mm": [
+          129,
+          118
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "grey_metal_part_4",
+        "name": "grey metal part",
+        "pixel": [
+          620,
+          812
+        ],
+        "box": [
+          360,
+          708,
+          828,
+          920
+        ],
+        "size_mm": [
+          114,
+          50
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "orange_mandarin_5",
+        "name": "orange mandarin",
+        "pixel": [
+          660,
+          1324
+        ],
+        "box": [
+          496,
+          1228,
+          776,
+          1484
+        ],
+        "size_mm": [
+          64,
+          64
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_gear_6",
+        "name": "red gear",
+        "pixel": [
+          820,
+          1168
+        ],
+        "box": [
+          656,
+          828,
+          1188,
+          1348
+        ],
+        "size_mm": [
+          156,
+          88
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_gear_7",
+        "name": "yellow gear",
+        "pixel": [
+          828,
+          1456
+        ],
+        "box": [
+          736,
+          1360,
+          924,
+          1552
+        ],
+        "size_mm": [
+          47,
+          42
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "grey_plastic_part_8",
+        "name": "grey plastic part",
+        "pixel": [
+          844,
+          560
+        ],
+        "box": [
+          728,
+          492,
+          1060,
+          716
+        ],
+        "size_mm": [
+          83,
+          57
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_block_9",
+        "name": "red block",
+        "pixel": [
+          904,
+          912
+        ],
+        "box": [
+          752,
+          664,
+          1196,
+          1084
+        ],
+        "size_mm": [
+          98,
+          85
+        ],
+        "tray": "grey_tray",
+        "lies_on": [
+          "red_gear_6"
+        ]
+      },
+      {
+        "id": "grey_plate_10",
+        "name": "grey plate",
+        "pixel": [
+          1868,
+          1296
+        ],
+        "box": [
+          1488,
+          920,
+          2252,
+          1684
+        ],
+        "size_mm": [
+          189,
+          188
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  },
+  "scene_10": {
+    "objects": [
+      {
+        "id": "orange_plate_1",
+        "name": "orange plate",
+        "pixel": [
+          288,
+          444
+        ],
+        "box": [
+          164,
+          336,
+          500,
+          808
+        ],
+        "size_mm": [
+          127,
+          72
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_gear_2",
+        "name": "red gear",
+        "pixel": [
+          332,
+          1036
+        ],
+        "box": [
+          152,
+          856,
+          516,
+          1212
+        ],
+        "size_mm": [
+          90,
+          88
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "orange_plate_3",
+        "name": "orange plate",
+        "pixel": [
+          420,
+          564
+        ],
+        "box": [
+          308,
+          328,
+          668,
+          680
+        ],
+        "size_mm": [
+          94,
+          71
+        ],
+        "tray": "grey_tray",
+        "lies_on": [
+          "orange_plate_1"
+        ]
+      },
+      {
+        "id": "orange_mandarin_4",
+        "name": "orange mandarin",
+        "pixel": [
+          476,
+          1400
+        ],
+        "box": [
+          336,
+          1268,
+          612,
+          1544
+        ],
+        "size_mm": [
+          67,
+          67
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "grey_human_hand_5",
+        "name": "grey human hand",
+        "pixel": [
+          696,
+          316
+        ],
+        "box": [
+          600,
+          76,
+          1060,
+          552
+        ],
+        "size_mm": [
+          155,
+          58
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "green_cup_6",
+        "name": "green cup",
+        "pixel": [
+          720,
+          732
+        ],
+        "box": [
+          548,
+          540,
+          912,
+          900
+        ],
+        "size_mm": [
+          92,
+          89
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "red_gear_7",
+        "name": "red gear",
+        "pixel": [
+          788,
+          1160
+        ],
+        "box": [
+          612,
+          988,
+          972,
+          1348
+        ],
+        "size_mm": [
+          88,
+          88
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "yellow_gear_8",
+        "name": "yellow gear",
+        "pixel": [
+          840,
+          1476
+        ],
+        "box": [
+          732,
+          1384,
+          936,
+          1572
+        ],
+        "size_mm": [
+          49,
+          45
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "orange_plate_9",
+        "name": "orange plate",
+        "pixel": [
+          932,
+          420
+        ],
+        "box": [
+          728,
+          132,
+          1164,
+          620
+        ],
+        "size_mm": [
+          114,
+          104
+        ],
+        "tray": "grey_tray",
+        "lies_on": []
+      },
+      {
+        "id": "grey_plate_10",
+        "name": "grey plate",
+        "pixel": [
+          1868,
+          1296
+        ],
+        "box": [
+          1488,
+          920,
+          2252,
+          1684
+        ],
+        "size_mm": [
+          189,
+          188
+        ],
+        "tray": "black_tray",
+        "lies_on": []
+      }
+    ]
+  }
+}
