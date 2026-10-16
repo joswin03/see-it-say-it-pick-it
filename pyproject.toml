@@ -3,12 +3,17 @@ name = "see-it-say-it-pick-it"
 version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
+    "langchain>=1.4.6",
+    "langchain-openai>=1.7.2",
+    "langgraph>=1.2.15",
     "numpy>=2.4.6",
+    "openai>=3.31.0",
     "opencv-python>=5.0.0.93",
     "opencv-python-headless>=5.0.0.93",
     "pillow>=12.3.0",
     "pycocotools>=2.0.11",
     "pyyaml>=6.0.3",
+    "requests>=2.34.2",
     "scikit-image>=0.26.0",
     "scipy>=1.17.1",
 ]
