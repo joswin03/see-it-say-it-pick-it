@@ -22,10 +22,10 @@ your pipeline; the held-out scenes, released on 14.10, come without answers.
 from scene_io import load_scene, pixel_to_robot
 
 scene = load_scene("dataset/scene_06")
-scene.rgb            # [H, W, 3] uint8, RGB
-scene.instructions   # [(instruction_id, category, text), ...]
-scene.K              # 3x3 camera intrinsics
-pixel_to_robot(scene, 1747, 712)   # -> [x, y, z] mm in the UR5 base frame, on the table plane
+scene.rgb  # [H, W, 3] uint8, RGB
+scene.instructions  # [(instruction_id, category, text), ...]
+scene.K  # 3x3 camera intrinsics
+pixel_to_robot(scene, 1747, 712)  # -> [x, y, z] mm in the UR5 base frame, on the table plane
 ```
 
 ## Conventions

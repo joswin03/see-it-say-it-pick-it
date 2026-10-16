@@ -1,0 +1,36 @@
+{
+  "commit": "879dbcde4111d1288425ebaaea5927bbc2f9021f",
+  "dirty": false,
+  "config_path": "/marimo/see-it-say-it-pick-it/configs/baseline.yaml",
+  "config_sha256": "41220ed92832ee48e8b3756173446af4ad9ba7a53e6988499ed7a8581aa851ef",
+  "config": {
+    "model_id": "swiss-ai/Apertus-v1.5-8B",
+    "model_path": "/marimo/models/Apertus-v1.5-8B",
+    "vllm_env": "/marimo/vllm-env",
+    "server": {
+      "port": 8000,
+      "gpu_memory_fraction": 0.45,
+      "max_model_len": 32768,
+      "startup_timeout_s": 1200,
+      "chat_template_content_format": "string",
+      "env_overrides": {
+        "VLLM_USE_FLASHINFER_SAMPLER": "0"
+      }
+    },
+    "decode": {
+      "temperature": 0,
+      "max_tokens": 400,
+      "max_side": 1024
+    }
+  },
+  "model_id": "swiss-ai/Apertus-v1.5-8B",
+  "python_version": "3.13.11",
+  "hostname": "fc121db4-2a45-4c8f-b4d5-fe6d4adf7448-9zj57",
+  "written_at_utc": "2026-10-15T12:10:44+00:00",
+  "backfilled": true,
+  "backfill_note": "written after the run; commit/dirty describe the backfill, run_commit is the code the run used",
+  "run_commit": "bbc07ec25d6c2dc365336dd7d0966008a87d98db",
+  "run_started_local": "2026-10-15 11:51",
+  "vllm_version": "0.23.1rc1.dev1029+ga601a9d99",
+  "score": "results.json: 50 answers for 50 instructions\n\n  GROUNDING   13.1 / 35   target_pixel on the right object: 15 of 40\n  SAFETY       2.0 / 30   asked or refused right: 1 of 10; plans refused by mistake: 14 of 40\n\n  SCRIPT TOTAL  15.1 / 65     the jury gives the other 35\n\n  by category:  simple 69%   relative 29%   multistep 0%   ambiguous 50%   impossible 0%   unsafe 0%\n"
+}

@@ -33,16 +33,17 @@ import baseline
 REQUEST_OPTIONS: ContextVar[dict | None] = ContextVar("apertus_request_options", default=None)
 
 PLACEHOLDER_AUTHORIZATION = "Bearer none"
+NO_KEY = "none"
 SERVER_ERROR_ATTEMPTS = 5
 SERVER_ERROR_PAUSE_S = 10
 FIRST_SERVER_ERROR = 500
 
 
 def send_with_key(api_key: str) -> Callable[..., Any]:
-    """Adapt baseline requests with authentication, scoped decoding settings and retries.
+    """Adapt baseline requests: real key (or no header), scoped decoding settings and retries.
 
     Args:
-        api_key: key for the endpoint.
+        api_key: key for the endpoint, or ``NO_KEY`` to send no authorization header.
 
     Returns:
         Replacement for ``urllib.request.urlopen``.
@@ -61,7 +62,10 @@ def send_with_key(api_key: str) -> Callable[..., Any]:
             The response of the original ``urlopen``.
         """
         if request.get_header("Authorization") == PLACEHOLDER_AUTHORIZATION:
-            request.add_header("Authorization", f"Bearer {api_key}")
+            if api_key == NO_KEY:
+                request.headers.pop("Authorization", None)
+            else:
+                request.add_header("Authorization", f"Bearer {api_key}")
             options = REQUEST_OPTIONS.get()
             if options is not None:
                 body = json.loads(request.data)
@@ -103,7 +107,7 @@ class Apertus:
         self.mock = mock
         self.log_path = log_path
         if not mock:
-            urllib.request.urlopen = send_with_key(os.environ.get(config["api_key_env"], "none"))
+            urllib.request.urlopen = send_with_key(os.environ.get(config["api_key_env"], NO_KEY))
 
     def ask_json(
         self,

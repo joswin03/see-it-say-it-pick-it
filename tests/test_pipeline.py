@@ -2,6 +2,7 @@
 
 import io
 import json
+import os
 import unittest
 from unittest.mock import patch
 
@@ -211,6 +212,37 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(body["response_format"]["json_schema"]["schema"], schema)
             self.assertEqual([part["type"] for part in body["messages"][0]["content"]], ["text"])
             self.assertIsNone(REQUEST_OPTIONS.get())
+
+    def test_missing_key_sends_no_authorization_header(self) -> None:
+        """Drop the placeholder Authorization header when no key is configured.
+
+        Args:
+            None.
+
+        Returns:
+            None.
+        """
+        schema = {
+            "type": "object",
+            "required": ["ok"],
+            "properties": {"ok": {"type": "boolean"}},
+            "additionalProperties": False,
+        }
+        response = json.dumps({"choices": [{"message": {"content": '{"ok":true}'}}]}).encode()
+        config = {
+            "base_url": "http://127.0.0.1:8000/v1",
+            "api_key_env": "PIPELINE_UNSET_KEY",
+            "model_id": "test-model",
+            "request_timeout_s": 1,
+            "decode": {"temperature": 0},
+        }
+        os.environ.pop("PIPELINE_UNSET_KEY", None)
+        with patch("urllib.request.urlopen", return_value=io.BytesIO(response)) as transport:
+            model = Apertus(config, mock=False)
+            reply, _ = model.ask_json("safety", "Check handling", schema, 100)
+        self.assertEqual(reply, {"ok": True})
+        request = transport.call_args.args[0]
+        self.assertIsNone(request.get_header("Authorization"))
 
     def test_screen_failures_stop_before_planning(self) -> None:
         """Fail explicitly when both safety replies are unusable.
