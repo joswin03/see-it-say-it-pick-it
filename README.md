@@ -138,7 +138,8 @@ ablation figure.
   Graspability: the 85 mm opening plus a configured 35 mm mask allowance
   (`objects.grasp_width_margin_mm`) marks objects wider than 120 mm as TOO WIDE; plates
   and saucers are additionally marked unpickable by object class. The allowance is a
-  documented engineering deviation, not a validated grasp-width computation.
+  documented engineering deviation, not a validated grasp-width computation — physical
+  grasp feasibility between the opening and the allowance is not established.
 
 ## Safety
 
