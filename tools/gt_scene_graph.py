@@ -249,8 +249,11 @@ def perceive_ground_truth(scene: Scene, config: dict, form: str) -> dict:
     marked = marked_photo(scene.rgb, objects, work_scale)
     too_wide_mm = config["scene_graph"]["too_wide_mm"]
     for entry, item in zip(graph["objects"], objects):
-        if too_wide(item, too_wide_mm):  # the text says TOO WIDE TO GRIP; tell the JSON reader too
-            entry["too_wide"] = True
+        # Apertus read a bare "on" backwards and "too_wide" as "cannot be a destination"
+        if "on" in entry:
+            entry["lies_on_top_of"] = entry.pop("on")
+        if too_wide(item, too_wide_mm):
+            entry["graspable"], entry["can_hold_things"] = False, True
     text = describe(objects, too_wide_mm) if form == "text" else json.dumps(graph)
     return {
         "objects": objects,

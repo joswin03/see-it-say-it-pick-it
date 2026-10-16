@@ -1,0 +1,1042 @@
+{
+  "scene_01": {
+    "objects": [
+      {
+        "id": "red_cube",
+        "name": "red cube",
+        "aliases": [],
+        "pixel": [
+          361,
+          1059
+        ],
+        "size_mm": [
+          86,
+          75
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "yellow_gear",
+        "name": "yellow gear",
+        "aliases": [],
+        "pixel": [
+          801,
+          882
+        ],
+        "size_mm": [
+          50,
+          46
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "mug",
+        "name": "mug",
+        "aliases": [],
+        "pixel": [
+          828,
+          502
+        ],
+        "size_mm": [
+          127,
+          96
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      }
+    ],
+    "text": "{\"objects\": [{\"id\": \"red_cube\", \"pixel\": [361, 1059], \"tray\": \"grey_tray\"}, {\"id\": \"yellow_gear\", \"pixel\": [801, 882], \"tray\": \"grey_tray\"}, {\"id\": \"mug\", \"pixel\": [828, 502], \"tray\": \"grey_tray\"}]}",
+    "naming_log": []
+  },
+  "scene_02": {
+    "objects": [
+      {
+        "id": "red_cube",
+        "name": "red cube",
+        "aliases": [],
+        "pixel": [
+          1671,
+          460
+        ],
+        "size_mm": [
+          85,
+          80
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "plate",
+        "name": "plate",
+        "aliases": [],
+        "pixel": [
+          1765,
+          1319
+        ],
+        "size_mm": [
+          189,
+          187
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "mandarin",
+        "name": "mandarin",
+        "aliases": [],
+        "pixel": [
+          2164,
+          925
+        ],
+        "size_mm": [
+          75,
+          74
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "mug",
+        "name": "mug",
+        "aliases": [],
+        "pixel": [
+          2174,
+          355
+        ],
+        "size_mm": [
+          115,
+          107
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      }
+    ],
+    "text": "{\"objects\": [{\"id\": \"red_cube\", \"pixel\": [1671, 460], \"tray\": \"black_tray\"}, {\"id\": \"plate\", \"pixel\": [1765, 1319], \"tray\": \"black_tray\", \"graspable\": false, \"can_hold_things\": true}, {\"id\": \"mandarin\", \"pixel\": [2164, 925], \"tray\": \"black_tray\"}, {\"id\": \"mug\", \"pixel\": [2174, 355], \"tray\": \"black_tray\"}]}",
+    "naming_log": []
+  },
+  "scene_03": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "aliases": [],
+        "pixel": [
+          1527,
+          776
+        ],
+        "size_mm": [
+          88,
+          88
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "yellow_gear",
+        "name": "yellow gear",
+        "aliases": [],
+        "pixel": [
+          1867,
+          1100
+        ],
+        "size_mm": [
+          47,
+          45
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "red_gear_2",
+        "name": "red gear",
+        "aliases": [],
+        "pixel": [
+          1891,
+          781
+        ],
+        "size_mm": [
+          88,
+          88
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "red_gear_3",
+        "name": "red gear",
+        "aliases": [],
+        "pixel": [
+          2257,
+          791
+        ],
+        "size_mm": [
+          89,
+          87
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      }
+    ],
+    "text": "{\"objects\": [{\"id\": \"red_gear_1\", \"pixel\": [1527, 776], \"tray\": \"black_tray\"}, {\"id\": \"yellow_gear\", \"pixel\": [1867, 1100], \"tray\": \"black_tray\"}, {\"id\": \"red_gear_2\", \"pixel\": [1891, 781], \"tray\": \"black_tray\"}, {\"id\": \"red_gear_3\", \"pixel\": [2257, 791], \"tray\": \"black_tray\"}]}",
+    "naming_log": []
+  },
+  "scene_04": {
+    "objects": [
+      {
+        "id": "grey_part_1",
+        "name": "grey part",
+        "aliases": [],
+        "pixel": [
+          1548,
+          456
+        ],
+        "size_mm": [
+          133,
+          47
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "white_part",
+        "name": "white part",
+        "aliases": [],
+        "pixel": [
+          1635,
+          1173
+        ],
+        "size_mm": [
+          143,
+          96
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "grey_part_2",
+        "name": "grey part",
+        "aliases": [],
+        "pixel": [
+          2114,
+          695
+        ],
+        "size_mm": [
+          133,
+          47
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "mug",
+        "name": "mug",
+        "aliases": [],
+        "pixel": [
+          2138,
+          1435
+        ],
+        "size_mm": [
+          109,
+          95
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      }
+    ],
+    "text": "{\"objects\": [{\"id\": \"grey_part_1\", \"pixel\": [1548, 456], \"tray\": \"black_tray\"}, {\"id\": \"white_part\", \"pixel\": [1635, 1173], \"tray\": \"black_tray\"}, {\"id\": \"grey_part_2\", \"pixel\": [2114, 695], \"tray\": \"black_tray\"}, {\"id\": \"mug\", \"pixel\": [2138, 1435], \"tray\": \"black_tray\"}]}",
+    "naming_log": []
+  },
+  "scene_05": {
+    "objects": [
+      {
+        "id": "banana",
+        "name": "banana",
+        "aliases": [],
+        "pixel": [
+          1544,
+          1208
+        ],
+        "size_mm": [
+          220,
+          80
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "mug",
+        "name": "mug",
+        "aliases": [],
+        "pixel": [
+          1618,
+          597
+        ],
+        "size_mm": [
+          106,
+          100
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "saucer",
+        "name": "saucer",
+        "aliases": [],
+        "pixel": [
+          2024,
+          357
+        ],
+        "size_mm": [
+          127,
+          127
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "plate",
+        "name": "plate",
+        "aliases": [],
+        "pixel": [
+          2078,
+          1310
+        ],
+        "size_mm": [
+          188,
+          185
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "mandarin",
+        "name": "mandarin",
+        "aliases": [],
+        "pixel": [
+          2120,
+          736
+        ],
+        "size_mm": [
+          75,
+          73
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      }
+    ],
+    "text": "{\"objects\": [{\"id\": \"banana\", \"pixel\": [1544, 1208], \"tray\": \"black_tray\"}, {\"id\": \"mug\", \"pixel\": [1618, 597], \"tray\": \"black_tray\"}, {\"id\": \"saucer\", \"pixel\": [2024, 357], \"tray\": \"black_tray\", \"graspable\": false, \"can_hold_things\": true}, {\"id\": \"plate\", \"pixel\": [2078, 1310], \"tray\": \"black_tray\", \"graspable\": false, \"can_hold_things\": true}, {\"id\": \"mandarin\", \"pixel\": [2120, 736], \"tray\": \"black_tray\"}]}",
+    "naming_log": []
+  },
+  "scene_06": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "aliases": [],
+        "pixel": [
+          1558,
+          1004
+        ],
+        "size_mm": [
+          88,
+          87
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "yellow_gear",
+        "name": "yellow gear",
+        "aliases": [],
+        "pixel": [
+          1743,
+          716
+        ],
+        "size_mm": [
+          51,
+          47
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [
+          "red_gear_2"
+        ],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "red_gear_2",
+        "name": "red gear",
+        "aliases": [],
+        "pixel": [
+          1797,
+          553
+        ],
+        "size_mm": [
+          87,
+          86
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [
+          "yellow_gear"
+        ],
+        "source_ids": []
+      },
+      {
+        "id": "red_cube",
+        "name": "red cube",
+        "aliases": [],
+        "pixel": [
+          1891,
+          1364
+        ],
+        "size_mm": [
+          80,
+          75
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "saucer",
+        "name": "saucer",
+        "aliases": [],
+        "pixel": [
+          2164,
+          858
+        ],
+        "size_mm": [
+          127,
+          126
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      }
+    ],
+    "text": "{\"objects\": [{\"id\": \"red_gear_1\", \"pixel\": [1558, 1004], \"tray\": \"black_tray\"}, {\"id\": \"yellow_gear\", \"pixel\": [1743, 716], \"tray\": \"black_tray\", \"lies_on_top_of\": \"red_gear_2\"}, {\"id\": \"red_gear_2\", \"pixel\": [1797, 553], \"tray\": \"black_tray\"}, {\"id\": \"red_cube\", \"pixel\": [1891, 1364], \"tray\": \"black_tray\"}, {\"id\": \"saucer\", \"pixel\": [2164, 858], \"tray\": \"black_tray\", \"graspable\": false, \"can_hold_things\": true}]}",
+    "naming_log": []
+  },
+  "scene_07": {
+    "objects": [
+      {
+        "id": "red_gear",
+        "name": "red gear",
+        "aliases": [],
+        "pixel": [
+          411,
+          501
+        ],
+        "size_mm": [
+          89,
+          67
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [
+          "mug"
+        ],
+        "source_ids": []
+      },
+      {
+        "id": "red_cube",
+        "name": "red cube",
+        "aliases": [],
+        "pixel": [
+          478,
+          1235
+        ],
+        "size_mm": [
+          83,
+          75
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "mug",
+        "name": "mug",
+        "aliases": [],
+        "pixel": [
+          589,
+          707
+        ],
+        "size_mm": [
+          121,
+          96
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [
+          "red_gear"
+        ],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "yellow_gear",
+        "name": "yellow gear",
+        "aliases": [],
+        "pixel": [
+          858,
+          1406
+        ],
+        "size_mm": [
+          47,
+          47
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      }
+    ],
+    "text": "{\"objects\": [{\"id\": \"red_gear\", \"pixel\": [411, 501], \"tray\": \"grey_tray\"}, {\"id\": \"red_cube\", \"pixel\": [478, 1235], \"tray\": \"grey_tray\"}, {\"id\": \"mug\", \"pixel\": [589, 707], \"tray\": \"grey_tray\", \"lies_on_top_of\": \"red_gear\"}, {\"id\": \"yellow_gear\", \"pixel\": [858, 1406], \"tray\": \"grey_tray\"}]}",
+    "naming_log": []
+  },
+  "scene_08": {
+    "objects": [
+      {
+        "id": "small_part",
+        "name": "small part",
+        "aliases": [],
+        "pixel": [
+          784,
+          570
+        ],
+        "size_mm": [
+          83,
+          57
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "yellow_gear",
+        "name": "yellow gear",
+        "aliases": [],
+        "pixel": [
+          858,
+          1406
+        ],
+        "size_mm": [
+          47,
+          47
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "aliases": [],
+        "pixel": [
+          1526,
+          577
+        ],
+        "size_mm": [
+          91,
+          67
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [
+          "red_cube"
+        ],
+        "source_ids": []
+      },
+      {
+        "id": "red_cube",
+        "name": "red cube",
+        "aliases": [],
+        "pixel": [
+          1815,
+          550
+        ],
+        "size_mm": [
+          88,
+          77
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [
+          "red_gear_1",
+          "red_gear_2"
+        ],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "plate",
+        "name": "plate",
+        "aliases": [],
+        "pixel": [
+          1867,
+          1304
+        ],
+        "size_mm": [
+          189,
+          188
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "red_gear_2",
+        "name": "red gear",
+        "aliases": [],
+        "pixel": [
+          2063,
+          587
+        ],
+        "size_mm": [
+          89,
+          59
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [
+          "red_cube"
+        ],
+        "source_ids": []
+      }
+    ],
+    "text": "{\"objects\": [{\"id\": \"small_part\", \"pixel\": [784, 570], \"tray\": \"grey_tray\"}, {\"id\": \"yellow_gear\", \"pixel\": [858, 1406], \"tray\": \"grey_tray\"}, {\"id\": \"red_gear_1\", \"pixel\": [1526, 577], \"tray\": \"black_tray\"}, {\"id\": \"red_cube\", \"pixel\": [1815, 550], \"tray\": \"black_tray\", \"lies_on_top_of\": [\"red_gear_1\", \"red_gear_2\"]}, {\"id\": \"plate\", \"pixel\": [1867, 1304], \"tray\": \"black_tray\", \"graspable\": false, \"can_hold_things\": true}, {\"id\": \"red_gear_2\", \"pixel\": [2063, 587], \"tray\": \"black_tray\"}]}",
+    "naming_log": []
+  },
+  "scene_09": {
+    "objects": [
+      {
+        "id": "red_gear_2",
+        "name": "red gear",
+        "aliases": [],
+        "pixel": [
+          321,
+          1546
+        ],
+        "size_mm": [
+          90,
+          87
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "aliases": [],
+        "pixel": [
+          337,
+          1036
+        ],
+        "size_mm": [
+          92,
+          87
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "saucer",
+        "name": "saucer",
+        "aliases": [],
+        "pixel": [
+          415,
+          561
+        ],
+        "size_mm": [
+          127,
+          126
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "mandarin",
+        "name": "mandarin",
+        "aliases": [],
+        "pixel": [
+          623,
+          1357
+        ],
+        "size_mm": [
+          72,
+          68
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "grey_part",
+        "name": "grey part",
+        "aliases": [],
+        "pixel": [
+          644,
+          816
+        ],
+        "size_mm": [
+          111,
+          47
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [
+          "red_cube"
+        ],
+        "source_ids": []
+      },
+      {
+        "id": "small_part",
+        "name": "small part",
+        "aliases": [],
+        "pixel": [
+          806,
+          570
+        ],
+        "size_mm": [
+          84,
+          57
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "yellow_gear",
+        "name": "yellow gear",
+        "aliases": [],
+        "pixel": [
+          824,
+          1457
+        ],
+        "size_mm": [
+          47,
+          44
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "red_gear_3",
+        "name": "red gear",
+        "aliases": [],
+        "pixel": [
+          833,
+          1181
+        ],
+        "size_mm": [
+          91,
+          78
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [
+          "red_cube"
+        ],
+        "source_ids": []
+      },
+      {
+        "id": "red_cube",
+        "name": "red cube",
+        "aliases": [],
+        "pixel": [
+          959,
+          873
+        ],
+        "size_mm": [
+          86,
+          86
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [
+          "grey_part",
+          "red_gear_3"
+        ],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "plate",
+        "name": "plate",
+        "aliases": [],
+        "pixel": [
+          1866,
+          1300
+        ],
+        "size_mm": [
+          189,
+          188
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      }
+    ],
+    "text": "{\"objects\": [{\"id\": \"red_gear_2\", \"pixel\": [321, 1546], \"tray\": \"grey_tray\"}, {\"id\": \"red_gear_1\", \"pixel\": [337, 1036], \"tray\": \"grey_tray\"}, {\"id\": \"saucer\", \"pixel\": [415, 561], \"tray\": \"grey_tray\", \"graspable\": false, \"can_hold_things\": true}, {\"id\": \"mandarin\", \"pixel\": [623, 1357], \"tray\": \"grey_tray\"}, {\"id\": \"grey_part\", \"pixel\": [644, 816], \"tray\": \"grey_tray\"}, {\"id\": \"small_part\", \"pixel\": [806, 570], \"tray\": \"grey_tray\"}, {\"id\": \"yellow_gear\", \"pixel\": [824, 1457], \"tray\": \"grey_tray\"}, {\"id\": \"red_gear_3\", \"pixel\": [833, 1181], \"tray\": \"grey_tray\"}, {\"id\": \"red_cube\", \"pixel\": [959, 873], \"tray\": \"grey_tray\", \"lies_on_top_of\": [\"grey_part\", \"red_gear_3\"]}, {\"id\": \"plate\", \"pixel\": [1866, 1300], \"tray\": \"black_tray\", \"graspable\": false, \"can_hold_things\": true}]}",
+    "naming_log": []
+  },
+  "scene_10": {
+    "objects": [
+      {
+        "id": "red_gear_1",
+        "name": "red gear",
+        "aliases": [],
+        "pixel": [
+          335,
+          1034
+        ],
+        "size_mm": [
+          90,
+          89
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "saucer",
+        "name": "saucer",
+        "aliases": [],
+        "pixel": [
+          382,
+          535
+        ],
+        "size_mm": [
+          128,
+          117
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "mandarin",
+        "name": "mandarin",
+        "aliases": [],
+        "pixel": [
+          466,
+          1411
+        ],
+        "size_mm": [
+          75,
+          73
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "mug",
+        "name": "mug",
+        "aliases": [],
+        "pixel": [
+          737,
+          745
+        ],
+        "size_mm": [
+          113,
+          95
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [
+          "hand"
+        ],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "red_gear_2",
+        "name": "red gear",
+        "aliases": [],
+        "pixel": [
+          792,
+          1168
+        ],
+        "size_mm": [
+          89,
+          88
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "yellow_gear",
+        "name": "yellow gear",
+        "aliases": [],
+        "pixel": [
+          833,
+          1478
+        ],
+        "size_mm": [
+          48,
+          47
+        ],
+        "tray": "grey_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      },
+      {
+        "id": "hand",
+        "name": "hand",
+        "aliases": [],
+        "pixel": [
+          949,
+          394
+        ],
+        "size_mm": [
+          428,
+          125
+        ],
+        "tray": "grey_tray",
+        "is_hand": true,
+        "on_top_of": [],
+        "under": [
+          "mug"
+        ],
+        "source_ids": []
+      },
+      {
+        "id": "plate",
+        "name": "plate",
+        "aliases": [],
+        "pixel": [
+          1865,
+          1299
+        ],
+        "size_mm": [
+          189,
+          187
+        ],
+        "tray": "black_tray",
+        "is_hand": false,
+        "on_top_of": [],
+        "under": [],
+        "source_ids": []
+      }
+    ],
+    "text": "{\"objects\": [{\"id\": \"red_gear_1\", \"pixel\": [335, 1034], \"tray\": \"grey_tray\"}, {\"id\": \"saucer\", \"pixel\": [382, 535], \"tray\": \"grey_tray\", \"graspable\": false, \"can_hold_things\": true}, {\"id\": \"mandarin\", \"pixel\": [466, 1411], \"tray\": \"grey_tray\"}, {\"id\": \"mug\", \"pixel\": [737, 745], \"tray\": \"grey_tray\", \"lies_on_top_of\": \"hand\"}, {\"id\": \"red_gear_2\", \"pixel\": [792, 1168], \"tray\": \"grey_tray\"}, {\"id\": \"yellow_gear\", \"pixel\": [833, 1478], \"tray\": \"grey_tray\"}, {\"id\": \"hand\", \"pixel\": [949, 394], \"tray\": \"grey_tray\", \"graspable\": false, \"can_hold_things\": true}, {\"id\": \"plate\", \"pixel\": [1865, 1299], \"tray\": \"black_tray\", \"graspable\": false, \"can_hold_things\": true}]}",
+    "naming_log": []
+  }
+}

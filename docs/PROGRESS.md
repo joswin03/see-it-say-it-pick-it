@@ -211,6 +211,7 @@ Run records: `runs/scratch/20261016-*` (each with `report.json` and `score.txt`)
 | Our pipeline on OpenCV perception (v11.1) | 49.6, 48.1 | 31-32/40 | 8/10 | 4-5/40 |
 | Our pipeline + ground truth as JSON | 49.5, 50.8 | 37-38/40 | 6/10 | 1-2/40 |
 | Our pipeline + ground truth as JSON with `"too_wide": true` | 52.3, 58.7 | 37/40 | 7-9/10 | 1-2/40 |
+| Our pipeline + ground truth as JSON with `lies_on_top_of`, `graspable` / `can_hold_things` | 52.3, 53.7 | 37-38/40 | 7/10 | 1-2/40 |
 | **Our pipeline + ground truth as text** | **56.4, 56.4** | **37/40** | **8/10** | **0/40** |
 
 - Perception costs about 7 points: 56.4 with the ground truth against 48-50 with OpenCV.
@@ -226,6 +227,13 @@ Run records: `runs/scratch/20261016-*` (each with `report.json` and `score.txt`)
   text and the plan checks use) lifts JSON from 49.5 / 50.8 to 52.3 / 58.7, close to text's
   56.4. The two runs differ by 6.4 points, so text vs flagged JSON is within noise; the flag
   was most of the gap. Runs: `runs/scratch/20261016-014530-gt-json-dataset`, `...014532...`.
+- The model misread two JSON keys (from its own analysis): a bare `"on"` backwards ("the red
+  gear is on top of the mug") and `"too_wide": true` as "cannot be a destination" (refused "put
+  the mandarin on the plate"). Renaming them to `"lies_on_top_of"` and `"graspable": false,
+  "can_hold_things": true` fixed the plate refusals (09_i4, 10_i2) in both runs and the stack
+  direction in scene 07, but 06_i3 still puts the yellow gear on the wrong red gear and 07_i4
+  now fails (misreads the instruction). Totals 52.3 / 53.7: within noise of the flagged JSON;
+  text stays best. Runs: `runs/scratch/20261016-020757-gt-json-dataset`, `...021018...`.
 - Still failing with perfect perception (both text runs, the same five): 01_i3 "the object
   closest to the mug" (picks the mug itself), 04_i3 "the grey part closest to the mug" and 09_i2
   "the red gear farthest from the saucer" (misread NEAR TO FAR), 07_i5 and 09_i5 (contradictions

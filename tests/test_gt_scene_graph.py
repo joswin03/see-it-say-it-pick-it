@@ -19,4 +19,5 @@ def test_ground_truth_scene_06_as_text_and_json() -> None:
     assert "yellow_gear lies on red_gear_2" in text["text"]
     assert "saucer: saucer; " in text["text"] and "TOO WIDE TO GRIP" in text["text"]
     as_json = perceive_ground_truth(scene, CONFIG, "json")["text"]
-    assert '{"id": "saucer", "pixel": [2164, 858], "tray": "black_tray", "too_wide": true}' in as_json
+    assert '"lies_on_top_of": "red_gear_2"' in as_json
+    assert '"graspable": false, "can_hold_things": true}' in as_json
