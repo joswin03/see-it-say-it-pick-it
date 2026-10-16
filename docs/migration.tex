@@ -15,7 +15,7 @@ comparison below uses the official development scorer; the jury score is exclude
 \input{migration_results.tex}
 These are single complete runs via the CSCS Apertus endpoint, with perception rerun each time.
 The small difference between stacking methods is within observed run-to-run variation.
-Geometry remains the default; vision stacking is available as a configuration override.
+Geometry stacking was kept; the vision close-up method was removed from the code afterwards.
 
 \textbf{Source.} Adapted reusable methods and prompts from
 \texttt{origin/dev/joswin-opencv}, revision
@@ -28,8 +28,7 @@ annotations remain the integration points. The sole active configuration is
 two plausible alternative names. Names without a colour receive the measured colour. Merging
 same-kind regions preserves aliases. The object list includes tray membership, calibrated
 size, graspability, image order, stacking, and a complete nearest-to-farthest ranking that
-excludes its anchor. The default stack method measures mask overlap against convex hulls;
-our Apertus close-up method is retained behind \texttt{stack\_method: vision}.
+excludes its anchor. The stack method measures mask overlap against convex hulls.
 
 \textbf{Reasoning and execution checks.} A separate Apertus safety node describes requested
 handling before planning. Its failure produces an explicit clarification request after the
@@ -55,8 +54,7 @@ including development-tuned warmth, fragment-area and attached-thickness cutoffs
 held-out generalisation remains unverified. Table-plane size estimates are biased for tall
 objects. A model-assigned plate or saucer label also marks an object ungraspable, following the
 challenge rules; a mistaken label can therefore reject a valid pick. Nearest rankings use
-interior-point distances on the table plane. Hull-based stacking can misread occlusion; the
-vision alternative needs comparison. CPU checks cover ordering, dynamic stacks, rejection,
+interior-point distances on the table plane. Hull-based stacking can misread occlusion. CPU checks cover ordering, dynamic stacks, rejection,
 schema recovery, safety routing and the unchanged-baseline transport adapter, and passed.
 The combined runs still misinterpret throwing and pulling from under an object as ordinary
 pick-and-place requests. Perception misses or mislabels the small white part and some saucer

@@ -1,11 +1,10 @@
 """Talk to Apertus through the organisers' baseline code (baseline/baseline.py).
 
-Images use ``baseline.encode`` and every real call uses the unchanged ``baseline.ask``.
-Plain replies use ``baseline.parse``; structured replies are validated against their schema.
-The additions:
+Images use ``baseline.encode`` and every real call uses the unchanged ``baseline.ask``;
+replies are validated against their JSON schema. The additions:
 the API key replaces baseline.py's fixed ``Bearer none`` header, server errors (HTTP 5xx) are
 retried, and scoped request options add schema constraints and token limits for the structured
-stages. Both plain and structured calls still use the unchanged baseline.ask and baseline.encode.
+stages.
 """
 
 import json
@@ -36,11 +35,6 @@ PLACEHOLDER_AUTHORIZATION = "Bearer none"
 SERVER_ERROR_ATTEMPTS = 5
 SERVER_ERROR_PAUSE_S = 10
 FIRST_SERVER_ERROR = 500
-MOCK_REPLIES = {
-    "name": '{"name": "mock object", "is_object": true}',
-    "decide": '{"actions": [{"action": "pick", "object": 1}]}',
-    "stack": '{"on_top": null}',
-}
 
 
 def send_with_key(api_key: str) -> Callable[..., Any]:
@@ -98,7 +92,7 @@ class Apertus:
         Args:
             config: run config with ``base_url``, ``model_id``, ``api_key_env``,
                 ``request_timeout_s`` and ``image_max_side_px``.
-            mock: if True, no model is contacted and ``MOCK_REPLIES`` answer.
+            mock: if True, no model is contacted and fixed schema-valid replies answer.
             log_path: Optional append-only record of model replies without credentials or images.
 
         Returns:
@@ -109,37 +103,6 @@ class Apertus:
         self.log_path = log_path
         if not mock:
             urllib.request.urlopen = send_with_key(os.environ[config["api_key_env"]])
-
-    def ask(
-        self, kind: str, template: str, fields: dict, rgb: np.ndarray
-    ) -> tuple[dict | None, str, float]:
-        """Send one prompt with one image and parse the reply.
-
-        Args:
-            kind: ``"annotate"`` or ``"decide"``; selects the mock reply.
-            template: prompt template; ``{w}`` and ``{h}`` are filled with the size the model
-                sees, every other placeholder from ``fields``.
-            fields: values for the other placeholders.
-            rgb: image to show, (H, W, 3) uint8 RGB, full resolution.
-
-        Returns:
-            The parsed reply (None when it holds no JSON), the raw reply text and the resize
-            factor (resized size divided by full size).
-        """
-        image_b64, width, height, scale = baseline.encode(rgb, self.config["image_max_side_px"])
-        prompt = template.format(w=width, h=height, **fields)
-        if self.mock:
-            raw = MOCK_REPLIES[kind]
-        else:
-            raw = baseline.ask(
-                self.config["base_url"],
-                self.config["model_id"],
-                image_b64,
-                prompt,
-                self.config["request_timeout_s"],
-            )
-        self.log_reply(kind, raw or "")
-        return baseline.parse(raw or ""), raw or "", scale
 
     def ask_json(
         self,
@@ -173,7 +136,6 @@ class Apertus:
                     "action_words": "mock",
                     "analysis": "Mock screen",
                     "involves_person": False,
-                    "keep_in_place": [],
                     "manner": "pick and place",
                     "message": "",
                 },

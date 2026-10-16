@@ -10,7 +10,6 @@ import numpy as np
 
 from src.apertus import Apertus
 from src.plans import prepare_moves
-from src.safety import kept_objects_moved
 from src.structured import ModelReplyError
 
 HOLD = "hold"
@@ -104,12 +103,8 @@ def answer_instruction(
     annotated: np.ndarray,
     apertus: Apertus,
     config: dict,
-    keep_in_place: list[str] | None = None,
 ) -> tuple[dict, list[dict]]:
     """Ask for structured moves, retry invalid plans, and return an official answer.
-
-    A valid plan that has to pick up an object the instruction says must stay where it is
-    becomes a refusal: the instruction forbids the only way to carry it out.
 
     Args:
         instruction_id: Identifier for this instruction.
@@ -120,7 +115,6 @@ def answer_instruction(
         annotated: Photo with object marks.
         apertus: Model client.
         config: Unified pipeline configuration.
-        keep_in_place: ids the safety screen reported as having to stay where they are.
 
     Returns:
         Official answer and retry records for inspection.
@@ -159,20 +153,6 @@ def answer_instruction(
             }, attempts
         steps, problem = prepare_moves(reply["moves"], marks, on_top, config)
         attempts.append({"raw": raw, "problem": problem})
-        moved = kept_objects_moved(steps, keep_in_place or [])
-        if problem is None and moved and config["safety"]["check_keep_in_place"]:
-            names = ", ".join(moved)
-            return {
-                "instruction_id": instruction_id,
-                "target_pixel": None,
-                "actions": [
-                    {
-                        "action": "refuse",
-                        "reason": f"The instruction asks to leave {names} where it is, "
-                        "but carrying it out requires moving it.",
-                    }
-                ],
-            }, attempts
         if problem is None:
             by_id = {item["id"]: item for item in marks}
             return {

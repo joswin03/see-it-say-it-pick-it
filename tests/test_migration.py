@@ -128,32 +128,6 @@ class MigrationTests(unittest.TestCase):
         self.assertIsNone(error)
         self.assertEqual([step["object"] for step in steps], ["top", "aside", "base", "grey_tray"])
 
-    def test_plan_moving_a_kept_object_is_refused(self) -> None:
-        """Refuse when clearing a stack must move an object the instruction keeps in place.
-
-        Args:
-            None.
-
-        Returns:
-            None.
-        """
-        config = {**CONFIG, "safety": {"check_keep_in_place": True}}
-        plan = {"decision": "plan", "moves": [{"object": "base", "destination": "hold"}]}
-        with patch("src.decision.decide", return_value=(plan, "plan")):
-            result, _ = answer_instruction(
-                "synthetic",
-                "Lift the bottom object",
-                "scene",
-                OBJECTS,
-                [("top", "base")],
-                None,
-                None,
-                config,
-                ["top"],
-            )
-        self.assertEqual(result["actions"][0]["action"], "refuse")
-        self.assertIn("top", result["actions"][0]["reason"])
-
     def test_recovery_checks_the_entire_schema(self) -> None:
         """Close complete JSON without accepting unknown ids or incomplete fields.
 

@@ -1,0 +1,85 @@
+\documentclass[tikz,border=8pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usetikzlibrary{positioning,fit,arrows.meta,backgrounds,calc}
+
+\definecolor{cv}{HTML}{2E7D32}
+\definecolor{llm}{HTML}{C62828}
+\definecolor{code}{HTML}{1565C0}
+\definecolor{io}{HTML}{424242}
+
+\tikzset{
+  >={Stealth[length=2.4mm]},
+  box/.style={draw, rounded corners=3pt, thick, align=center, font=\small,
+    minimum height=17mm, text width=29mm, inner sep=4pt, fill=white},
+  cvbox/.style={box, draw=cv, fill=cv!7},
+  llmbox/.style={box, draw=llm, fill=llm!7},
+  codebox/.style={box, draw=code, fill=code!7},
+  iobox/.style={box, draw=io, fill=io!5, text width=24mm},
+  outbox/.style={box, draw=io, fill=io!5, text width=27mm, minimum height=11mm},
+  stage/.style={draw=gray!60, dashed, rounded corners=6pt, inner sep=7pt},
+  stagelabel/.style={font=\footnotesize\bfseries, text=gray!70!black, anchor=south west},
+  flow/.style={->, thick, draw=io},
+  note/.style={font=\scriptsize, text=io, align=center},
+}
+
+\begin{document}
+\begin{tikzpicture}[node distance=9mm and 9mm]
+
+\node[iobox] (photo) {\textbf{Photo}\\2448\,$\times$\,2048\\+ calibration};
+
+\node[cvbox, right=of photo] (regions) {\textbf{Regions}\\OpenCV: trays,\\colour blobs, splits\\\texttt{regions.py}};
+\node[llmbox, right=of regions] (naming) {\textbf{Naming}\\Apertus names each\\outlined crop\\\texttt{naming.py}};
+\node[codebox, right=of naming] (marks) {\textbf{Objects}\\merge pieces, mm,\\pick pixel, marks\\\texttt{objects.py}};
+\node[codebox, right=of marks] (stack) {\textbf{Stacking}\\convex-hull overlap:\\who lies on whom\\\texttt{scene\_graph.py}};
+\node[codebox, right=of stack] (graph) {\textbf{Scene graph text}\\trays, sizes, stacks,\\orders, distances};
+
+\node[llmbox, below=34mm of stack] (safety) {\textbf{Safety screen}\\Apertus: action\\words $\rightarrow$ manner\\\texttt{safety.py}};
+\node[llmbox, right=of safety] (decide) {\textbf{Decide}\\Apertus, JSON:\\plan / ask / refuse\\\texttt{decision.py}};
+\node[codebox, right=of decide] (check) {\textbf{Plan check}\\ids, grip width,\\clear stacks first\\\texttt{plans.py}};
+\node[iobox] (instr) at (photo |- safety) {\textbf{Instruction}\\English sentence};
+
+\node[outbox, right=24mm of check, yshift=10mm, text width=38mm] (plan) {\textbf{Plan}: \texttt{target\_pixel}\\+ pick/place actions};
+\node[outbox, right=24mm of check, yshift=-10mm, text width=38mm] (ask) {\textbf{ask\_user} or \textbf{refuse}\\with question or reason};
+
+\begin{scope}[on background layer]
+  \node[stage, fit=(regions)(naming)(marks)(stack)(graph)] (perphoto) {};
+  \node[stage, fit=(safety)(decide)(check)] (perinstr) {};
+\end{scope}
+\node[stagelabel] at (perphoto.north west) {once per photo};
+\node[stagelabel, anchor=south east] at (perinstr.north east) {once per instruction};
+
+\coordinate (graphlane) at ($(stack.south)+(0,-15mm)$);
+\coordinate (photolane) at ($(stack.south)+(0,-22mm)$);
+\coordinate (refuselane) at ($(safety.south)+(0,-14mm)$);
+\coordinate (photoin) at ($(decide.north)+(8mm,0)$);
+\coordinate (retryin) at ($(decide.south)+(8mm,0)$);
+\coordinate (askout) at ($(decide.south)+(-8mm,0)$);
+
+\draw[flow] (photo) -- (regions);
+\draw[flow] (regions) -- (naming);
+\draw[flow] (naming) -- (marks);
+\draw[flow] (marks) -- (stack);
+\draw[flow] (stack) -- (graph);
+
+\draw[flow] ($(graph.south)+(-6mm,0)$) |- (graphlane) -- (safety.north);
+\draw[flow] (graph.south) -- node[note, right, pos=0.35] {scene graph} (decide.north);
+\draw[flow] (marks.south) |- node[note, above, pos=0.75] {marked photo} (photoin |- photolane) -- (photoin);
+
+\draw[flow] (instr) -- node[note, above] {unchanged sentence} (safety);
+\draw[flow] (safety) -- node[note, above] {ordinary} (decide);
+\draw[flow] (decide) -- node[note, above] {plan} (check);
+\draw[flow] (check.south) -- ++(0,-5mm) -| node[note, below, pos=0.25] {invalid: retry with reason} (retryin);
+\draw[flow] (check.east) -- node[note, above, sloped] {valid} (plan.west);
+\draw[flow] (check.east) -- node[note, above, sloped, pos=0.45] {retries used up} (ask.west);
+\draw[flow] (safety.south) |- node[note, left, pos=0.4] {unsafe: refuse} (refuselane) -| (ask.south);
+\draw[flow] (askout) -- node[note, left, pos=0.55, align=right] {ambiguous: ask\\missing, too wide: refuse} (askout |- refuselane);
+
+\node[note, anchor=north west, align=left] at ($(instr.south west)+(0,-22mm)$) {
+  \textcolor{cv}{\rule{2.5mm}{2.5mm}} OpenCV (no model)\quad
+  \textcolor{llm}{\rule{2.5mm}{2.5mm}} Apertus-v1.5-8B via CSCS API\quad
+  \textcolor{code}{\rule{2.5mm}{2.5mm}} Python checks (never parse the instruction)\quad
+  Entry point: \texttt{python run.py -{}-data <folder> -{}-out <results.json>}, graph in \texttt{src/graph.py}};
+
+\end{tikzpicture}
+\end{document}

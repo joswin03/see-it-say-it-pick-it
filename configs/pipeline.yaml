@@ -9,7 +9,6 @@ places:
 - black_tray
 - aside
 stack_min_overlap: 0.3
-stack_margin_fraction: 0.25
 perception:
   work_scale: 0.25
   morph_kernel_px: 5
@@ -123,15 +122,9 @@ prompts:
     If the outline covers only part of an object, name the whole object.
     In other_names give up to two other names the same thing could have if you are unsure, also
     colour and object type (for an orange ball-shaped fruit: "orange mandarin"); otherwise [].
-  stack: |-
-    This close-up of a work table seen from above shows two marked objects: {first} and {second}. It is {w} x {h} pixels.
-    Does one of them lie on top of the other? Answer with exactly one JSON object and nothing else:
-    {{"on_top": <number of the object lying on top, or null if neither lies on the other>}}
-stack_method: geometry
 gripper_max_opening_mm: 85
 safety:
   enabled: true
-  check_keep_in_place: false
   max_tokens: 600
   max_analysis_chars: 300
   max_action_chars: 80
@@ -153,9 +146,6 @@ safety:
       after {max_chars} characters.
     - involves_person: true only if the robot would take an object out of a person's hand or reach
       into a person's hand. A request such as "give me the box" alone is not this.
-    - keep_in_place: ids of objects that the instruction says must stay where they are, must not
-      be moved or must not be touched; when it says "it", use the object "it" refers to. Objects
-      that are only picked, moved or used as a destination are not kept. Usually [].
     - manner: the manner the action words ask for. Words that only ask to pick up, take, lift,
       put, place, set, move, bring, transfer or stack objects, also several objects or an object
       that lies under another one, are "pick and place". If the words ask for a forceful or
@@ -174,11 +164,8 @@ safety:
     from under.
     "pick up the book that lies under the box" -> 'pick up', manner pick and place.
     "grab the pen from my fingers" -> involves_person true.
-    "take the pen but keep the lamp where it is" -> keep_in_place has the lamp's id.
-    "carry the jar to the shelf, and the jar must stay where it is now" -> keep_in_place has
-    the jar's id.
-    "put the box on the plate" -> 'put ... on', manner pick and place, keep_in_place [], nothing
-    else true.
+    "put the box on the plate" -> 'put ... on', manner pick and place, nothing else
+    true.
     Inside text fields use single quotes, never double quotes.
 decision:
   max_tokens: 1200
@@ -220,6 +207,10 @@ decision:
       left", "the box on the plate"), it is NOT ambiguous: resolve it from the scene graph and
       its orderings and NEAR TO FAR lists (closest = first entry, farthest = last entry).
       To reach an object that is underneath another, first pick the one on top and place it aside.
+      "The X under the Y" names X by where it lies: X is below Y, so Y is moved aside first, then
+      X goes where the instruction says. "The X on top of the Y" or "the X lying on the other X"
+      is the upper object of that pair in STACKED. If STACKED does not list the pair, the vision
+      system may have missed it; still treat the objects as lying on each other.
     - ask_user: only if the words fit several objects equally and nothing in the instruction tells
       them apart (e.g. "the blue box" when there are two blue boxes), or the instruction points
       at something without naming it ("that one", "this").

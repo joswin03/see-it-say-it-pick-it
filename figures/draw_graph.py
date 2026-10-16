@@ -47,8 +47,8 @@ POSITIONS = {
 CAPTIONS = {
     "__start__": "START\ninstruction + photo",
     "annotate": "annotate (OpenCV + Apertus)\nregions, names, once per photo",
-    "stack": "stack (geometry or Apertus)\nwhich object lies on which",
-    "safety": "safety (Apertus)\nhandling and person check",
+    "stack": "stack (convex-hull geometry)\nwhich object lies on which",
+    "safety": "safety (Apertus)\naction words, manner, person",
     "decide": "decide (Apertus)\nvalidated moves / ask / refuse",
     "__end__": "END\nanswer in official schema",
 }

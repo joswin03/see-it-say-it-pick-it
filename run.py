@@ -88,8 +88,6 @@ def main() -> None:
         target[parts[-1]] = yaml.safe_load(value)
         overrides[key] = target[parts[-1]]
     config.update({key: value for key, value in overrides.items() if "." not in key})
-    if config.get("stack_method", "vision") not in {"geometry", "vision"}:
-        raise ValueError("stack_method must be geometry or vision")
     run_dir = OUTPUTS_DIR / f"{time.strftime('%Y%m%d-%H%M%S')}-{arguments.name}"
     (run_dir / "annotated").mkdir(parents=True)
 

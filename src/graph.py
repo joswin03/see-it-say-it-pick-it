@@ -2,14 +2,13 @@
 
 annotate: OpenCV finds the object regions, Apertus names each from an outlined close-up, code
 merges pieces of one object and numbers the objects; their boxes are drawn on the photo.
-stack: convex-hull geometry or Apertus close-ups establish which objects lie on others.
+stack: convex-hull geometry establishes which objects lie on others.
 Both run once per photo; later instructions of the same photo start at safety.
 safety: Apertus screens each instruction for dangerous handling.
 decide: Apertus plans moves using the measured spatial scene graph; code validates the moves,
 clears blocking objects, retries invalid plans and sets the first pick pixel.
 """
 
-import logging
 from typing import TypedDict
 
 import numpy as np
@@ -25,12 +24,9 @@ from src.objects import build_marks, size_mm
 from src.regions import find_regions
 from src.safety import check_instruction, screen_result
 from src.scene_graph import describe, stacking
-from src.stack import overlapping_pairs, pair_close_up, stacking_order
 from src.structured import ModelReplyError
 
-LOGGED_REPLY_CHARACTERS = 300
 NO_STACKING = "(no object lies on another)"
-logger = logging.getLogger(__name__)
 
 
 class PipelineState(TypedDict):
@@ -47,7 +43,6 @@ class PipelineState(TypedDict):
     on_top: list[tuple[str, str]] | None
     result: dict | None
     scene_text: str
-    keep_in_place: list[str]
     attempts: list[dict]
 
 
@@ -56,8 +51,8 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
 
     Args:
         config: run config with ``prompts``, ``places``, the
-            ``perception``, ``naming`` and ``objects`` sections, ``stack_min_overlap`` and
-            ``stack_margin_fraction``, structured decision and safety settings.
+            ``perception``, ``naming`` and ``objects`` sections, ``stack_min_overlap``,
+            structured decision and safety settings.
         apertus: model client.
 
     Returns:
@@ -109,7 +104,7 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
         return {"marks": marks, "annotated": draw_marks(photo, marks)}
 
     def stack(state: PipelineState) -> dict:
-        """Find stacking from masks, or ask Apertus on overlapping-box close-ups.
+        """Find which objects lie on others from mask overlap with convex hulls.
 
         Args:
             state: pipeline state after ``annotate``.
@@ -118,32 +113,12 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
             State update with ``stacking`` (one fact per stacked pair, as text) and ``on_top``
             ((upper id, lower id) pairs).
         """
-        if config.get("stack_method", "vision") == "geometry":
-            on_top = stacking(state["marks"], config["stack_min_overlap"])
-            return {
-                "stacking": "\n".join(f"{upper} lies on {lower}" for upper, lower in on_top)
-                or NO_STACKING,
-                "on_top": on_top,
-            }
-        lines, on_top = [], []
-        for pair in overlapping_pairs(state["marks"], config["stack_min_overlap"]):
-            close_up = pair_close_up(state["photo"], pair, config["stack_margin_fraction"])
-            fields = {
-                "first": f"{pair[0]['number']} ({pair[0]['label']})",
-                "second": f"{pair[1]['number']} ({pair[1]['label']})",
-            }
-            reply, raw, _scale = apertus.ask("stack", prompts["stack"], fields, close_up)
-            if reply is None:
-                logger.warning("stack reply held no JSON: %s", raw[:LOGGED_REPLY_CHARACTERS])
-            order = stacking_order(reply, pair)
-            if order:
-                upper, lower = order
-                lines.append(
-                    f"{upper['number']} ({upper['label']}) lies on "
-                    f"{lower['number']} ({lower['label']})"
-                )
-                on_top.append((upper["id"], lower["id"]))
-        return {"stacking": "\n".join(lines) or NO_STACKING, "on_top": on_top}
+        on_top = stacking(state["marks"], config["stack_min_overlap"])
+        return {
+            "stacking": "\n".join(f"{upper} lies on {lower}" for upper, lower in on_top)
+            or NO_STACKING,
+            "on_top": on_top,
+        }
 
     def decide(state: PipelineState) -> dict:
         """Ask Apertus to plan, ask or refuse on the annotated photo, by object number.
@@ -165,7 +140,6 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
             state["annotated"],
             apertus,
             config,
-            state["keep_in_place"],
         )
         return {"result": result, "attempts": state["attempts"] + attempts}
 
@@ -176,11 +150,10 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
             state: Perceived scene and unchanged instruction.
 
         Returns:
-            Scene text, audit records, objects that must stay where they are, and a refusal
-            when Apertus identifies unsafe handling.
+            Scene text, audit records, and a refusal when Apertus identifies unsafe handling.
         """
         scene_text = describe(state["marks"], state["on_top"])
-        update = {"scene_text": scene_text, "result": None, "attempts": [], "keep_in_place": []}
+        update = {"scene_text": scene_text, "result": None, "attempts": []}
         if not config["safety"]["enabled"]:
             return update
         feedback = None
@@ -189,7 +162,6 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
                 screen, raw = check_instruction(
                     state["instruction"],
                     scene_text,
-                    [item["id"] for item in state["marks"]],
                     apertus,
                     config["safety"],
                     feedback,
@@ -201,7 +173,6 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
                 )
                 continue
             update["attempts"].append({"stage": "safety", "raw": raw, "problem": None})
-            update["keep_in_place"] = screen["keep_in_place"]
             stop = screen_result(screen)
             if stop:
                 update["result"] = {

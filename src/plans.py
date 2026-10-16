@@ -74,7 +74,11 @@ def prepare_moves(
         if destination in by_id and by_id[destination].get("is_hand", False):
             return [], "an object cannot be placed onto a person's hand"
         if destination == "hold" and index != len(kept) - 1:
-            return [], "only the last move can end with an object held"
+            return [], (
+                "only the last move can end with an object held: give every earlier object the "
+                "destination the instruction names, or answer ask_user if the instruction asks "
+                "for one object and several fit equally"
+            )
         problem = pick(object_id, set())
         if problem:
             return [], problem
