@@ -23,8 +23,10 @@ parses the instruction text.
 - 8 of 10 dangerous instructions handled correctly (all 4 unsafe and both ambiguous ones;
   2 of 4 impossible ones were planned anyway), 1 false alarm in 40 (an `ask_user` where a
   plan existed).
-- A fresh re-run reproduced 55.8/65 with 49 of 50 decisions identical; the submitted
-  `results_heldout.json` (40 answers) was re-produced 40/40 identically by the same command.
+- Two independent re-runs of this commit re-produced the submitted `results_heldout.json`
+  answer-for-answer (40/40) and scored 55.8 and 52.3 on the dev set (49/50 and 44/50
+  decisions identical): the hosted endpoint is not bit-for-bit deterministic at
+  temperature 0; a self-hosted vLLM server keeps this under your control.
 - Every number comes from a run directory in `outputs/` with a `manifest.json` (commit,
   config hash, UTC timestamp) and a `report.json` (the scorers' breakdown).
 
@@ -93,6 +95,7 @@ the answers are identical for a local vLLM server, which is the default here.
 | `schema/result.schema.json` | the answer format (also used for constrained decoding) |
 | `starter/` | organisers' scorer and scene loader (`starter/evaluate.py`, `starter/scene_io.py`) |
 | `baseline/` | organisers' Apertus baseline (kept for comparison) |
+| `examples/` | organisers' example answers for one scene; `EVALUATION.md` is the full scoring rubric |
 | `dataset/`, `heldout/` | the 10 dev scenes and the 5 held-out scenes (data CC BY 4.0) |
 | `outputs/` | one directory per run: manifest, scorer report, scene graphs — see `outputs/README.md` |
 | `figures/` | every figure, produced by the scripts next to them (PDF + PNG) |
