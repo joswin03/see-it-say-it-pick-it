@@ -171,7 +171,8 @@ def build_marks(
         regions: named regions with ``is_object``; non-objects are dropped.
         work_scale: scale of the masks relative to the full photo.
         mm_per_work_pixel: table millimetres per work-scale pixel.
-        config: the ``objects`` config section, with ``too_wide_mm``.
+        config: the ``objects`` config section with the derived ``too_wide_mm`` (gripper
+            opening plus margin, set in ``src.graph``).
         scene: loaded scene with calibration.
         distortion: lens distortion from ``calibration.lens_distortion``.
 

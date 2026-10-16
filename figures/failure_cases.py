@@ -46,16 +46,19 @@ CASES = [
         "scene": "scene_07",
         "instruction_id": "scene_07_i5",
         "expected_object": "mug",
+        "expected_note": "expected: refuse",
     },
     {
         "scene": "scene_08",
         "instruction_id": "scene_08_i2",
         "expected_object": "small_part",
+        "expected_note": "expected: pick(small_part)",
     },
     {
         "scene": "scene_09",
         "instruction_id": "scene_09_i2",
         "expected_object": "red_gear_2",
+        "expected_note": "expected: pick(red_gear_2)",
     },
 ]
 
@@ -190,7 +193,8 @@ def draw_case(axis: plt.Axes, case: dict, instruction: str, run_dir: Path, data_
             zorder=3,
         )
     axis.set_title(
-        textwrap.fill(f"{case['instruction_id']}: \u201c{instruction}\u201d", TITLE_WRAP),
+        textwrap.fill(f"{case['instruction_id']}: \u201c{instruction}\u201d", TITLE_WRAP)
+        + f"\n{case['expected_note']}",
         fontsize=TITLE_SIZE,
         color=TEXT_PRIMARY,
         loc="left",

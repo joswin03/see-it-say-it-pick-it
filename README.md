@@ -133,9 +133,9 @@ ablation figure.
   (grey tray left, black tray right) and a generic workcell object vocabulary are stated to
   Apertus; both are documented as borderline points in the report.
 - Left/right/top/bottom follow the photo; one object at a time; trays are places only.
-  Known deviation: graspability flags objects wider than 120 mm (`objects.too_wide_mm`),
-  above the challenge's 85 mm opening limit — documented in the report; fixing it is a
-  next step.
+  Graspability derives from the challenge's 85 mm opening plus a 35 mm margin for mask
+  overestimation (`objects.grasp_width_margin_mm`; audit: 6.7 mm per side), so objects
+  wider than 120 mm are marked TOO WIDE — plates and saucers measure far above it.
 
 ## Safety
 

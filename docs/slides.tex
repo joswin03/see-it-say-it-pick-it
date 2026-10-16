@@ -20,7 +20,7 @@
   Team \code{see-it-say-it-pick-it} \quad Joswin $\cdot$ Vaibhav Prajapati $\cdot$ Macallyster Edmondson
 
   \vfill
-  {\large \textbf{OpenCV measures the scene, Apertus--1.5-8B does all the language
+  {\large \textbf{OpenCV measures the scene, Apertus 1.5-8B does all the language
   reasoning, and code validates every move.}}
 
   \medskip
@@ -100,7 +100,8 @@
 \begin{frame}{Lessons learned and what we would do next}
   \begin{itemize}
     \item Give Apertus a \emph{measured} scene graph and the parts only it can do:
-      naming, safety screening, planning. Pure multi-step mapping: 10/10.
+      naming, safety screening, planning. Correct first-pick grounding on all 10
+      multi-step instructions (the scorer does not check the full sequence).
     \item Validate every plan in code (grip width, clear stacks first, retries) --- this
       kept 39 of 40 executable-reference instructions schema-valid, 37 grounded at the
       correct first-pick pixel.

@@ -29,7 +29,7 @@ from PIL import Image
 from src import manifest
 from src.apertus import Apertus
 from src.calibration import lens_distortion
-from src.graph import build_graph
+from src.graph import build_graph, resolve_grasp_limit
 from src.scene_graph import graph_record
 from src.scene_graph_figure import write_run_figure
 
@@ -100,6 +100,7 @@ def main() -> None:
         target[parts[-1]] = yaml.safe_load(value)
         overrides[key] = target[parts[-1]]
     config.update({key: value for key, value in overrides.items() if "." not in key})
+    resolve_grasp_limit(config)
     print(f"endpoint: {config['base_url']}  model: {config['model_id']}")
     run_dir = OUTPUTS_DIR / f"{time.strftime('%Y%m%d-%H%M%S')}-{arguments.name}"
     (run_dir / "annotated").mkdir(parents=True)

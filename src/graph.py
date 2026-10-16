@@ -52,8 +52,28 @@ class PipelineState(TypedDict):
     attempts: list[dict]
 
 
+def resolve_grasp_limit(config: dict) -> None:
+    """Derive the practical too-wide threshold from the gripper opening and the margin.
+
+    Measured mask widths overestimate real object sizes (audit: 6.7 mm per side), so the
+    challenge's 85 mm opening gets a margin before an object counts as unpickable: plates
+    and saucers measure far above the resulting 120 mm, everything else below it.
+
+    Args:
+        config: full run config; ``config["objects"]["too_wide_mm"]`` is set in place.
+
+    Returns:
+        None.
+    """
+    objects = config["objects"]
+    objects["too_wide_mm"] = config["gripper_max_opening_mm"] + objects["grasp_width_margin_mm"]
+
+
 def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
     """Assemble and compile the pipeline graph.
+
+    The practical ``objects.too_wide_mm`` limit is derived here from the gripper opening
+    plus margin (see ``resolve_grasp_limit``).
 
     Args:
         config: run config with ``prompts``, ``places``, the
@@ -65,6 +85,7 @@ def build_graph(config: dict, apertus: Apertus) -> CompiledStateGraph:
         Compiled graph; invoke it with a ``PipelineState`` dict.
     """
     prompts = config["prompts"]
+    resolve_grasp_limit(config)
     if config["perception"]["backend"] not in BACKENDS:
         raise ValueError(f"perception.backend must be one of {sorted(BACKENDS)}")
 

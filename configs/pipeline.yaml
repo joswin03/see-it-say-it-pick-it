@@ -119,7 +119,10 @@ objects:
     - mug
   - - plate
     - saucer
-  too_wide_mm: 120
+  # Graspability: the 85 mm gripper opening (top-level ``gripper_max_opening_mm``) plus a
+  # margin, because measured mask widths overestimate real objects (audit: 6.7 mm per side).
+  # The practical limit is 120 mm; plates and saucers measure far above it.
+  grasp_width_margin_mm: 35
   unpickable_nouns:
   - plate
   - saucer

@@ -1,5 +1,5 @@
 \documentclass[11pt,a4paper]{article}
-\usepackage[margin=18mm]{geometry}
+\usepackage[margin=17mm]{geometry}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{microtype}
@@ -51,9 +51,9 @@ ground-truth bounding box (51 of 51), but stacking (``lies on'') recall only 43\
 the frozen release re-produced the submitted held-out answers (40 of 40 equivalent decisions
 in both; byte-identical JSON 40 of 40 and 39 of 40, one refusal reason differs in wording)
 and scored 55.8 and 52.3 on the dev set (49 of 50 and 44 of 50 decisions identical). The
-variation appeared with the same effective configuration at temperature~0; the cause is not
-isolated, but it is endpoint-side, and self-hosting with fixed seeds is the proposed way to
-control it (not yet measured).
+variation appeared with the same effective configuration at temperature~0; its cause has
+not been isolated, and self-hosting with fixed seeds is the proposed next experiment (not
+yet measured).
 
 \section{Where Apertus struggled}
 \paragraph{Contradictory instructions are planned, not refused.}
@@ -82,8 +82,8 @@ then planned the yellow gear, pixel included. Occluded, colour-defined parts are
 naming errors concentrate. The audit counts this scene at 5 of 6 objects found, no extra
 regions; over the set: object recall 96\,\%, precision 91\,\%, stacking (``lies on'')
 recall only 43\,\% (3 of 7 edges). The two missed objects (an occluded gear here, a hand in
-another scene) and five extra regions (split plate/cup boxes) sit in the three most
-cluttered scenes.
+scene~10) and the five extra regions (two in scene~06, three in scene~10, including an
+unmatched hand region) sit in the three most cluttered scenes (06, 08, 10).
 
 \paragraph{Decoding and retries.}
 With constrained JSON decoding Apertus occasionally stalled before the closing brace (the
@@ -92,27 +92,28 @@ plan sometimes degraded into \code{ask\_user} instead of a re-planned answer.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{../figures/failure_cases.pdf}
-  \caption{Three scored failures on the dev set. Red ring: the pixel the pipeline answered;
-  green ring: the ground-truth object (in the first case, the mug whose movement the
-  instruction forbids). Left: an impossible instruction answered with a plan; middle: the
-  small white part named as a metal part, planned as the yellow gear; right: a clear-move
-  whose first pick pixel lands on the cube instead of the gear.}
+  \includegraphics[width=0.92\linewidth]{../figures/failure_cases.pdf}
+  \caption{Three scored failures (red ring: answered pixel; green ring: ground-truth
+  object, in the first case the mug whose movement is forbidden). Left: an impossible
+  instruction answered with a plan; middle: the small white part named as a metal part,
+  planned as the yellow gear; right: a clear-move whose first pick pixel lands on the
+  cube.}
 \end{figure}
 
 \section{Lessons and what we would do next}
 Keep geometry in code, language in Apertus, and validate plans in code. The failures
 concentrate in contrived logic (contradictions), superlative spatial reasoning and
-fine-grained part naming --- not in multi-step mapping (all 10 scored). The hosted
-endpoint's run-to-run variance (55.8 vs.\ 52.3 at temperature~0) is itself a reason to
-serve Apertus ourselves; self-hosting with fixed seeds is the next experiment. Documented
-deviations and assumptions: graspability uses a 120~mm width rule rather than the 85~mm
-gripper limit; the tray sides and a generic workcell vocabulary are stated to Apertus; the
-released default is a local server while all reported runs used the hosted endpoint. Next:
-feed the depth map into stacking, add contradiction examples to the safety screen,
-re-instruct the planner instead of the user when a plan is rejected, derive graspability
-from the gripper limit, and compare the 70B model on the same harness.
-Reproduction: \code{python run.py --data <folder> --out <results.json>} (\code{--mock} needs
-no model); scoring: \code{python starter/evaluate.py <results.json> --data dataset}.
+fine-grained part naming --- not in multi-step mapping (correct first-pick grounding on all
+10; the scorer does not check the full sequence). The observed run-to-run variance
+(55.8 vs.\ 52.3 at temperature~0) is itself a reason to serve Apertus ourselves;
+self-hosting with fixed seeds is the next experiment. Documented assumptions: graspability
+derives from the 85~mm gripper opening plus a 35~mm margin for mask overestimation (audit:
+6.7~mm per side; plates and saucers stay far above the practical 120~mm limit); the tray
+sides and a generic workcell vocabulary are stated to Apertus; the released default is a
+local server (the baseline ran local, the published runs hosted). Next: feed the depth map into
+stacking, add contradiction examples to the safety screen, re-instruct the planner instead
+of the user when a plan is rejected, and compare the 70B model on the same harness.
+Reproduction: \code{python run.py -{}-data <folder> -{}-out <results.json>} (\code{-{}-mock}
+needs no model); scoring: \code{python starter/evaluate.py <results.json> -{}-data dataset}.
 
 \end{document}
