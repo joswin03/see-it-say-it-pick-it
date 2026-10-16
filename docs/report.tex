@@ -39,18 +39,21 @@ local vLLM server by default in this repository.
 On the 10-scene, 50-instruction dev set the final pipeline scores \textbf{55.8/65}
 (grounding 32.4/35: 37 of 40 executable instructions with the pixel on the correct object;
 safety 23.4/30: 8 of 10 dangerous instructions handled correctly --- 2 of 4 impossible ones
-planned anyway --- and 1 false alarm in 40). The organiser baseline scores 15.1/65. Letting
+planned anyway --- and 1 false alarm in 40). The organiser baseline scores 15.1/65 (recorded
+run \code{outputs/20261015-1151-baseline}). Letting
 Apertus mark whole-photo boxes itself instead drops to 43.2 and 44.3 in two runs (grounding
 0.65/0.70 vs.\ 0.925): its boxes miss and clip small parts, while naming an already-measured
 crop is a task it does well. A scene-graph audit against held-back ground truth confirms the
-split: object recall 96\,\%, precision 91\,\%, pick pixel inside the true region 100\,\%,
-but stacking (``lies on'') recall only 43\,\%. All numbers come from run directories in
+split: object recall 96\,\%, precision 91\,\%, pick pixel inside the matched
+ground-truth bounding box (51 of 51), but stacking (``lies on'') recall only 43\,\%. All numbers come from run directories in
 \code{outputs/}, each with a manifest (commit, config hash, UTC timestamp) and a
-\code{report.json}. Reproducibility was measured, not assumed: two independent re-runs from
-the released commit re-produced the submitted held-out file answer-for-answer (40 of 40;
-one refusal differs in wording only) and scored 55.8 and 52.3 on the dev set (49 of 50 and
-44 of 50 decisions identical). The flips are endpoint-side --- at temperature~0 the hosted
-server is not bit-for-bit deterministic; self-hosting controls this.
+\code{report.json}. Reproducibility was measured, not assumed: two independent re-runs of
+the frozen release re-produced the submitted held-out answers (40 of 40 equivalent decisions
+in both; byte-identical JSON 40 of 40 and 39 of 40, one refusal reason differs in wording)
+and scored 55.8 and 52.3 on the dev set (49 of 50 and 44 of 50 decisions identical). The
+variation appeared with the same effective configuration at temperature~0; the cause is not
+isolated, but it is endpoint-side, and self-hosting with fixed seeds is the proposed way to
+control it (not yet measured).
 
 \section{Where Apertus struggled}
 \paragraph{Contradictory instructions are planned, not refused.}
@@ -76,11 +79,11 @@ twice.
 In one scene the small white part was named ``grey metal part'', a red cube ``red gear'',
 and an occluded red gear was not segmented at all; ``put the small white part on the plate''
 then planned the yellow gear, pixel included. Occluded, colour-defined parts are where
-naming errors concentrate. The scene-graph audit counts this scene at 5 of 6 objects with
-2 extra regions, and the whole set at 96\,\% object recall, 91\,\% precision --- but
-stacking (``lies on'') recall only 43\,\% (3 of 7 edges). The two missed objects and five
-extra regions sit in the two most cluttered scenes (an occluded gear, a hand, split plate
-regions).
+naming errors concentrate. The audit counts this scene at 5 of 6 objects found, no extra
+regions; over the set: object recall 96\,\%, precision 91\,\%, stacking (``lies on'')
+recall only 43\,\% (3 of 7 edges). The two missed objects (an occluded gear here, a hand in
+another scene) and five extra regions (split plate/cup boxes) sit in the three most
+cluttered scenes.
 
 \paragraph{Decoding and retries.}
 With constrained JSON decoding Apertus occasionally stalled before the closing brace (the
@@ -91,19 +94,24 @@ plan sometimes degraded into \code{ask\_user} instead of a re-planned answer.
   \centering
   \includegraphics[width=\linewidth]{../figures/failure_cases.pdf}
   \caption{Three scored failures on the dev set. Red ring: the pixel the pipeline answered;
-  green ring: the ground-truth object. Top: an impossible instruction answered with a plan;
-  middle: the small white part named as a metal part, planned as the yellow gear; bottom: a
-  clear-move whose first pick pixel lands on the cube instead of the gear.}
+  green ring: the ground-truth object (in the first case, the mug whose movement the
+  instruction forbids). Left: an impossible instruction answered with a plan; middle: the
+  small white part named as a metal part, planned as the yellow gear; right: a clear-move
+  whose first pick pixel lands on the cube instead of the gear.}
 \end{figure}
 
 \section{Lessons and what we would do next}
 Keep geometry in code, language in Apertus, and validate plans in code. The failures
 concentrate in contrived logic (contradictions), superlative spatial reasoning and
-fine-grained part naming --- not in multi-step mapping (10 of 10). The hosted endpoint's
-run-to-run variance (55.8 vs.\ 52.3 at temperature~0) is itself a reason to serve Apertus
-ourselves: a self-hosted vLLM gives stable scoring. Next: feed the depth map into stacking,
-add contradiction examples to the safety screen, re-instruct the planner instead of the
-user when a plan is rejected, and compare the 70B model on the same harness.
+fine-grained part naming --- not in multi-step mapping (all 10 scored). The hosted
+endpoint's run-to-run variance (55.8 vs.\ 52.3 at temperature~0) is itself a reason to
+serve Apertus ourselves; self-hosting with fixed seeds is the next experiment. Documented
+deviations and assumptions: graspability uses a 120~mm width rule rather than the 85~mm
+gripper limit; the tray sides and a generic workcell vocabulary are stated to Apertus; the
+released default is a local server while all reported runs used the hosted endpoint. Next:
+feed the depth map into stacking, add contradiction examples to the safety screen,
+re-instruct the planner instead of the user when a plan is rejected, derive graspability
+from the gripper limit, and compare the 70B model on the same harness.
 Reproduction: \code{python run.py --data <folder> --out <results.json>} (\code{--mock} needs
 no model); scoring: \code{python starter/evaluate.py <results.json> --data dataset}.
 

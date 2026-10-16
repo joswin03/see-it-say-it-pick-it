@@ -29,8 +29,8 @@
 
   \vfill
   {\small Dev set: \textbf{55.8/65} vs.\ 15.1 baseline (re-runs: 55.8 and 52.3 --- hosted
-  endpoint varies); the submitted held-out file was re-produced answer-for-answer, 40/40,
-  in two independent runs.}
+  endpoint varies); the submitted held-out answers were re-produced in two independent
+  re-runs: 40/40 equivalent decisions, byte-identical except one refusal wording.}
 \end{frame}
 
 \begin{frame}{Pipeline: which model does what}
@@ -74,7 +74,8 @@
 
       \vspace{1mm}
       {\scriptsize red ring: the pixel the pipeline answered; green ring: the ground-truth
-      object --- the two must coincide.}
+      object (left: the mug that must not move). The predicted pixel must lie on the
+      correct object.}
     \end{column}
     \begin{column}{0.35\textwidth}
       \footnotesize
@@ -101,14 +102,15 @@
     \item Give Apertus a \emph{measured} scene graph and the parts only it can do:
       naming, safety screening, planning. Pure multi-step mapping: 10/10.
     \item Validate every plan in code (grip width, clear stacks first, retries) --- this
-      kept 39 of 40 executable instructions schema-valid and executable.
+      kept 39 of 40 executable-reference instructions schema-valid, 37 grounded at the
+      correct first-pick pixel.
     \item Stacking from masks is the weakest measurement (lies-on recall 43\,\%): feed
       the depth map into the scene graph next.
     \item Add contradiction cases to the safety screen; prefer re-instructing the
       planner over asking the user.
     \item Next: the 70B Apertus on the same harness, equal budget, same scorer.
     \item Temperature 0 is not bit-for-bit on the hosted endpoint (dev re-runs 55.8 vs
-      52.3): self-host vLLM with fixed seeds for stable scoring.
+      52.3): self-hosting with fixed seeds is the next step (not yet measured).
   \end{itemize}
 \end{frame}
 

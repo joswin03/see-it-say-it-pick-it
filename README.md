@@ -15,7 +15,7 @@ parses the instruction text.
 
 | Pipeline | Grounding /35 | Safety /30 | Total /65 |
 |---|---|---|---|
-| Organiser baseline (`baseline/baseline.py`) | — | — | 15.1 |
+| Organiser baseline (`baseline/baseline.py`) | 13.1 | 2.0 | 15.1 |
 | Apertus marks whole-photo boxes itself (ablation `perception.backend: apertus_boxes`) | 22.8 / 24.5 | 20.4 / 19.8 | 43.2 / 44.3 |
 | **Ours: OpenCV regions + Apertus naming** | **32.4** | **23.4** | **55.8** |
 
@@ -23,12 +23,15 @@ parses the instruction text.
 - 8 of 10 dangerous instructions handled correctly (all 4 unsafe and both ambiguous ones;
   2 of 4 impossible ones were planned anyway), 1 false alarm in 40 (an `ask_user` where a
   plan existed).
-- Two independent re-runs of this commit re-produced the submitted `results_heldout.json`
-  answer-for-answer (40/40) and scored 55.8 and 52.3 on the dev set (49/50 and 44/50
+- Two independent re-runs of the frozen release re-produced the submitted held-out answers
+  (40/40 equivalent decisions in both; byte-identical JSON 40/40 and 39/40, one refusal
+  reason differs in wording) and scored 55.8 and 52.3 on the dev set (49/50 and 44/50
   decisions identical): the hosted endpoint is not bit-for-bit deterministic at
-  temperature 0; a self-hosted vLLM server keeps this under your control.
-- Every number comes from a run directory in `outputs/` with a `manifest.json` (commit,
-  config hash, UTC timestamp) and a `report.json` (the scorers' breakdown).
+  temperature 0; local-server equivalence and stability have not been measured.
+- Every dev number comes from a run in `outputs/` — the baseline from the team's recorded
+  baseline run (`outputs/20261015-1151-baseline/`), the rest from the runs listed in
+  `outputs/README.md` — each with a manifest (commit, config hash, UTC timestamp) and, for
+  scored runs, a `report.json` (the scorer's breakdown).
 
 The short report on where Apertus had difficulty is `docs/report.pdf`; the five slides are
 `docs/slides.pdf`.
@@ -57,7 +60,8 @@ points at a local server.
 # 1. install (about a minute)
 python -m venv .venv && .venv/bin/pip install -r requirements.txt   # or: uv venv .venv && uv pip install -r requirements.txt
 
-# 2. serve Apertus locally (needs a GPU; weights are the one slow download, besides that ~2 min)
+# 2. serve Apertus locally (separate GPU environment: pip install vllm; cached weights)
+#    our runs used a hosted Apertus endpoint instead: APERTUS_BASE_URL=...
 vllm serve swiss-ai/Apertus-v1.5-8B --chat-template-content-format string
 
 # 3. run the pipeline on any folder of scenes — one command
@@ -68,7 +72,8 @@ vllm serve swiss-ai/Apertus-v1.5-8B --chat-template-content-format string
 ```
 
 No GPU or server? `python run.py --data dataset --out results_dev.json --mock` runs the
-whole loop with fixed schema-valid replies. On servers without a display, install
+whole loop with fixed schema-valid replies. (The 15-minute budget assumes the Apertus
+weights are already cached; `--mock` checks the pipeline in under a minute.) On servers without a display, install
 `opencv-python-headless` instead of `opencv-python`. Our runs took about 3 minutes for the
 50 dev instructions and 2 minutes for the held-out scenes on the hosted endpoint.
 
@@ -82,8 +87,9 @@ whole loop with fixed schema-valid replies. On servers without a display, instal
 | `.env` | a `.env` file in the repository root is loaded automatically |
 
 Our hackathon runs used the hosted Swiss AI endpoint, i.e.
-`APERTUS_BASE_URL=https://api.inference.cscs.ch/v1 APERTUS_API_KEY=… ;` — the pipeline and
-the answers are identical for a local vLLM server, which is the default here.
+`APERTUS_BASE_URL=https://api.inference.cscs.ch/v1 APERTUS_API_KEY=… ;`. The pipeline is
+provider-agnostic and defaults to a local vLLM server here; equivalence of local and hosted
+answers has not been measured.
 
 ## Repository layout
 
@@ -105,12 +111,14 @@ the answers are identical for a local vLLM server, which is the default here.
 
 ## Evidence and reproducibility
 
-Each run of `run.py` writes `outputs/<timestamp>-<name>/` with `manifest.json` (commit,
-dirty flag, config `sha256`, model id, UTC timestamp), `report.json` (scorer breakdown) and
-the measured scene graphs, including a comparison against ground-truth scene graphs
-(evaluation only). `outputs/README.md` lists every run and its score. Scripts:
-`scripts/evaluate_run.py` scores a run, `scripts/annotate_run.py` draws its answers on the
-photos, `figures/plot_ablation.py` redraws the ablation figure.
+`run.py` writes `outputs/<timestamp>-<name>/` with `manifest.json` (commit, dirty flag,
+config `sha256`, model id, UTC timestamp) and the measured scene graphs.
+`.venv/bin/python scripts/evaluate_run.py outputs/<run>` then scores the run with the
+organisers' scorer, writes its `report.json` and draws the answers on the photos. The
+`scene_graph_comparison.*` files come from an evaluation-only script that is not part of
+this release (it consumed dataset-derived annotations, which have been removed). See
+`outputs/README.md` for every run and its score; `figures/plot_ablation.py` redraws the
+ablation figure.
 
 ## Compliance with the challenge rules
 
@@ -121,10 +129,13 @@ photos, `figures/plot_ablation.py` redraws the ablation figure.
 - The default configuration needs no external API call: anything OpenAI-compatible works,
   local vLLM first. Our runs used the hackathon's hosted Swiss AI Apertus endpoint, which
   each manifest records.
-- Prompts and thresholds are generic colour/geometry rules and generic paraphrases, not
-  dev-set wording; nothing is hardcoded to scene instances.
-- Left/right/top/bottom are as seen in the photo; the gripper holds one object at a time and
-  opens at most 85 mm; trays are places only.
+- No instruction wording, object ids or scene instances are hardcoded. Fixed workcell facts
+  (grey tray left, black tray right) and a generic workcell object vocabulary are stated to
+  Apertus; both are documented as borderline points in the report.
+- Left/right/top/bottom follow the photo; one object at a time; trays are places only.
+  Known deviation: graspability flags objects wider than 120 mm (`objects.too_wide_mm`),
+  above the challenge's 85 mm opening limit — documented in the report; fixing it is a
+  next step.
 
 ## Safety
 
