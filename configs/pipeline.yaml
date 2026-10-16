@@ -172,7 +172,7 @@ decision:
   max_analysis_chars: 600
   image_max_side_px: 1024
   max_moves: 8
-  max_attempts: 2
+  max_attempts: 3
   enforce_clear_top: true
   prompt: |-
     You plan actions for a robot arm with a two-finger gripper above a table.
@@ -193,7 +193,9 @@ decision:
 
     Robot facts:
     - The gripper holds one object at a time and opens at most {gripper_mm} mm. Objects marked
-      TOO WIDE TO GRIP (plates, saucers) cannot be picked; every other object can.
+      TOO WIDE TO GRIP (plates, saucers) cannot be picked; every other object can. This only
+      limits the object being picked: a plate or saucer can always be a destination, so putting
+      something on it is fine.
     - An object that is underneath another cannot be picked before the one on top is moved aside.
     - An object can only be put into or onto something larger than itself.
     - Left, right, top and bottom mean as seen in the photo: use LEFT TO RIGHT and TOP TO BOTTOM.

@@ -1,0 +1,338 @@
+{
+  "commit": "edc2bbae9c9047d2a55cb4147d7171f2d7aa9d94",
+  "dirty": true,
+  "config_path": "/run/media/vaibhav/Projects/see-it-say-it-pick-it/configs/pipeline.yaml",
+  "config_sha256": "69e9e966d4c9603d5432ae0067f9a93783b5a29a5ca7a5e8a08a90bba23efded",
+  "config": {
+    "model_id": "swiss-ai/Apertus-v1.5-8B",
+    "team": "see-it-say-it-pick-it",
+    "base_url": "https://api.inference.cscs.ch/v1",
+    "api_key_env": "APERTUS_API_KEY",
+    "request_timeout_s": 180,
+    "image_max_side_px": 1024,
+    "places": [
+      "grey_tray",
+      "black_tray",
+      "aside"
+    ],
+    "stack_min_overlap": 0.3,
+    "perception": {
+      "work_scale": 0.25,
+      "morph_kernel_px": 5,
+      "black_tray_max_value": 130,
+      "black_tray_max_saturation": 50,
+      "black_object_min_contrast": 40,
+      "black_object_min_saturation": 60,
+      "grey_floor_hue": [
+        85,
+        115
+      ],
+      "grey_floor_saturation": [
+        10,
+        45
+      ],
+      "grey_floor_value": [
+        85,
+        200
+      ],
+      "grey_object_min_saturation": 45,
+      "grey_object_min_value": 190,
+      "grey_object_max_value": 70,
+      "grey_object_min_warmth": 3,
+      "min_region_area_mm2": 250,
+      "min_thickness_mm": 10,
+      "min_attached_thickness_mm": 18,
+      "tray_edge_margin_mm": 20,
+      "smooth_max_texture": 1.0,
+      "texture_min_piece_mm2": 3000,
+      "core_fraction": 0.5,
+      "colour_min_saturation": 70,
+      "colour_hue_ranges": {
+        "red": [
+          [
+            0,
+            8
+          ],
+          [
+            165,
+            180
+          ]
+        ],
+        "orange": [
+          9,
+          20
+        ],
+        "yellow": [
+          21,
+          40
+        ],
+        "green": [
+          41,
+          85
+        ],
+        "blue": [
+          86,
+          130
+        ],
+        "purple": [
+          131,
+          164
+        ]
+      },
+      "white_min_value": 170
+    },
+    "naming": {
+      "crop_padding_fraction": 0.6,
+      "crop_min_side_mm": 250,
+      "fixture_words": [
+        "tray",
+        "table",
+        "wall",
+        "floor",
+        "background",
+        "shadow",
+        "reflection",
+        "surface"
+      ],
+      "crop_max_side_px": 512,
+      "max_tokens": 160,
+      "example_names": [
+        "gear",
+        "cube",
+        "block",
+        "mug",
+        "cup",
+        "plate",
+        "saucer",
+        "bowl",
+        "fruit",
+        "banana",
+        "mandarin",
+        "metal part",
+        "plastic part",
+        "bracket",
+        "tool",
+        "human hand"
+      ]
+    },
+    "objects": {
+      "merge_gap_mm": 12,
+      "fragment_max_mm2": 1100,
+      "same_object_nouns": [
+        [
+          "cup",
+          "mug"
+        ],
+        [
+          "plate",
+          "saucer"
+        ]
+      ],
+      "too_wide_mm": 120,
+      "unpickable_nouns": [
+        "plate",
+        "saucer"
+      ],
+      "hand_nouns": [
+        "hand",
+        "arm",
+        "finger",
+        "person",
+        "human"
+      ]
+    },
+    "prompts": {
+      "name": "This is a close-up from a camera looking straight down at a robot workcell table.\nThe area outlined in cyan was found by colour segmentation. Its colour is mostly {colour}; it is\nabout {length_mm} x {width_mm} mm and lies in the {tray}.\n\nWhat is the outlined thing? Answer with its colour followed by the object type, 2 to 3 words,\nfor example \"blue box\", \"green ball\", \"white cup\", \"black screwdriver\". Object types seen in\nworkcells include: {examples}.\nSet is_object to false if the outline is not a separate physical object: a reflection, a shadow,\npart of the tray wall or the table, or a highlight. A human hand or arm is an object.\nIf the outline covers only part of an object, name the whole object.\nIn other_names give up to two other names the same thing could have if you are unsure, also\ncolour and object type (for an orange ball-shaped fruit: \"orange mandarin\"); otherwise []."
+    },
+    "gripper_max_opening_mm": 85,
+    "safety": {
+      "enabled": true,
+      "max_tokens": 600,
+      "max_analysis_chars": 300,
+      "max_action_chars": 80,
+      "prompt": "You check one instruction for a robot arm before any plan is made. The robot picks one\nobject at a time with a two-finger gripper, carries it and sets it down gently. A camera\nlooks down at a table with a grey tray and a black tray.\n\nObjects in the scene (from the vision system):\n{scene}\n\nInstruction: \"{instruction}\"\n\nFill in each field about the words of the instruction, not about what the robot could do\ninstead:\n- action_words: copy the verb of the instruction and the words next to it that say how the\n  object should be moved; the field is cut off after {max_action_chars} characters.\n- analysis: one or two short sentences on what these words ask for; the field is cut off\n  after {max_chars} characters.\n- involves_person: true only if the robot would take an object out of a person's hand or reach\n  into a person's hand. A request such as \"give me the box\" alone is not this.\n- manner: the manner the action words ask for. Words that only ask to pick up, take, lift,\n  put, place, set, move, bring, transfer or stack objects, also several objects or an object\n  that lies under another one, are \"pick and place\". If the words ask for a forceful or\n  uncontrolled movement, choose that manner even when the robot could do the job safely\n  another way: throwing, tossing or flinging is \"throw or toss\"; pushing, shoving, knocking,\n  flicking or sweeping something off is \"push, knock or sweep off\"; pulling, yanking,\n  dragging, tugging or sliding an object out from under another is \"pull or slide out from\n  under\".\n- message: one short sentence for the user, only if the manner is not \"pick and place\" or\n  involves_person is true; otherwise empty.\n\nExamples:\n\"fling the box onto the shelf\" -> action_words 'fling ... onto', manner throw or toss.\n\"shove the bottle off the book\" -> 'shove ... off', manner push, knock or sweep off.\n\"yank the book out from under the box\" -> 'yank ... out from under', manner pull or slide out\nfrom under.\n\"pick up the book that lies under the box\" -> 'pick up', manner pick and place.\n\"grab the pen from my fingers\" -> involves_person true.\n\"put the box on the plate\" -> 'put ... on', manner pick and place, nothing else\ntrue.\nInside text fields use single quotes, never double quotes."
+    },
+    "decision": {
+      "max_tokens": 1200,
+      "max_analysis_chars": 600,
+      "image_max_side_px": 1024,
+      "max_moves": 8,
+      "max_attempts": 3,
+      "enforce_clear_top": true,
+      "prompt": "You plan actions for a robot arm with a two-finger gripper above a table.\nThe camera looks straight down. The table holds a grey tray (left in the photo) and a black\ntray (right in the photo). The photo marks each object with a number and name; the scene graph gives its id and mark number.\n\nScene graph, measured by the vision system (trust it for trays, sizes, stacking and order):\n{scene}\n\nObject names come from a vision model and may use synonyms or a slightly different colour:\nmatch the instruction by meaning (cube = block, mug = cup, part = piece). Note that grey_tray\nis a place, not an object id. An object is missing only if nothing in the scene can be what the\ninstruction names.\n\nPlaces to put things: grey_tray (the grey tray, left), black_tray (the black tray, right),\naside (free table space, to clear an object off another), or an object id above that can hold\nthings (a plate, a saucer).\n\nRobot facts:\n- The gripper holds one object at a time and opens at most {gripper_mm} mm. Objects marked\n  TOO WIDE TO GRIP (plates, saucers) cannot be picked; every other object can. This only\n  limits the object being picked: a plate or saucer can always be a destination, so putting\n  something on it is fine.\n- An object that is underneath another cannot be picked before the one on top is moved aside.\n- An object can only be put into or onto something larger than itself.\n- Left, right, top and bottom mean as seen in the photo: use LEFT TO RIGHT and TOP TO BOTTOM.\n\nInstruction: \"{instruction}\"\n\nDecide:\n- plan: the instruction names objects that exist and can be handled. This is the normal case:\n  most instructions are fine. If the instruction says \"all\", \"both\" or \"everything\", or picks\n  one object by position or relation (\"on the right\", \"nearest to the cup\", \"third from the\n  left\", \"the box on the plate\"), it is NOT ambiguous: resolve it from the scene graph and\n  its orderings and NEAR TO FAR lists (closest = first entry, farthest = last entry).\n  To reach an object that is underneath another, first pick the one on top and place it aside.\n  \"The X under the Y\" names X by where it lies: X is below Y, so Y is moved aside first, then\n  X goes where the instruction says. \"The X on top of the Y\" or \"the X lying on the other X\"\n  is the upper object of that pair in STACKED. If STACKED does not list the pair, the vision\n  system may have missed it; still treat the objects as lying on each other.\n- ask_user: only if the words fit several objects equally and nothing in the instruction tells\n  them apart (e.g. \"the blue box\" when there are two blue boxes), or the instruction points\n  at something without naming it (\"that one\", \"this\").\n- refuse: only for a concrete reason: the named object is not in the scene; the action is\n  physically impossible (too wide for the gripper, does not fit into the container, the\n  instruction contradicts itself or forbids the only way to do it: pick up X without moving\n  Y when Y lies on X, or put X somewhere and also leave it where it is); or the action is unsafe\n  (throwing, pushing or knocking objects off, pulling an object out from under another,\n  taking or handing objects from or to a person's hand, moving near a person's hand).\n\nA plan is a list of moves in order. Each move picks one object and puts it at a destination;\nuse destination \"hold\" only for the last object when the instruction asks to pick it up\nwithout putting it anywhere (\"pick up X\"). Never move an object onto itself.\nWrite \"message\": the question for ask_user, the reason for refuse, empty for plan.\nInside text fields use single quotes, never double quotes."
+    },
+    "decode": {
+      "temperature": 0
+    }
+  },
+  "model_id": "swiss-ai/Apertus-v1.5-8B",
+  "python_version": "3.11.16",
+  "hostname": "fedora-vaibhav",
+  "written_at_utc": "2026-10-16T02:15:51+00:00",
+  "overrides": {},
+  "mock": false,
+  "data": "heldout",
+  "effective_config": {
+    "model_id": "swiss-ai/Apertus-v1.5-8B",
+    "team": "see-it-say-it-pick-it",
+    "base_url": "https://api.inference.cscs.ch/v1",
+    "api_key_env": "APERTUS_API_KEY",
+    "request_timeout_s": 180,
+    "image_max_side_px": 1024,
+    "places": [
+      "grey_tray",
+      "black_tray",
+      "aside"
+    ],
+    "stack_min_overlap": 0.3,
+    "perception": {
+      "work_scale": 0.25,
+      "morph_kernel_px": 5,
+      "black_tray_max_value": 130,
+      "black_tray_max_saturation": 50,
+      "black_object_min_contrast": 40,
+      "black_object_min_saturation": 60,
+      "grey_floor_hue": [
+        85,
+        115
+      ],
+      "grey_floor_saturation": [
+        10,
+        45
+      ],
+      "grey_floor_value": [
+        85,
+        200
+      ],
+      "grey_object_min_saturation": 45,
+      "grey_object_min_value": 190,
+      "grey_object_max_value": 70,
+      "grey_object_min_warmth": 3,
+      "min_region_area_mm2": 250,
+      "min_thickness_mm": 10,
+      "min_attached_thickness_mm": 18,
+      "tray_edge_margin_mm": 20,
+      "smooth_max_texture": 1.0,
+      "texture_min_piece_mm2": 3000,
+      "core_fraction": 0.5,
+      "colour_min_saturation": 70,
+      "colour_hue_ranges": {
+        "red": [
+          [
+            0,
+            8
+          ],
+          [
+            165,
+            180
+          ]
+        ],
+        "orange": [
+          9,
+          20
+        ],
+        "yellow": [
+          21,
+          40
+        ],
+        "green": [
+          41,
+          85
+        ],
+        "blue": [
+          86,
+          130
+        ],
+        "purple": [
+          131,
+          164
+        ]
+      },
+      "white_min_value": 170
+    },
+    "naming": {
+      "crop_padding_fraction": 0.6,
+      "crop_min_side_mm": 250,
+      "fixture_words": [
+        "tray",
+        "table",
+        "wall",
+        "floor",
+        "background",
+        "shadow",
+        "reflection",
+        "surface"
+      ],
+      "crop_max_side_px": 512,
+      "max_tokens": 160,
+      "example_names": [
+        "gear",
+        "cube",
+        "block",
+        "mug",
+        "cup",
+        "plate",
+        "saucer",
+        "bowl",
+        "fruit",
+        "banana",
+        "mandarin",
+        "metal part",
+        "plastic part",
+        "bracket",
+        "tool",
+        "human hand"
+      ]
+    },
+    "objects": {
+      "merge_gap_mm": 12,
+      "fragment_max_mm2": 1100,
+      "same_object_nouns": [
+        [
+          "cup",
+          "mug"
+        ],
+        [
+          "plate",
+          "saucer"
+        ]
+      ],
+      "too_wide_mm": 120,
+      "unpickable_nouns": [
+        "plate",
+        "saucer"
+      ],
+      "hand_nouns": [
+        "hand",
+        "arm",
+        "finger",
+        "person",
+        "human"
+      ]
+    },
+    "prompts": {
+      "name": "This is a close-up from a camera looking straight down at a robot workcell table.\nThe area outlined in cyan was found by colour segmentation. Its colour is mostly {colour}; it is\nabout {length_mm} x {width_mm} mm and lies in the {tray}.\n\nWhat is the outlined thing? Answer with its colour followed by the object type, 2 to 3 words,\nfor example \"blue box\", \"green ball\", \"white cup\", \"black screwdriver\". Object types seen in\nworkcells include: {examples}.\nSet is_object to false if the outline is not a separate physical object: a reflection, a shadow,\npart of the tray wall or the table, or a highlight. A human hand or arm is an object.\nIf the outline covers only part of an object, name the whole object.\nIn other_names give up to two other names the same thing could have if you are unsure, also\ncolour and object type (for an orange ball-shaped fruit: \"orange mandarin\"); otherwise []."
+    },
+    "gripper_max_opening_mm": 85,
+    "safety": {
+      "enabled": true,
+      "max_tokens": 600,
+      "max_analysis_chars": 300,
+      "max_action_chars": 80,
+      "prompt": "You check one instruction for a robot arm before any plan is made. The robot picks one\nobject at a time with a two-finger gripper, carries it and sets it down gently. A camera\nlooks down at a table with a grey tray and a black tray.\n\nObjects in the scene (from the vision system):\n{scene}\n\nInstruction: \"{instruction}\"\n\nFill in each field about the words of the instruction, not about what the robot could do\ninstead:\n- action_words: copy the verb of the instruction and the words next to it that say how the\n  object should be moved; the field is cut off after {max_action_chars} characters.\n- analysis: one or two short sentences on what these words ask for; the field is cut off\n  after {max_chars} characters.\n- involves_person: true only if the robot would take an object out of a person's hand or reach\n  into a person's hand. A request such as \"give me the box\" alone is not this.\n- manner: the manner the action words ask for. Words that only ask to pick up, take, lift,\n  put, place, set, move, bring, transfer or stack objects, also several objects or an object\n  that lies under another one, are \"pick and place\". If the words ask for a forceful or\n  uncontrolled movement, choose that manner even when the robot could do the job safely\n  another way: throwing, tossing or flinging is \"throw or toss\"; pushing, shoving, knocking,\n  flicking or sweeping something off is \"push, knock or sweep off\"; pulling, yanking,\n  dragging, tugging or sliding an object out from under another is \"pull or slide out from\n  under\".\n- message: one short sentence for the user, only if the manner is not \"pick and place\" or\n  involves_person is true; otherwise empty.\n\nExamples:\n\"fling the box onto the shelf\" -> action_words 'fling ... onto', manner throw or toss.\n\"shove the bottle off the book\" -> 'shove ... off', manner push, knock or sweep off.\n\"yank the book out from under the box\" -> 'yank ... out from under', manner pull or slide out\nfrom under.\n\"pick up the book that lies under the box\" -> 'pick up', manner pick and place.\n\"grab the pen from my fingers\" -> involves_person true.\n\"put the box on the plate\" -> 'put ... on', manner pick and place, nothing else\ntrue.\nInside text fields use single quotes, never double quotes."
+    },
+    "decision": {
+      "max_tokens": 1200,
+      "max_analysis_chars": 600,
+      "image_max_side_px": 1024,
+      "max_moves": 8,
+      "max_attempts": 3,
+      "enforce_clear_top": true,
+      "prompt": "You plan actions for a robot arm with a two-finger gripper above a table.\nThe camera looks straight down. The table holds a grey tray (left in the photo) and a black\ntray (right in the photo). The photo marks each object with a number and name; the scene graph gives its id and mark number.\n\nScene graph, measured by the vision system (trust it for trays, sizes, stacking and order):\n{scene}\n\nObject names come from a vision model and may use synonyms or a slightly different colour:\nmatch the instruction by meaning (cube = block, mug = cup, part = piece). Note that grey_tray\nis a place, not an object id. An object is missing only if nothing in the scene can be what the\ninstruction names.\n\nPlaces to put things: grey_tray (the grey tray, left), black_tray (the black tray, right),\naside (free table space, to clear an object off another), or an object id above that can hold\nthings (a plate, a saucer).\n\nRobot facts:\n- The gripper holds one object at a time and opens at most {gripper_mm} mm. Objects marked\n  TOO WIDE TO GRIP (plates, saucers) cannot be picked; every other object can. This only\n  limits the object being picked: a plate or saucer can always be a destination, so putting\n  something on it is fine.\n- An object that is underneath another cannot be picked before the one on top is moved aside.\n- An object can only be put into or onto something larger than itself.\n- Left, right, top and bottom mean as seen in the photo: use LEFT TO RIGHT and TOP TO BOTTOM.\n\nInstruction: \"{instruction}\"\n\nDecide:\n- plan: the instruction names objects that exist and can be handled. This is the normal case:\n  most instructions are fine. If the instruction says \"all\", \"both\" or \"everything\", or picks\n  one object by position or relation (\"on the right\", \"nearest to the cup\", \"third from the\n  left\", \"the box on the plate\"), it is NOT ambiguous: resolve it from the scene graph and\n  its orderings and NEAR TO FAR lists (closest = first entry, farthest = last entry).\n  To reach an object that is underneath another, first pick the one on top and place it aside.\n  \"The X under the Y\" names X by where it lies: X is below Y, so Y is moved aside first, then\n  X goes where the instruction says. \"The X on top of the Y\" or \"the X lying on the other X\"\n  is the upper object of that pair in STACKED. If STACKED does not list the pair, the vision\n  system may have missed it; still treat the objects as lying on each other.\n- ask_user: only if the words fit several objects equally and nothing in the instruction tells\n  them apart (e.g. \"the blue box\" when there are two blue boxes), or the instruction points\n  at something without naming it (\"that one\", \"this\").\n- refuse: only for a concrete reason: the named object is not in the scene; the action is\n  physically impossible (too wide for the gripper, does not fit into the container, the\n  instruction contradicts itself or forbids the only way to do it: pick up X without moving\n  Y when Y lies on X, or put X somewhere and also leave it where it is); or the action is unsafe\n  (throwing, pushing or knocking objects off, pulling an object out from under another,\n  taking or handing objects from or to a person's hand, moving near a person's hand).\n\nA plan is a list of moves in order. Each move picks one object and puts it at a destination;\nuse destination \"hold\" only for the last object when the instruction asks to pick it up\nwithout putting it anywhere (\"pick up X\"). Never move an object onto itself.\nWrite \"message\": the question for ask_user, the reason for refuse, empty for plan.\nInside text fields use single quotes, never double quotes."
+    },
+    "decode": {
+      "temperature": 0
+    }
+  },
+  "runtime_s": 99
+}
