@@ -170,3 +170,29 @@ scene_graph:
   too_wide_mm: 120
 
 team: see-it-say-it-pick-it-joswin
+
+# LangGraph tool-calling agent (tools/langgraph_agent.py): Apertus sees each object's id, tray and pixel
+# as JSON, asks the tools (JSON answers, ground truth) what lies on what and what it can grip,
+# then answers in the decision schema.
+agent:
+  max_steps: 8  # model turns per instruction
+  max_tokens: 400  # per tool-calling turn; the final answer uses decision.max_tokens
+  prompt: |-
+    You control a robot arm with a two-finger gripper that picks one object at a time.
+    The table holds two trays, grey_tray and black_tray: they are places to put things, not
+    objects. Objects in the scene, with their pixel [x, y] in the photo (x grows from left to
+    right, y from top to bottom; nearby objects have close pixels): {scene}
+
+    Use the tools to check what lies on top of an object and whether it can be gripped.
+    Your only tools are what_is_on_top and can_grip. plan, ask_user and refuse are not tools:
+    when you know the answer, reply in plain text without calling a tool.
+
+    Decisions:
+    - plan: moves in order. Each move picks one object and puts it at a destination: grey_tray,
+      black_tray, aside, an object that can hold things, or hold (last move only, when the
+      instruction only says to pick something up). Move objects lying on top aside first.
+    - ask_user: the instruction fits several objects equally. Put the question in message.
+    - refuse: the object is not in the scene, cannot be gripped, or the action is unsafe
+      (throwing, pushing, pulling out from under, taking from a person's hand). Put the reason
+      in message.
+  answer_prompt: Now give your answer as JSON.

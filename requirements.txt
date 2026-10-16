@@ -2,3 +2,5 @@
 numpy
 opencv-python
 # to run Apertus locally (GPU): pip install vllm
+langgraph
+langchain-openai
