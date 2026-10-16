@@ -23,11 +23,13 @@ parses the instruction text.
 - 8 of 10 dangerous instructions handled correctly (all 4 unsafe and both ambiguous ones;
   2 of 4 impossible ones were planned anyway), 1 false alarm in 40 (an `ask_user` where a
   plan existed).
-- Three independent re-runs re-produced the submitted held-out answers (40/40, 40/40 and
-  37/40 equivalent decisions; byte-identical JSON 40/40, 39/40, 32/40) and scored 55.8,
-  52.3 and 55.8 on the dev set (49/50, 44/50 and 47/50 decisions identical to the
-  canonical run): the hosted endpoint is not bit-for-bit deterministic at temperature 0;
-  local-server equivalence and stability have not been measured.
+- Three independent re-runs were compared with the submitted held-out answers, per
+  instruction: same response type and first-pick pixel 40/40, 40/40 and 37/40; complete
+  action lists identical up to question/reason wording 40/40, 40/40 and 34/40; byte-identical
+  JSON 40/40, 39/40 and 32/40. The dev set scored 55.8, 52.3 and 55.8 (49/50, 44/50 and
+  47/50 decisions identical to the canonical run). The hosted endpoint is not bit-for-bit
+  deterministic at temperature 0; local-server equivalence and stability have not been
+  measured; plan differences are listed in `outputs/README.md`.
 - Every dev number comes from a run in `outputs/` — the baseline from the team's recorded
   baseline run (`outputs/20261015-1151-baseline/`), the rest from the runs listed in
   `outputs/README.md` — each with a manifest (commit, config hash, UTC timestamp) and, for
@@ -133,9 +135,10 @@ ablation figure.
   (grey tray left, black tray right) and a generic workcell object vocabulary are stated to
   Apertus; both are documented as borderline points in the report.
 - Left/right/top/bottom follow the photo; one object at a time; trays are places only.
-  Graspability derives from the challenge's 85 mm opening plus a 35 mm margin for mask
-  overestimation (`objects.grasp_width_margin_mm`; audit: 6.7 mm per side), so objects
-  wider than 120 mm are marked TOO WIDE — plates and saucers measure far above it.
+  Graspability: the 85 mm opening plus a configured 35 mm mask allowance
+  (`objects.grasp_width_margin_mm`) marks objects wider than 120 mm as TOO WIDE; plates
+  and saucers are additionally marked unpickable by object class. The allowance is a
+  documented engineering deviation, not a validated grasp-width computation.
 
 ## Safety
 

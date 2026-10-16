@@ -120,8 +120,9 @@ objects:
   - - plate
     - saucer
   # Graspability: the 85 mm gripper opening (top-level ``gripper_max_opening_mm``) plus a
-  # margin, because measured mask widths overestimate real objects (audit: 6.7 mm per side).
-  # The practical limit is 120 mm; plates and saucers measure far above it.
+  # mask allowance for measured widths (120 mm practical limit). The allowance is an
+  # engineering choice, not a validated grasp-width computation; plates and saucers are
+  # additionally excluded by name (``unpickable_nouns``). See the report's deviations note.
   grasp_width_margin_mm: 35
   unpickable_nouns:
   - plate

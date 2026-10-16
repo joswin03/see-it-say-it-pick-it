@@ -35,10 +35,20 @@ runs from commit `48dfa3d…` (`…-dev-final`, `…-heldout-final`) used the re
 
 Note on run-to-run variation: the hosted Apertus endpoint is not bit-for-bit deterministic
 at temperature 0. Dev re-runs scored 55.8, 52.3 and 55.8 (identical decisions 49/50, 44/50,
-47/50; grounding always 37/40); held-out re-runs matched the submitted answers at 40/40,
-40/40 and 37/40 equivalent decisions (byte-identical 40/40, 39/40, 32/40; the remainder are
-wording changes, added clear-moves and three changed routes). Self-hosting with fixed seeds
-is the proposed way to control this; it has not been measured.
+47/50; grounding always 37/40). Held-out re-runs, compared with the submitted file per
+instruction:
+
+| run | same type + first pixel | same actions ignoring wording | byte-identical |
+|---|---|---|---|
+| `…-heldout-repro` | 40/40 | 40/40 | 40/40 |
+| `…-heldout-verify` | 40/40 | 40/40 | 39/40 |
+| `…-heldout-final` | 37/40 | 34/40 | 32/40 |
+
+The third run also changed `held_02_i3` (pick → ask), `held_02_i5` (refuse → ask) and
+`held_04_i3` (different first pick and pixel); complete-plan differences: `held_02_i7` (one
+gear's destination plate → aside), `held_03_i8` (pick-only → pick+place), `held_04_i4`
+(fewer clear-moves). Self-hosting with fixed seeds is the proposed way to control this; it
+has not been measured.
 
 The released pipeline does not ship the evaluation-only script that produced the
 `scene_graph_comparison.*` files, nor the dataset-derived annotations it consumed; the

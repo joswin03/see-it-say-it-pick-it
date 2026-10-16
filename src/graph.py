@@ -53,11 +53,12 @@ class PipelineState(TypedDict):
 
 
 def resolve_grasp_limit(config: dict) -> None:
-    """Derive the practical too-wide threshold from the gripper opening and the margin.
+    """Derive the practical too-wide threshold from the gripper opening and the allowance.
 
-    Measured mask widths overestimate real object sizes (audit: 6.7 mm per side), so the
-    challenge's 85 mm opening gets a margin before an object counts as unpickable: plates
-    and saucers measure far above the resulting 120 mm, everything else below it.
+    An object counts as unpickable when its measured mask width exceeds the challenge's
+    85 mm opening plus a configured mask allowance (120 mm practical limit). The allowance
+    is a documented engineering choice, not a validated grasp-width computation; plates
+    and saucers are additionally excluded by name.
 
     Args:
         config: full run config; ``config["objects"]["too_wide_mm"]`` is set in place.

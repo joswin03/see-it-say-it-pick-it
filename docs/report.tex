@@ -47,10 +47,11 @@ crop is a task it does well. A scene-graph audit against held-back ground truth 
 split: object recall 96\,\%, precision 91\,\%, pick pixel inside the matched
 ground-truth bounding box (51 of 51), but stacking (``lies on'') recall only 43\,\%. All numbers come from run directories in
 \code{outputs/}, each with a manifest (commit, config hash, UTC timestamp) and a
-\code{report.json}. Reproducibility was measured, not assumed: three independent re-runs
-re-produced the submitted held-out answers (40, 40 and 37 of 40 equivalent decisions;
-byte-identical JSON 40, 39 and 32 of 40) and scored 55.8, 52.3 and 55.8 on the dev set
-(49, 44 and 47 of 50 decisions identical to the canonical run). The variation appeared with
+\code{report.json}. Reproducibility was measured, not assumed: per instruction, three
+independent re-runs kept the submitted answer type and first-pick pixel in 40, 40 and 37 of
+40 cases (complete action lists identical up to question/reason wording: 40, 40 and 34;
+byte-identical JSON: 40, 39 and 32). The dev set scored 55.8, 52.3 and 55.8 (49, 44 and 47
+of 50 decisions identical to the canonical run). The variation appeared with
 the same effective configuration at temperature~0; its cause has not been isolated, and
 self-hosting with fixed seeds is the proposed next experiment (not yet measured).
 
@@ -106,8 +107,9 @@ fine-grained part naming --- not in multi-step mapping (correct first-pick groun
 10; the scorer does not check the full sequence). The observed run-to-run variance
 (55.8 vs.\ 52.3 at temperature~0) is itself a reason to serve Apertus ourselves;
 self-hosting with fixed seeds is the next experiment. Documented assumptions: graspability
-derives from the 85~mm gripper opening plus a 35~mm margin for mask overestimation (audit:
-6.7~mm per side; plates and saucers stay far above the practical 120~mm limit); the tray
+uses the 85~mm gripper opening plus a configured 35~mm mask allowance (a documented
+engineering deviation, not a validated grasp-width computation); plates and saucers are
+additionally excluded by object class; the tray
 sides and a generic workcell vocabulary are stated to Apertus; the released default is a
 local server (the baseline ran local, the published runs hosted). Next: feed the depth map into
 stacking, add contradiction examples to the safety screen, re-instruct the planner instead
