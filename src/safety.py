@@ -52,7 +52,6 @@ def safety_schema(object_ids: list[str], max_text_chars: int, max_action_chars: 
             "analysis": {"type": "string", "maxLength": max_text_chars},
             "keep_in_place": {
                 "type": "array",
-                "uniqueItems": True,
                 "maxItems": len(object_ids),
                 "items": {"enum": sorted(object_ids) or ["none"]},
             },

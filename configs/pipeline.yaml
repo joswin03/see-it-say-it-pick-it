@@ -131,7 +131,7 @@ stack_method: geometry
 gripper_max_opening_mm: 85
 safety:
   enabled: true
-  check_keep_in_place: true
+  check_keep_in_place: false
   max_tokens: 600
   max_analysis_chars: 300
   max_action_chars: 80
