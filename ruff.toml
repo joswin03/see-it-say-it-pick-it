@@ -1,4 +1,6 @@
 line-length = 100
+# The organisers' baseline and scorer are vendored unchanged; they are not ours to restyle.
+extend-exclude = ["baseline", "starter"]
 
 [lint]
 ignore = ["EXE002"]

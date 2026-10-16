@@ -1,4 +1,4 @@
-"""CPU regression checks for migrated planning, schema recovery and baseline transport."""
+"""CPU regression checks for plan validation, schema recovery and baseline transport."""
 
 import io
 import json
@@ -24,7 +24,7 @@ OBJECTS = [
 ]
 
 
-class MigrationTests(unittest.TestCase):
+class PipelineTests(unittest.TestCase):
     """Check executable ordering and reject fabricated or unsafe plans."""
 
     def test_recursive_stack_clearing(self) -> None:
@@ -192,14 +192,14 @@ class MigrationTests(unittest.TestCase):
         }
         response = json.dumps({"choices": [{"message": {"content": '{"ok":true}'}}]}).encode()
         config = {
-            "base_url": "https://api.inference.cscs.ch/v1",
-            "api_key_env": "MIGRATION_TEST_KEY",
+            "base_url": "http://127.0.0.1:8000/v1",
+            "api_key_env": "PIPELINE_TEST_KEY",
             "model_id": "test-model",
             "request_timeout_s": 1,
             "decode": {"temperature": 0},
         }
         with (
-            patch.dict("os.environ", {"MIGRATION_TEST_KEY": "test-key"}),
+            patch.dict("os.environ", {"PIPELINE_TEST_KEY": "test-key"}),
             patch("urllib.request.urlopen", return_value=io.BytesIO(response)) as transport,
         ):
             model = Apertus(config, mock=False)
